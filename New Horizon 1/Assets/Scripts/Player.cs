@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     //set move speed
     public float moveSpeed = 3f;
 
-    //scale
+    //scales
     Vector3 Scale;
 
     //get rigid body
