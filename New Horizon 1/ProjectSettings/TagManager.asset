@@ -12,6 +12,7 @@ TagManager:
   - particleEffect
   - littlePig
   - cyto
+  - PowerUp
   layers:
   - Default
   - TransparentFX
