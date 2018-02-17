@@ -4,248 +4,122 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
-    private enum Facing { down, up };
-
-    [SerializeField]
-    GameObject wallSplash;
-
-    [SerializeField]
-    GameObject beamPrefab;
-
-    [SerializeField]
-    GameObject frontSprites;
-
-    [SerializeField]
-    GameObject backSprites;
-
-    //set move speed
-    public float moveSpeed = 3f;
-
-    //scale
-    Vector3 Scale;
-
-    //get rigid body
+    float chargeStartTime;
     Rigidbody2D rb2d;
+    Vector3 normalScale;
+    float chargeTimeCurrent;
+    GameObject guyImStuckTo;
+    Vector3 guyImStuckToPositionDifference;
+    bool stuckToEnemy;
+    float timeAssaultStarted = 0f;
 
-    //get sprite renderer
-    SpriteRenderer sr;
-
-    private Facing direction;
-
-    private Animator anim;
-
-    CytoLevelController cytoLevelController;
-
-    //this field controls how much Cytotoxin the player spends per frame
-    float cytoToxinCost = -.003f; //MUST BE A NEGATIVE VALUE!
+    [SerializeField] float thrustMultiplier = 1f;
+    [SerializeField] float maxChargeTime = 1f;
+    [SerializeField] GameObject missile;
+    [SerializeField] float fireCooldownTime = .5f;
+    [SerializeField] float totalAssaultTime = 4f;
+    [Range(0f, 1f)] [SerializeField] float maxInflation;
 
     // Use this for initialization
-    void Start()
+    void Start ()
     {
-        rb2d = gameObject.GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-
-        //initialize character orientation
-        SetCharacterFrontFacing();
-        SetCharacterRightFacing();
-
-        anim = GetComponent<Animator>();
-
-        cytoLevelController = GameObject.FindGameObjectWithTag("cyto").GetComponent<CytoLevelController>();
-    }
-
-    // Update is called once per frame
-    void Update()
+        rb2d = GetComponent<Rigidbody2D>();
+        normalScale = transform.localScale;
+	}
+	
+	// Update is called once per frame
+	void Update ()
     {
-        //checks for vertical axis input
-        if (Input.GetAxisRaw("Vertical") != 0)
+        float amountToInflate;
+
+        // When the player holds down the mouse...
+        if (Input.GetMouseButtonDown(0) && !stuckToEnemy)
         {
-            if (Input.GetAxisRaw("Vertical") < 0)
-            {
-                SetCharacterFrontFacing();
-            }
-            else
-            {
-                SetCharacterRearFacing();
-            }
-
-            //Moves Forward and back along y axis  
-            rb2d.MovePosition(transform.position + Vector3.up * Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime);
+            // ...record the time
+            chargeStartTime = Time.time;
         }
 
-        // checks for horizontal axis input
-        if (Input.GetAxisRaw("Horizontal") != 0)
+        // While the mouse is being held down...
+        if (Input.GetMouseButton(0) && !stuckToEnemy)
         {
-            if (Input.GetAxisRaw("Horizontal") < 0)
-            {
-                SetCharacterRightFacing();
-            }
-            else
-            {
-                SetCharacterLeftFacing();
-            }
-            //Moves Left and right along x Axis  
-            rb2d.MovePosition(transform.position + Vector3.right * Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime);
+            // Set the charge amount to be how long in seconds the mouse was held down
+            chargeTimeCurrent = Time.time - chargeStartTime;
+            chargeTimeCurrent = Mathf.Clamp(chargeTimeCurrent, 0f, maxChargeTime);
+
+            // Calculate how much to inflate based off the max amount allowed and the current charge time
+            amountToInflate = 1+ (chargeTimeCurrent / maxChargeTime) * maxInflation;
+
+            // Inflate that much
+            transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
         }
 
-        rb2d.MovePosition(transform.position + new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0) * moveSpeed * Time.deltaTime);
-
-        //check if player if holding left mouse button, if so then fire cytotoxin beam...but first check to be sure player has enough cytotoxin
-        if (Input.GetMouseButton(0) && GameManager.GM.isPause() == false && cytoLevelController.CytotoxinLevel > 0 ) { FireCytoBeam(); }
-
-        // Animation Logic
-        if (Input.GetAxisRaw("Vertical") == 0 && Input.GetAxisRaw("Horizontal") == 0)
+        // When the player releases the mouse button...
+        if (Input.GetMouseButtonUp(0) && !stuckToEnemy)
         {
-            if(direction == Facing.down)
+            Vector3 directionToGo;
+
+            // Get the difference between the mouse position and the player, times -1
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            directionToGo = transform.position - mousePosition;
+
+            // Shoot the player in that direction, with the magnitude of the thrust multiplier times charge amount
+            rb2d.AddForce(directionToGo.normalized * thrustMultiplier * chargeTimeCurrent, ForceMode2D.Impulse);
+
+            transform.localScale = normalScale;
+        }
+
+        if (stuckToEnemy)
+        {
+            if (timeAssaultStarted == 0f)
             {
-                anim.Play("idle_front");
+                timeAssaultStarted = Time.time;
+                InvokeRepeating("FireMissile", .5f, fireCooldownTime);
             }
-            else
+            if (Time.time - timeAssaultStarted > totalAssaultTime)
             {
-                anim.Play("idle_back");
+                stuckToEnemy = false;
+                timeAssaultStarted = 0f;
+                CancelInvoke();
+                rb2d.AddForce(guyImStuckToPositionDifference.normalized * 10, ForceMode2D.Impulse);
             }
         }
-        if(Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
+	}
+
+    void LateUpdate()
+    {
+        if (guyImStuckTo && stuckToEnemy)
         {
-            if(direction == Facing.down)
-            {
-                anim.Play("walk_front");
-            }
-            else
-            {
-                anim.Play("walk_back");
-           }
+            transform.position = guyImStuckTo.transform.position + guyImStuckToPositionDifference;
         }
     }
 
-    // check for collision with wall
-   void OnCollisionEnter2D(Collision2D coll)
+    void OnCollisionStay2D(Collision2D collision)
     {
-
-        // if colliding with wall and moving vertically move back
-        if (coll.gameObject.tag == ("Wall"))
+        if (collision.gameObject == guyImStuckTo)
         {
-            rb2d.velocity = Vector3.zero;
+            stuckToEnemy = false;
         }
     }
 
-    /// <summary>
-    /// Get the origin of the CytoBeam. This will require some tweaking later
-    /// </summary>
-    /// <returns></returns>
-    Vector2 CalculateBeamOrigin() {
-
-        Vector2 currentPlayerPosition = transform.position;
-        //currentPlayerPosition.y += 3;
-        return currentPlayerPosition;
-    }
-
-    /// <summary>
-    /// Handles player firing cytoToxin beam
-    /// </summary>
-    void FireCytoBeam()
+    void OnCollisionExit2D(Collision2D collision)
     {
-        // calculate current beam origin
-        Vector2 beamOrigin = CalculateBeamOrigin();
-
-        // current mouse cursor position. Typecasting to Vector2.
-        Vector2 mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        // calculate direction from player to mouse cursor
-        Vector2 beamDirection = mousePos - beamOrigin;
-
-        // Use the magnitude of beamDirection to set max distance parameter of RayCast2D
-        float maxDistance = beamDirection.magnitude;
-        beamDirection.Normalize();
-
-        // Raycast2D hit will give us information about other colliders 
-        RaycastHit2D hit = Physics2D.Raycast(beamOrigin, beamDirection, maxDistance, LayerMask.GetMask("littlePig", "pig", "wall"));
-
-        // check for collisions
-        if (hit.collider != null)
+        if (collision.gameObject.tag == "Enemy")
         {
-            //kill little pigs
-            if (hit.collider.tag == "littlePig") { hit.collider.gameObject.GetComponent<Unit>().AddDamage(); }
-
-            //kill big pigs
-            else if (hit.collider.tag == "Pig") { hit.collider.gameObject.GetComponent<EnemyAi>().AddDamage(); }
-
-            //Cytotoxin beam hitting wall....create a splash
-            else { Instantiate(wallSplash, hit.point, Quaternion.identity); }
-
-            //set endpoint of the line equal to the point of impact
-            mousePos = hit.point;
+            guyImStuckTo = collision.gameObject;
+            guyImStuckToPositionDifference = transform.position - guyImStuckTo.gameObject.transform.position;
+            stuckToEnemy = true;
         }
-
-        // render a cytotoxin beam
-        GameObject cytoBeam = Instantiate(beamPrefab);
-        Vector3[] beamPos = new Vector3[2];
-        beamPos[0] = beamOrigin; //point at which the line begins
-        beamPos[1] = mousePos; //point at while the line ends
-
-        //face character in direction of beam
-        FaceCharacterInBeamDirection(beamPos);
-
-        // Set beam start and end points--->Render beam to screen
-        cytoBeam.GetComponent<LineRenderer>().SetPositions(beamPos);
-
-        // Reduce level of available cyto
-        cytoLevelController.CytotoxinLevel = cytoToxinCost;
-
-        //if (direction == Facing.down)
-        //{
-        //    anim.Play("shoot_front");
-        //}
-        //else
-        //{
-        //    anim.Play("shoot_back");
-        //}       
-    }
-    /// <summary>
-    /// This method forces the player character to face the direction of the beam
-    /// </summary>
-    /// <param name="beam"></param>
-    void FaceCharacterInBeamDirection(Vector3[] beam)
-    {
-        if (beam[0].y >= beam[1].y)
-        {
-            SetCharacterFrontFacing();
-        }
-        else { SetCharacterRearFacing(); }
-
-        if (beam[0].x >= beam[1].x)
-        {
-            SetCharacterRightFacing();
-        }
-        else { SetCharacterLeftFacing(); }
     }
 
-    /// <summary>
-    /// Note: Method names are self-explanatory
-    /// </summary>
-    void SetCharacterFrontFacing()
+    void FireMissile()
     {
-        //assign sprite front
-        frontSprites.SetActive(true);
-        backSprites.SetActive(false);
-        direction = Facing.down;
-    }
-    void SetCharacterRearFacing()
-    {
-        //assigns sprite back
-        frontSprites.SetActive(false);
-        backSprites.SetActive(true);
-        direction = Facing.up;
-    }
-    void SetCharacterRightFacing()
-    {
-        frontSprites.transform.localScale = new Vector3(1f, 1f, 1f);
-        backSprites.transform.localScale = new Vector3(-1f, 1f, 1f);
-    }
-    void SetCharacterLeftFacing()
-    {
-        frontSprites.transform.localScale = new Vector3(-1f, 1f, 1f);
-        backSprites.transform.localScale = new Vector3(1f, 1f, 1f);
+        Vector3 positionDifference = guyImStuckTo.transform.position - transform.position;
+        positionDifference.Normalize();
+
+        float rot_z = Mathf.Atan2(positionDifference.y, positionDifference.x) * Mathf.Rad2Deg;
+        Quaternion missileRotation = Quaternion.Euler(0f, 0f, rot_z);
+
+        GameObject createdMissile = Instantiate(missile, transform.position, missileRotation);
+        createdMissile.GetComponent<SeekerMissile>().target = guyImStuckTo;
     }
 }
