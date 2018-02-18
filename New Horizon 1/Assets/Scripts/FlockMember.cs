@@ -1,0 +1,162 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FlockMember : MonoBehaviour {
+
+    // this will hold the Flock Controller
+    GameObject manager;
+    Vector2 location = Vector2.zero; // this is Public so that other members can see it
+    Vector2 velocity;
+    Vector2 goalPos = Vector2.zero;
+    Vector2 currentForce;
+    Rigidbody2D rb;
+    float neighborDistance;
+
+	// Use this for initialization
+	void Start ()
+    {
+        velocity = new Vector2(Random.Range(0.01f, 0.1f), Random.Range(0.01f, 0.1f));
+        location = new Vector2(this.gameObject.transform.position.x, 
+            this.gameObject.transform.position.y);
+
+        rb = GetComponent<Rigidbody2D>();
+        neighborDistance = manager.GetComponent<FlockController>().distanceToNeighbor;
+	}
+    // Update is called once per frame
+    void Update()
+    {
+        Flock();
+        goalPos = manager.transform.position; // this will change later. This will become the location where the flock is attacking.
+    }
+
+    /// <summary>
+    /// share this object's location
+    /// </summary>
+    public Vector2 GetLocation
+    {
+        get { return location; }
+    }
+    /// <summary>
+    /// share this object's velocity
+    /// </summary>
+    public Vector2 GetVelocity
+    {
+        get { return velocity; }
+    }
+    /// <summary>
+    /// makes manager available to outside objects
+    /// </summary>
+   public GameObject SetManager
+    {
+        set { manager = value; }
+        get { return manager; }
+    }
+
+
+    /// <summary>
+    /// Provides vector from current location to target location
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    Vector2 Seek(Vector2 target)
+    {
+        return (target - location);
+    }
+
+    /// <summary>
+    /// This will apply force to the member so that it follows the flocking rules
+    /// </summary>
+    /// <param name="f"></param>
+    void ApplyForce(Vector2 f)
+    {
+        Vector3 force = new Vector3(f.x, f.y, 0); // must convert from 2D vector to 3D vector
+
+        // clamp force to always be less than or equal to maximum allowed force
+        if (force.magnitude > manager.GetComponent<FlockController>().maxForce)
+        {
+            force = force.normalized; // reduce to unit vector
+            force *= manager.GetComponent<FlockController>().maxForce; // set equal to maximum allowed force
+        }
+        rb.AddForce(force); // apply the calculated force to this member object
+    }
+
+    /// <summary>
+    /// try to stay aligned with the rest of the flock towards the goal
+    /// </summary>
+    /// <returns></returns>
+    Vector2 Align()
+    {
+        Vector2 sum = Vector2.zero;
+        int counter = 0;
+        foreach (GameObject other in manager.GetComponent<FlockController>().flockMembers)
+        {
+            if (other == this.gameObject) continue; // don't try to align with ourself!
+            float distance = Vector2.Distance(location, other.GetComponent<FlockMember>().GetLocation);
+            if (distance < neighborDistance)
+            {
+                sum += other.GetComponent<FlockMember>().GetVelocity;
+                counter++;
+            }
+
+        }
+        if (counter > 0)
+        {
+            sum /= counter;
+            return sum - velocity;
+        }
+        return Vector2.zero;
+
+    }
+    /// <summary>
+    /// Stay with the group!
+    /// </summary>
+    /// <returns></returns>
+    Vector2 Cohesion()
+    {
+        Vector2 sum = Vector2.zero;
+        int counter = 0;
+        foreach (GameObject other in manager.GetComponent<FlockController>().flockMembers)
+        {
+            if (other == this.gameObject) continue;
+
+            float distance = Vector2.Distance(location, other.GetComponent<FlockMember>().GetLocation);
+            if (distance < neighborDistance)
+            {
+                sum += other.GetComponent<FlockMember>().location;
+                counter++;
+            }
+        }
+        if (counter > 0)
+        {
+            sum /= counter;
+            return Seek(sum);
+        }
+        return Vector2.zero;
+    }
+
+    void Flock()
+    {
+        location = this.transform.position;
+        velocity = rb.velocity;
+
+        if (Random.Range( 0, 50) <= 1) // this member will flock based on a percentage chance
+        {
+            // build the force vector
+            Vector2 align = Align();
+            Vector2 cohesion = Cohesion();
+            Vector2 gl;
+            if (manager.GetComponent<FlockController>().SeekGoal)
+            {
+                gl = Seek(goalPos);
+                currentForce = gl + align + cohesion;
+            }
+            else
+                currentForce = align + cohesion;
+
+            currentForce = currentForce.normalized; // convert to unit vector
+        }
+        // apply the force vector to the member
+        ApplyForce(currentForce);
+    }	
+}
