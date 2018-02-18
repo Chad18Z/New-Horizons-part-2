@@ -56,5 +56,5 @@ MonoBehaviour:
     type: 2}
   numberOfMembers: 25
   distanceToNeighbor: 15
-  maxForce: 2
-  maxVelocity: 5
+  maxForce: 4
+  maxVelocity: 6

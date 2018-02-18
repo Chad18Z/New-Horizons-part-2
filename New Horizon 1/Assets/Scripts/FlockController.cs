@@ -23,11 +23,11 @@ public class FlockController : MonoBehaviour {
     public int distanceToNeighbor = 50;
 
     // max force that can ever be applied to any member. Higher = more aggressive movement
-    [Range(0, 2)]
+    [Range(0, 5)]
     public float maxForce = .5f;
 
     // max velocity of any member
-    [Range(0, 5)]
+    [Range(0, 10)]
     public float maxVelocity = 2.0f;
 
     //whether or not the flock is seeking a goal position
