@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1235709193973410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.268307, y: -10.3342495, z: -2.4305086}
+  m_LocalPosition: {x: -8.365204, y: -0.25004292, z: -2.4305086}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -54,7 +54,7 @@ MonoBehaviour:
   flockMembers: []
   memberPrefab: {fileID: 1480155422459228, guid: 92beb3a7b7269924f9d589b86b6eed43,
     type: 2}
-  numberOfMembers: 10
-  distanceToNeighbor: 50
-  maxForce: 0.5
-  maxVelocity: 2
+  numberOfMembers: 25
+  distanceToNeighbor: 15
+  maxForce: 2
+  maxVelocity: 5

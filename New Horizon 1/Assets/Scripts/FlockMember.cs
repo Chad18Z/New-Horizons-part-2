@@ -20,7 +20,7 @@ public class FlockMember : MonoBehaviour {
         location = new Vector2(this.gameObject.transform.position.x, 
             this.gameObject.transform.position.y);
 
-        rb = GetComponent<Rigidbody2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
         neighborDistance = manager.GetComponent<FlockController>().distanceToNeighbor;
 	}
     // Update is called once per frame
@@ -78,7 +78,7 @@ public class FlockMember : MonoBehaviour {
             force = force.normalized; // reduce to unit vector
             force *= manager.GetComponent<FlockController>().maxForce; // set equal to maximum allowed force
         }
-        rb.AddForce(force); // apply the calculated force to this member object
+        rb.AddForce(force, ForceMode2D.Impulse); // apply the calculated force to this member object
     }
 
     /// <summary>
@@ -98,7 +98,6 @@ public class FlockMember : MonoBehaviour {
                 sum += other.GetComponent<FlockMember>().GetVelocity;
                 counter++;
             }
-
         }
         if (counter > 0)
         {
@@ -123,7 +122,7 @@ public class FlockMember : MonoBehaviour {
             float distance = Vector2.Distance(location, other.GetComponent<FlockMember>().GetLocation);
             if (distance < neighborDistance)
             {
-                sum += other.GetComponent<FlockMember>().location;
+                sum += other.GetComponent<FlockMember>().GetLocation;
                 counter++;
             }
         }

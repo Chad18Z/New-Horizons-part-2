@@ -47,13 +47,22 @@ public class FlockController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// This function is for demo purposes only. It allows the user to move the flock around the screen
+    /// Right-Click to move the flock around the screen
+    /// </summary>
+    void Update ()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+    }
+
     //returns whether or not the flock is seeking a goal position
     public bool SeekGoal
     {
         get { return seekGoal; }
     }
-	// Update is called once per frame
-	void Update () {
 
-	}
 }
