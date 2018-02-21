@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     float cytoToxinCost = -.003f; //MUST BE A NEGATIVE VALUE!
 
     //handles player power-ups 
-    bool isMovingFast = false;
+    bool moveFast = false;
     bool unlimCyto = false;
     bool scoutBurst = false;
 
@@ -49,9 +49,9 @@ public class Player : MonoBehaviour
     /// gets whether the player is moving fast
     /// </summary>
     /// <value>true if moving fast; otherwise, false</value>
-    public bool MoveFastPowerUp
+    public bool isMovingFast
     {
-        get { return isMovingFast; }
+        get { return moveFast; }
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
     /// gets whether the player has scout burst
     /// </summary>
     /// <value>true if scout burst activiated; otherwise, false</value>
-    public bool ScoutsPowerUp
+    public bool ScoutBurstPowerUp
     {
         get { return scoutBurst; }
     }
