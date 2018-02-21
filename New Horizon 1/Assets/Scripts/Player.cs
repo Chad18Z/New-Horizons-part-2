@@ -40,6 +40,38 @@ public class Player : MonoBehaviour
     //this field controls how much Cytotoxin the player spends per frame
     float cytoToxinCost = -.003f; //MUST BE A NEGATIVE VALUE!
 
+    //handles player power-ups 
+    bool isMovingFast = false;
+    bool unlimCyto = false;
+    bool scoutBurst = false;
+
+    /// <summary>
+    /// gets whether the player is moving fast
+    /// </summary>
+    /// <value>true if moving fast; otherwise, false</value>
+    public bool MoveFastPowerUp
+    {
+        get { return isMovingFast; }
+    }
+
+    /// <summary>
+    /// gets whether the player has unlimited cytotoxin 
+    /// </summary>
+    /// <value>true if unlimited cytotoxin; otherwise, false</value>
+    public bool UnlimCytoPowerUp
+    {
+        get { return unlimCyto; }
+    }
+
+    /// <summary>
+    /// gets whether the player has scout burst
+    /// </summary>
+    /// <value>true if scout burst activiated; otherwise, false</value>
+    public bool ScoutsPowerUp
+    {
+        get { return scoutBurst; }
+    }
+
     // Use this for initialization
     void Start()
     {
