@@ -2023,6 +2023,22 @@ Prefab:
       propertyPath: fireCooldownTime
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 4573458467897460, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573458467897460, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573458467897460, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573458467897460, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 180
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
   m_IsPrefabParent: 0
