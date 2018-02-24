@@ -14,7 +14,7 @@ public class MainMenu : MonoBehaviour {
 
     public void HandleStartButtonOnClick()
     {
-        SceneManager.LoadScene("Lungs");
+        SceneManager.LoadScene("New Gameplay");
     }
 
     public void HandleHelpButtonOnClick()
@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     //go back to menu
-    public void GoToMenu()
+    public static void GoToMenu()
     {
         SceneManager.LoadScene("MainBody");
     }
@@ -31,6 +31,6 @@ public class MainMenu : MonoBehaviour {
     //go back to menu
     public void Retry()
     {
-        SceneManager.LoadScene("Lungs");
+        SceneManager.LoadScene("New Gameplay");
     }
 }

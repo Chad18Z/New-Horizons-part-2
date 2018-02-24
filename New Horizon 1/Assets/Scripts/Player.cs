@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] float fireCooldownTime = .5f;
     [SerializeField] float totalAssaultTime = 4f;
     [Range(0f, 1f)] [SerializeField] float maxInflation;
+<<<<<<< HEAD
 
     //handles player power-ups 
     bool moveFast = false;
@@ -51,6 +52,8 @@ public class Player : MonoBehaviour
     {
         get { return scoutBurst; }
     }
+=======
+>>>>>>> 71aae2f4c3e6ca5f0facfe372e895ae260c6b50f
 
     // Use this for initialization
     void Start ()

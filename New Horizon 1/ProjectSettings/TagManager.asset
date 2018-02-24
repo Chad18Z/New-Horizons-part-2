@@ -12,6 +12,8 @@ TagManager:
   - particleEffect
   - littlePig
   - cyto
+  - PowerUp
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - bullet
   - pig
   - particleEffect
-  - littlePig
+  - flockMember
   - wall
   - 
   - 

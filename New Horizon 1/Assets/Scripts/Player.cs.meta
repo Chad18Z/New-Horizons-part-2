@@ -1,17 +1,11 @@
 fileFormatVersion: 2
-guid: b091d9756b0445740ba29ed65d5a3146
-timeCreated: 1510977473
+guid: e2762ded0c7ef144dbbf9dc59f785954
+timeCreated: 1518063044
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences:
-  - wallSplash: {fileID: 1247311496274568, guid: 3247a7e241ff2f94e9abd7c58a70a5dc,
-      type: 2}
-  - beamPrefab: {fileID: 1398986093315388, guid: d7c841a0ddf8ccd4796a0f6fbec2c681,
-      type: 2}
-  - frontSprites: {instanceID: 0}
-  - backSprites: {instanceID: 0}
-  executionOrder: 0
+  defaultReferences: []
+  executionOrder: 100
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

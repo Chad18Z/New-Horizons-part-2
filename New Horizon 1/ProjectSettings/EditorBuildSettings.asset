@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainBody.unity
     guid: 62dcc1f5d2ccebf49bddacc01130f655
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Lungs.unity
     guid: 514174979d6a95b48a80958204cef10b
+  - enabled: 1
+    path: Assets/Scenes/New Gameplay.unity
+    guid: c2c55046c14918a479ccf8fd64749af6
   - enabled: 1
     path: Assets/Scenes/WinScn.unity
     guid: c57e9b903a001a14d8a2c9d3f405abaa

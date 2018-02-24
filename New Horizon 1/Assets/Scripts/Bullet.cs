@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     float bulletSpeed = 150;
     public GameObject bulletParticle;
 
-    // Use this for initialization
+    // Use this for initializations
     void Start()
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
