@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     //go back to menu
-    public void GoToMenu()
+    public static void GoToMenu()
     {
         SceneManager.LoadScene("MainBody");
     }
