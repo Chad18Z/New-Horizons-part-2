@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     bool stuckToEnemy;
     float timeAssaultStarted = 0f;
 
-    [SerializeField] float thrustMultiplier = 1f;
+    [SerializeField] float thrustMultiplier = 10f;
     [SerializeField] float maxChargeTime = 1f;
     [SerializeField] GameObject missile;
     [SerializeField] float fireCooldownTime = .5f;
