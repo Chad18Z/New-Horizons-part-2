@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 55976827}
   - component: {fileID: 55976826}
   - component: {fileID: 55976831}
+  - component: {fileID: 55976832}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -215,6 +216,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockTarget: {fileID: 836340296}
+--- !u!114 &55976832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 55976825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64941742dc8ed254792e57c6ccc86729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPowerUps: {fileID: 1385065257723362, guid: d938e113b08f7314893db1d26c8bf6f4,
+    type: 2}
+  pillSprite0: {fileID: 21300000, guid: a13a29d925e6b04439a0670026e54344, type: 3}
+  pillSprite1: {fileID: 21300000, guid: 230099f3f626b9741a5456a700fbe0b6, type: 3}
+  pillSprite2: {fileID: 21300000, guid: c53c9480f18b0e344b991aa7035cfc33, type: 3}
 --- !u!1001 &83182714
 Prefab:
   m_ObjectHideFlags: 0
