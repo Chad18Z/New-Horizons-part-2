@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     bool stuckToEnemy;
     float timeAssaultStarted = 0f;
 
-    [SerializeField] float thrustMultiplier = 1f;
+    [SerializeField] float thrustMultiplier = 5f;
     [SerializeField] float maxChargeTime = 1f;
     [SerializeField] GameObject missile;
     [SerializeField] float fireCooldownTime = .5f;
@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
 
             // Get the difference between the mouse position and the player, times -1
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            directionToGo = transform.position - mousePosition;
+            directionToGo = mousePosition - transform.position;
 
             // Shoot the player in that direction, with the magnitude of the thrust multiplier times charge amount
             rb2d.AddForce(directionToGo.normalized * thrustMultiplier * chargeTimeCurrent, ForceMode2D.Impulse);

@@ -21,15 +21,15 @@ public class LookAt : MonoBehaviour {
     {
         // We need to check how close the mouse cursor is to the player
         // When the mouse cursor gets too close to the player, it causes strange behavior
-        Vector3 diff = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        Vector3 diff = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (diff.magnitude > 5)
+        if (diff.magnitude > 5) //need to smoothen out the rotation
         {
             diff.Normalize();
 
             float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, 0f, rot_z + 90);
-            rot = transform.rotation;
+            rot = Quaternion.Euler(0f, 0f, rot_z + 90);
+            transform.rotation = rot;
         }
     }
 }
