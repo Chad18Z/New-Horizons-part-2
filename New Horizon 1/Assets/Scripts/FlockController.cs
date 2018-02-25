@@ -53,10 +53,10 @@ public class FlockController : MonoBehaviour {
     /// </summary>
     void Update ()
     {
-        if (Input.GetMouseButton(1))
-        {
-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
+        //if (Input.GetMouseButton(1))
+        //{
+        //    transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //}
     }
 
     //returns whether or not the flock is seeking a goal position

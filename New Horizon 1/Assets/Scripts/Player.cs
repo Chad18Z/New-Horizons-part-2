@@ -21,40 +21,40 @@ public class Player : MonoBehaviour
     [Range(0f, 1f)] [SerializeField] float maxInflation;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         normalScale = transform.localScale;
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         float amountToInflate;
 
         // When the player holds down the mouse...
-        if (Input.GetMouseButtonDown(0) && !stuckToEnemy)
+        if (Input.GetMouseButtonDown(1) && !stuckToEnemy)
         {
             // ...record the time
             chargeStartTime = Time.time;
         }
 
         // While the mouse is being held down...
-        if (Input.GetMouseButton(0) && !stuckToEnemy)
+        if (Input.GetMouseButton(1) && !stuckToEnemy)
         {
             // Set the charge amount to be how long in seconds the mouse was held down
             chargeTimeCurrent = Time.time - chargeStartTime;
             chargeTimeCurrent = Mathf.Clamp(chargeTimeCurrent, 0f, maxChargeTime);
 
             // Calculate how much to inflate based off the max amount allowed and the current charge time
-            amountToInflate = 1+ (chargeTimeCurrent / maxChargeTime) * maxInflation;
+            amountToInflate = 1 + (chargeTimeCurrent / maxChargeTime) * maxInflation;
 
             // Inflate that much
             transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
         }
 
         // When the player releases the mouse button...
-        if (Input.GetMouseButtonUp(0) && !stuckToEnemy)
+        if (Input.GetMouseButtonUp(1) && !stuckToEnemy)
         {
             Vector3 directionToGo;
 
@@ -68,22 +68,22 @@ public class Player : MonoBehaviour
             transform.localScale = normalScale;
         }
 
-        if (stuckToEnemy)
-        {
-            if (timeAssaultStarted == 0f)
-            {
-                timeAssaultStarted = Time.time;
-                InvokeRepeating("FireMissile", .5f, fireCooldownTime);
-            }
-            if (Time.time - timeAssaultStarted > totalAssaultTime)
-            {
-                stuckToEnemy = false;
-                timeAssaultStarted = 0f;
-                CancelInvoke();
-                rb2d.AddForce(guyImStuckToPositionDifference.normalized * 10, ForceMode2D.Impulse);
-            }
-        }
-	}
+        //if (stuckToEnemy)
+        //{
+        //    if (timeAssaultStarted == 0f)
+        //    {
+        //        timeAssaultStarted = Time.time;
+        //        InvokeRepeating("FireMissile", .5f, fireCooldownTime);
+        //    }
+        //    if (Time.time - timeAssaultStarted > totalAssaultTime)
+        //    {
+        //        stuckToEnemy = false;
+        //        timeAssaultStarted = 0f;
+        //        CancelInvoke();
+        //        rb2d.AddForce(guyImStuckToPositionDifference.normalized * 10, ForceMode2D.Impulse);
+        //    }
+        //}
+    }
 
     void LateUpdate()
     {
@@ -103,12 +103,12 @@ public class Player : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
-        {
-            guyImStuckTo = collision.gameObject;
-            guyImStuckToPositionDifference = transform.position - guyImStuckTo.gameObject.transform.position;
-            stuckToEnemy = true;
-        }
+        //if (collision.gameObject.tag == "Enemy")
+        //{
+        //    guyImStuckTo = collision.gameObject;
+        //    guyImStuckToPositionDifference = transform.position - guyImStuckTo.gameObject.transform.position;
+        //    stuckToEnemy = true;
+        //}
     }
 
     void FireMissile()
@@ -122,4 +122,5 @@ public class Player : MonoBehaviour
         GameObject createdMissile = Instantiate(missile, transform.position, missileRotation);
         createdMissile.GetComponent<SeekerMissile>().target = guyImStuckTo;
     }
+   
 }
