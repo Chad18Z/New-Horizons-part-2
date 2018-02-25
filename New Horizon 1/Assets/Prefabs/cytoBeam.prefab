@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 120033615849481452}
   - component: {fileID: 114187821902300610}
   m_Layer: 0
-  m_Name: cytobeam
+  m_Name: cytoBeam
   m_TagString: cyto
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
