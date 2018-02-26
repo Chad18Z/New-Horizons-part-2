@@ -20,6 +20,38 @@ public class Player : MonoBehaviour
     [SerializeField] float totalAssaultTime = 4f;
     [Range(0f, 1f)] [SerializeField] float maxInflation;
 
+    //handles player power-ups 
+    bool moveFast = false;
+    bool unlimCyto = false;
+    bool scoutBurst = false;
+
+    /// <summary>
+    /// gets whether the player is moving fast
+    /// </summary>
+    /// <value>true if moving fast; otherwise, false</value>
+    public bool MoveFast
+    {
+        get { return moveFast; }
+    }
+
+    /// <summary>
+    /// gets whether the player has unlimited cytotoxin 
+    /// </summary>
+    /// <value>true if unlimited cytotoxin; otherwise, false</value>
+    public bool UnlimCyto
+    {
+        get { return unlimCyto; }
+    }
+
+    /// <summary>
+    /// gets whether the player has scout burst power up
+    /// </summary>
+    /// <value>true if scout burst activiated; otherwise, false</value>
+    public bool Scouts
+    {
+        get { return scoutBurst; }
+    }
+
     // Use this for initialization
     void Start()
     {
