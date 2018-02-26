@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4573458467897460}
   - component: {fileID: 212851395099492420}
+  - component: {fileID: 114888924207767154}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -54,7 +55,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4867907037920868}
-  - component: {fileID: 114609760669254556}
+  - component: {fileID: 114420838324678032}
   m_Layer: 0
   m_Name: ArrowOffset
   m_TagString: Untagged
@@ -152,10 +153,10 @@ MonoBehaviour:
   thrustMultiplier: 100
   maxChargeTime: 1
   missile: {fileID: 1482827110066294, guid: cb773aa6048edaf44b345c4c281ec5c9, type: 2}
-  fireCooldownTime: 0.2
+  fireCooldownTime: 0.3
   totalAssaultTime: 4
   maxInflation: 0.254
---- !u!114 &114609760669254556
+--- !u!114 &114420838324678032
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -166,6 +167,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09446b5cbf1407645808d04d89506549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114888924207767154
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1566800646697304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f48a429eec9cdce49a3a62bca7d37b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cytoBeam: {fileID: 1163773381927074, guid: d7c841a0ddf8ccd4796a0f6fbec2c681, type: 2}
 --- !u!212 &212605214397797884
 SpriteRenderer:
   m_ObjectHideFlags: 1
