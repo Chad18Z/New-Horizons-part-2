@@ -17,7 +17,7 @@ public class beamController : MonoBehaviour {
 	// Destroy this object if the player is not holding down the left mouse button
 	void Update () {
 
-        if (!Input.GetMouseButton(0))
+        if (!Input.GetMouseButton(1))
         {
             Destroy(gameObject);
         }

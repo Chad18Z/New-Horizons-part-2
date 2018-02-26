@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     bool stuckToEnemy;
     float timeAssaultStarted = 0f;
 
-    [SerializeField] float thrustMultiplier = 5f;
+    [SerializeField] float thrustMultiplier = 1f;
     [SerializeField] float maxChargeTime = 1f;
     [SerializeField] GameObject missile;
     [SerializeField] float fireCooldownTime = .5f;
@@ -30,31 +30,31 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float amountToInflate;
+        //float amountToInflate;
 
         // When the player holds down the mouse...
-        if (Input.GetMouseButtonDown(1) && !stuckToEnemy)
+        if (Input.GetMouseButtonDown(0) && !stuckToEnemy)
         {
             // ...record the time
             chargeStartTime = Time.time;
         }
 
         // While the mouse is being held down...
-        if (Input.GetMouseButton(1) && !stuckToEnemy)
+        if (Input.GetMouseButton(0))
         {
             // Set the charge amount to be how long in seconds the mouse was held down
             chargeTimeCurrent = Time.time - chargeStartTime;
             chargeTimeCurrent = Mathf.Clamp(chargeTimeCurrent, 0f, maxChargeTime);
 
-            // Calculate how much to inflate based off the max amount allowed and the current charge time
-            amountToInflate = 1 + (chargeTimeCurrent / maxChargeTime) * maxInflation;
+            //// Calculate how much to inflate based off the max amount allowed and the current charge time
+            //amountToInflate = 1 + (chargeTimeCurrent / maxChargeTime) * maxInflation;
 
-            // Inflate that much
-            transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
+            //// Inflate that much
+            //transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
         }
 
-        // When the player releases the mouse button...
-        if (Input.GetMouseButtonUp(1) && !stuckToEnemy)
+        //// When the player releases the mouse button...
+        if (Input.GetMouseButton(0))
         {
             Vector3 directionToGo;
 
@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
             directionToGo = mousePosition - transform.position;
 
             // Shoot the player in that direction, with the magnitude of the thrust multiplier times charge amount
-            rb2d.AddForce(directionToGo.normalized * thrustMultiplier * chargeTimeCurrent, ForceMode2D.Impulse);
+            rb2d.AddForce(directionToGo.normalized * thrustMultiplier * Time.deltaTime, ForceMode2D.Impulse);
 
             transform.localScale = normalScale;
         }
