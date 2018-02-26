@@ -1,12 +1,11 @@
 fileFormatVersion: 2
-guid: 09446b5cbf1407645808d04d89506549
-timeCreated: 1517557753
+guid: fbaad979df467cf4aa501407f14cedc1
+timeCreated: 1519522473
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - cytoBeam: {fileID: 1163773381927074, guid: d7c841a0ddf8ccd4796a0f6fbec2c681, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
