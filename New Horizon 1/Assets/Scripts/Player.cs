@@ -31,7 +31,14 @@ public class Player : MonoBehaviour
     /// <value>true if moving fast; otherwise, false</value>
     public bool MoveFast
     {
-        get { return moveFast; }
+        get {
+            moveFast = isactive;
+
+            return isactive;
+        }
+        set {
+            isactive = value;
+        }
     }
 
     /// <summary>
@@ -40,7 +47,16 @@ public class Player : MonoBehaviour
     /// <value>true if unlimited cytotoxin; otherwise, false</value>
     public bool UnlimCyto
     {
-        get { return unlimCyto; }
+        get
+        {
+            unlimCyto = isactive;
+            return isactive;
+        }
+        set
+        {
+            isactive = value;
+        }
+
     }
 
     /// <summary>
@@ -49,7 +65,14 @@ public class Player : MonoBehaviour
     /// <value>true if scout burst activiated; otherwise, false</value>
     public bool Scouts
     {
-        get { return scoutBurst; }
+        get {
+            scoutBurst = isactive;
+            return isactive;
+        }
+        set
+        {
+            isactive = value; 
+        }
     }
 
     // Use this for initialization
