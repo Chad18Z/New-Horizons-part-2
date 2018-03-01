@@ -26,21 +26,39 @@ public class PowerUps : MonoBehaviour {
 	}
 
     /// <summary>
-    /// detects collision with player
+    /// detects collision with player and turns on specific power up
     /// </summary>
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Player variableChanger = GetComponent<Player>();
+        Timer powerUpDuration = GetComponent<Timer>();
+        if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite0)
         {
             Destroy(gameObject);
-           // GetComponent<Player>().isMovingFast = true;
-
+            variableChanger.MoveFast = true;
+            powerUpDuration.Duration = 5;
+            powerUpDuration.Run();
+        }
+        if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite1)
+        {
+            Destroy(gameObject);
+            variableChanger.UnlimCyto = true;
+            powerUpDuration.Duration = 5;
+            powerUpDuration.Run();
+        }
+        if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite2)
+        {
+            Destroy(gameObject);
+            variableChanger.Scouts = true;
+            powerUpDuration.Duration = 5;
+            powerUpDuration.Run();
         }
     }
 
     /// <summary>
-    /// chooses sprite for power up
+    /// chooses sprite for power up on creation
     /// </summary>
     void SpawnPowerUp()
     {
