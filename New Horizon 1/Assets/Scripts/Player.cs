@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     bool moveFast = false;
     bool unlimCyto = false;
     bool scoutBurst = false;
+    bool isactive; 
 
     /// <summary>
     /// gets whether the player is moving fast
