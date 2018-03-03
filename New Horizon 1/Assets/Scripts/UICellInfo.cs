@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,8 +27,12 @@ public class UICellInfo : MonoBehaviour {
 		// gets the cell position on the screen from the camera's view
 		this.cellPosition = Camera.main.WorldToScreenPoint (cellObj.transform.position);
 
-		// filler info text shows the cell name. health -> cellObj.getHealth() or similar
-		this.infoText = "Name: " + this.cellObj.name + "\nHealth: n/a"; 
+        // filler info text shows the cell name. health -> cellObj.getHealth() or similar
+        StringBuilder sb = new StringBuilder(); // use StringBuilder to easier visualize the text
+        sb.AppendLine("Name: " + cellObj.name);
+        sb.AppendLine("Health: " + Convert.ToInt32(cellObj.Health));
+
+        this.infoText = sb.ToString();
 		// set the rect to the position of the cell
 		this.infoRect.Set (cellPosition.x, Screen.height - cellPosition.y, 120, 75);
 	}

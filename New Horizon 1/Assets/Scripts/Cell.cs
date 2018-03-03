@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    [SerializeField] protected float health;
+    protected float maxHealth;
+    public float Health { get { return health; } }
 
     [SerializeField] protected float massMultiplier = 25;
 
@@ -16,14 +19,18 @@ public class Cell : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.mass = massMultiplier * (Mathf.PI * Mathf.Pow((transform.localScale.x / 2), 2));
+        maxHealth = health;
 
-		this.cellInfo = gameObject.AddComponent (typeof(UICellInfo)) as UICellInfo;
+        this.cellInfo = gameObject.AddComponent (typeof(UICellInfo)) as UICellInfo;
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
 	// called if mouse is over any child object inheriting cell

@@ -13,10 +13,14 @@ public class Friendly : Cell
     private Vector2 currVelocity;
     private float timer = 0f;
 
+    private SpriteRenderer spriteRenderer;
+    private Color deadColor = new Color(0.37f, 0f, 0.77f); // Dark purple color
+
     // Use this for initialization
     protected override void Start()
     {
         base.Start();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -43,5 +47,23 @@ public class Friendly : Cell
         {
             rigidBody.AddForce(currVelocity);
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            health -= 0.025f;
+        }
+        UpdateSprite();
+    }
+
+    /// <summary>
+    /// Changes the sprite based on current health or other events
+    /// </summary>
+    private void UpdateSprite()
+    {
+        float t = 1 - health / maxHealth;
+        spriteRenderer.color = Color.Lerp(Color.white, deadColor, t);
     }
 }
