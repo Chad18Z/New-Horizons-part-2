@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e164080c56715b4f8464727bc33c7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 10
   massMultiplier: 25
   minWanderTime: 3
   maxWanderTime: 5
