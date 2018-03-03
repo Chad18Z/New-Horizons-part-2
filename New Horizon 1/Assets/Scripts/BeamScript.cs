@@ -30,7 +30,7 @@ public class BeamScript : MonoBehaviour {
                 // Origin of the line
                 line.SetPosition(0, transform.position);
                 // The endpoint of the line 
-                line.SetPosition(1, ((Vector2)transform.position + (direction * Vector2.Distance((Vector2)transform.position, (Vector2)hit.collider.transform.position))));
+                line.SetPosition(1, ((Vector2)transform.position + (direction * Vector2.Distance((Vector2)transform.position, (Vector2)hit.point))));
                 line.enabled = true;
             }
         }
