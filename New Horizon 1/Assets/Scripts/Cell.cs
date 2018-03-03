@@ -33,6 +33,13 @@ public class Cell : MonoBehaviour
         }
     }
 
+    protected Vector2 GetRandomPositionWithinCollider()
+    {
+        Vector2 center = transform.position;
+        center += Random.insideUnitCircle * GetComponent<CircleCollider2D>().radius;
+        return center;
+    }
+
 	// called if mouse is over any child object inheriting cell
 	void OnMouseOver() {
 		this.cellInfo.SetMouseOver (true);

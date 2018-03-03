@@ -112,6 +112,7 @@ MonoBehaviour:
   minWanderTime: 3
   maxWanderTime: 5
   wanderForce: 22
+  decayParticleInterval: 0.75
 --- !u!212 &212390226535074608
 SpriteRenderer:
   m_ObjectHideFlags: 1

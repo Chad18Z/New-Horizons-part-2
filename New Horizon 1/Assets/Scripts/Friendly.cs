@@ -9,17 +9,22 @@ public class Friendly : Cell
 
     [SerializeField] private float wanderForce;
 
+    private GameObject decayParticlePrefab;
+
     private float currWanderInterval = 0f;
     private Vector2 currVelocity;
     private float timer = 0f;
 
     private SpriteRenderer spriteRenderer;
     private Color deadColor = new Color(0.37f, 0f, 0.77f); // Dark purple color
+    private float losingHealthTimer = 0f;
+    [SerializeField] private float decayParticleInterval = 0.75f;
 
     // Use this for initialization
     protected override void Start()
     {
         base.Start();
+        decayParticlePrefab = Resources.Load<GameObject>("DecayParticle");
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -27,7 +32,7 @@ public class Friendly : Cell
     protected override void Update()
     {
         base.Update();
-        Wander();
+        //Wander();
     }
 
     /// <summary>
@@ -54,6 +59,14 @@ public class Friendly : Cell
         if (collision.gameObject.tag == "Enemy")
         {
             health -= 0.025f;
+            losingHealthTimer += Time.deltaTime;
+            if (losingHealthTimer >= decayParticleInterval)
+            {
+                losingHealthTimer = 0f;
+                //Debug.Log(losingHealthTimer + " " + decayParticleInterval);
+                GameObject a = Instantiate(decayParticlePrefab, GetRandomPositionWithinCollider(), Quaternion.identity);
+                Debug.Log(a);
+            }
         }
         UpdateSprite();
     }
