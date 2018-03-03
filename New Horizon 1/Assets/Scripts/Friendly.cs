@@ -32,7 +32,7 @@ public class Friendly : Cell
     protected override void Update()
     {
         base.Update();
-        //Wander();
+        Wander();
     }
 
     /// <summary>
@@ -63,7 +63,6 @@ public class Friendly : Cell
             if (losingHealthTimer >= decayParticleInterval)
             {
                 losingHealthTimer = 0f;
-                //Debug.Log(losingHealthTimer + " " + decayParticleInterval);
                 GameObject a = Instantiate(decayParticlePrefab, GetRandomPositionWithinCollider(), Quaternion.identity);
                 Debug.Log(a);
             }
