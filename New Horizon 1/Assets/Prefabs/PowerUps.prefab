@@ -99,10 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64941742dc8ed254792e57c6ccc86729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabPowerUps: {fileID: 0}
-  pillSprite0: {fileID: 0}
-  pillSprite1: {fileID: 0}
-  pillSprite2: {fileID: 0}
+  pillSprite0: {fileID: 21300000, guid: a13a29d925e6b04439a0670026e54344, type: 3}
+  pillSprite1: {fileID: 21300000, guid: 230099f3f626b9741a5456a700fbe0b6, type: 3}
+  pillSprite2: {fileID: 21300000, guid: c53c9480f18b0e344b991aa7035cfc33, type: 3}
 --- !u!212 &212590716615016366
 SpriteRenderer:
   m_ObjectHideFlags: 1

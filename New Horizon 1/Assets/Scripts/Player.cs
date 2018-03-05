@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] float totalAssaultTime = 4f;
     [Range(0f, 1f)] [SerializeField] float maxInflation;
 
+
     //handles player power-ups 
     bool moveFast = false;
     bool unlimCyto = false;
@@ -96,7 +97,7 @@ public class Player : MonoBehaviour
         }
 
         // While the mouse is being held down...
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
         {
             // Set the charge amount to be how long in seconds the mouse was held down
             chargeTimeCurrent = Time.time - chargeStartTime;
@@ -110,7 +111,7 @@ public class Player : MonoBehaviour
         }
 
         //// When the player releases the mouse button...
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
         {
             Vector3 directionToGo;
 
@@ -123,6 +124,8 @@ public class Player : MonoBehaviour
 
             transform.localScale = normalScale;
         }
+
+
 
         //if (stuckToEnemy)
         //{
@@ -141,21 +144,21 @@ public class Player : MonoBehaviour
         //}
     }
 
-    void LateUpdate()
-    {
-        if (guyImStuckTo && stuckToEnemy)
-        {
-            transform.position = guyImStuckTo.transform.position + guyImStuckToPositionDifference;
-        }
-    }
+    //void LateUpdate()
+    //{
+    //    if (guyImStuckTo && stuckToEnemy)
+    //    {
+    //        transform.position = guyImStuckTo.transform.position + guyImStuckToPositionDifference;
+    //    }
+    //}
 
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject == guyImStuckTo)
-        {
-            stuckToEnemy = false;
-        }
-    }
+    //void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject == guyImStuckTo)
+    //    {
+    //        stuckToEnemy = false;
+    //    }
+    //}
 
     void OnCollisionExit2D(Collision2D collision)
     {
@@ -167,16 +170,16 @@ public class Player : MonoBehaviour
         //}
     }
 
-    void FireMissile()
-    {
-        Vector3 positionDifference = guyImStuckTo.transform.position - transform.position;
-        positionDifference.Normalize();
+    //void FireMissile()
+    //{
+    //    Vector3 positionDifference = guyImStuckTo.transform.position - transform.position;
+    //    positionDifference.Normalize();
 
-        float rot_z = Mathf.Atan2(positionDifference.y, positionDifference.x) * Mathf.Rad2Deg;
-        Quaternion missileRotation = Quaternion.Euler(0f, 0f, rot_z);
+    //    float rot_z = Mathf.Atan2(positionDifference.y, positionDifference.x) * Mathf.Rad2Deg;
+    //    Quaternion missileRotation = Quaternion.Euler(0f, 0f, rot_z);
 
-        GameObject createdMissile = Instantiate(missile, transform.position, missileRotation);
-        createdMissile.GetComponent<SeekerMissile>().target = guyImStuckTo;
-    }
+    //    GameObject createdMissile = Instantiate(missile, transform.position, missileRotation);
+    //    createdMissile.GetComponent<SeekerMissile>().target = guyImStuckTo;
+    //}
    
 }
