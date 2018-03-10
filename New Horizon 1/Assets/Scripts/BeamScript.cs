@@ -7,10 +7,11 @@ public class BeamScript : MonoBehaviour
     [SerializeField]
     Cytoblast cytoBeam;
 
+    GameObject playerTransform;
     // Use this for initialization
     void Start()
     {
-
+        playerTransform = GameObject.FindGameObjectWithTag("cytoMount");
     }
 
     // Update is called once per frame
@@ -39,15 +40,7 @@ public class BeamScript : MonoBehaviour
 
 
             // UNCOMMENT THE LINES BELOW TO FIRE CYTOBLASTVe
-            // first, let's get the direction
-            Vector2 directionToGo;
-
-            // Get the difference between the mouse position and the player, times -1
-            Vector2 mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Transform playerTransform = GameObject.FindGameObjectWithTag("arrow").transform;
-            directionToGo = (mousePosition - (Vector2)playerTransform.position).normalized;
-            Cytoblast blast = Instantiate(cytoBeam, playerTransform);
-            blast.SetDirection = directionToGo;
+            
         }
     }
 }

@@ -6,9 +6,9 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - beamPrefab: {fileID: 1163773381927074, guid: d7c841a0ddf8ccd4796a0f6fbec2c681,
-      type: 2}
   - missile: {instanceID: 0}
+  - cytoBlobPrefab: {fileID: 1222996960108802, guid: be095151b204b9747824b40232dc5239,
+      type: 2}
   executionOrder: 100
   icon: {instanceID: 0}
   userData: 

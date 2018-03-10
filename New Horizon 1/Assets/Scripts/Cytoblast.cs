@@ -31,7 +31,7 @@ public class Cytoblast : MonoBehaviour {
 
 		if (dir != Vector2.zero)
         {
-            rb.AddForce(dir * speed, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up, ForceMode2D.Impulse);
             dir = Vector2.zero;
         }
 	}

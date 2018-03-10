@@ -15,6 +15,7 @@ TagManager:
   - PowerUp
   - Enemy
   - arrow
+  - cytoMount
   layers:
   - Default
   - TransparentFX

@@ -23,21 +23,6 @@ GameObject:
   - component: {fileID: 114888924207767154}
   m_Layer: 0
   m_Name: Arrow
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1676822558630584
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4951532181162636}
-  m_Layer: 0
-  m_Name: cytoSpawnPoint
   m_TagString: arrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,8 +72,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.002, y: 0.966, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 1}
-  m_Children:
-  - {fileID: 4951532181162636}
+  m_Children: []
   m_Father: {fileID: 4867907037920868}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -104,19 +88,6 @@ Transform:
   m_Children:
   - {fileID: 4573458467897460}
   m_Father: {fileID: 4973510809503006}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4951532181162636
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1676822558630584}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.010000002, y: 18.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4573458467897460}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4973510809503006
@@ -181,10 +152,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustMultiplier: 100
   maxChargeTime: 1
-  missile: {fileID: 1482827110066294, guid: cb773aa6048edaf44b345c4c281ec5c9, type: 2}
+  missile: {fileID: 0}
   fireCooldownTime: 0.3
   totalAssaultTime: 4
   maxInflation: 0.254
+  cytoBlobPrefab: {fileID: 1222996960108802, guid: be095151b204b9747824b40232dc5239,
+    type: 2}
 --- !u!114 &114420838324678032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f48a429eec9cdce49a3a62bca7d37b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cytoBeam: {fileID: 114713324957686414, guid: e39fd5fb971f35d47892497f5c6649f8, type: 2}
+  cytoBeam: {fileID: 0}
 --- !u!212 &212605214397797884
 SpriteRenderer:
   m_ObjectHideFlags: 1

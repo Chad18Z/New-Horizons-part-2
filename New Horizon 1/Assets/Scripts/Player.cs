@@ -20,13 +20,30 @@ public class Player : MonoBehaviour
     [SerializeField] float totalAssaultTime = 4f;
     [Range(0f, 1f)] [SerializeField] float maxInflation;
 
+    float cytoSpeed = 30f; // speed at which cytoburst travels
+
+    [SerializeField]
+    GameObject cytoBlobPrefab;
+
+    GameObject cytoMountPoint; // spawnpoint for cytoblasts/blobs/beams/etc
+
+  
 
     //handles player power-ups 
     bool moveFast = false;
     bool unlimCyto = false;
     bool scoutBurst = false;
-    bool isactive; 
+    bool isactive;
 
+
+    // Use this for initialization
+    void Start()
+    {
+        cytoMountPoint = GameObject.FindGameObjectWithTag("arrow");
+        rb2d = GetComponent<Rigidbody2D>();
+        normalScale = transform.localScale;
+
+    }
     /// <summary>
     /// gets whether the player is moving fast
     /// </summary>
@@ -77,38 +94,33 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Use this for initialization
-    void Start()
-    {
-        rb2d = GetComponent<Rigidbody2D>();
-        normalScale = transform.localScale;
-    }
+
 
     // Update is called once per frame
     void Update()
     {
         //float amountToInflate;
 
-        // When the player holds down the mouse...
-        if (Input.GetMouseButtonDown(0) && !stuckToEnemy)
-        {
-            // ...record the time
-            chargeStartTime = Time.time;
-        }
+        //// When the player holds down the mouse...
+        //if (Input.GetMouseButtonDown(0) && !stuckToEnemy)
+        //{
+        //    // ...record the time
+        //    chargeStartTime = Time.time;
+        //}
 
-        // While the mouse is being held down...
-        if (Input.GetMouseButton(1))
-        {
-            // Set the charge amount to be how long in seconds the mouse was held down
-            chargeTimeCurrent = Time.time - chargeStartTime;
-            chargeTimeCurrent = Mathf.Clamp(chargeTimeCurrent, 0f, maxChargeTime);
+        //// While the mouse is being held down...
+        //if (Input.GetMouseButton(1))
+        //{
+        //    // Set the charge amount to be how long in seconds the mouse was held down
+        //    chargeTimeCurrent = Time.time - chargeStartTime;
+        //    chargeTimeCurrent = Mathf.Clamp(chargeTimeCurrent, 0f, maxChargeTime);
 
-            //// Calculate how much to inflate based off the max amount allowed and the current charge time
-            //amountToInflate = 1 + (chargeTimeCurrent / maxChargeTime) * maxInflation;
+        //    //// Calculate how much to inflate based off the max amount allowed and the current charge time
+        //    //amountToInflate = 1 + (chargeTimeCurrent / maxChargeTime) * maxInflation;
 
-            //// Inflate that much
-            //transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
-        }
+        //    //// Inflate that much
+        //    //transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
+        //}
 
         //// When the player releases the mouse button...
         if (Input.GetMouseButton(1))
@@ -123,6 +135,19 @@ public class Player : MonoBehaviour
             rb2d.AddForce(directionToGo.normalized * thrustMultiplier * Time.deltaTime, ForceMode2D.Impulse);
 
             transform.localScale = normalScale;
+        }
+
+        // When player fires 
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 cytoFireDirection = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)cytoMountPoint.transform.position).normalized;
+
+            GameObject cyto = Instantiate(cytoBlobPrefab);
+            cyto.transform.position = cytoMountPoint.transform.position;
+            Rigidbody2D cytoRb = cyto.GetComponent<Rigidbody2D>();
+
+            cytoRb.AddForce(cytoFireDirection * cytoSpeed, ForceMode2D.Impulse);
+
         }
 
 
@@ -181,5 +206,5 @@ public class Player : MonoBehaviour
     //    GameObject createdMissile = Instantiate(missile, transform.position, missileRotation);
     //    createdMissile.GetComponent<SeekerMissile>().target = guyImStuckTo;
     //}
-   
+
 }
