@@ -16,6 +16,7 @@ TagManager:
   - Enemy
   - arrow
   - cytoMount
+  - cytoSplash
   layers:
   - Default
   - TransparentFX
