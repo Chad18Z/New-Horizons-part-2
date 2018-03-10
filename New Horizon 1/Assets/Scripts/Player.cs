@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] float totalAssaultTime = 4f;
     [Range(0f, 1f)] [SerializeField] float maxInflation;
 
-    float cytoSpeed = 45f; // speed at which cytoburst travels
+    float cytoSpeed = 20f; // speed at which cytoburst travels
 
     [SerializeField]
     GameObject cytoBlobPrefab;
