@@ -27,7 +27,15 @@ public class cytoblobScr : MonoBehaviour {
         {
             GameObject splash = Instantiate(cytoSplash);
             ContactPoint2D[] points = collision.contacts;
-            splash.transform.position = points[0].point;
+            if (points.Length > 0)
+            {
+                splash.transform.position = points[0].point;
+            }
+            else
+            {
+                splash.transform.position = collision.transform.position;
+            }
+            
 
             normalScale = transform.localScale; // because we transferring to a parent object, we must reset the local scale of this object.
             splash.transform.parent = collision.transform; // stick to whatever you just collided with

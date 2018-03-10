@@ -17,6 +17,7 @@ TagManager:
   - arrow
   - cytoMount
   - cytoSplash
+  - cytoBlob
   layers:
   - Default
   - TransparentFX
@@ -33,7 +34,7 @@ TagManager:
   - particleEffect
   - flockMember
   - wall
-  - 
+  - cytoBlob
   - 
   - 
   - 

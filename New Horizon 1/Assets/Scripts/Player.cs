@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] float totalAssaultTime = 4f;
     [Range(0f, 1f)] [SerializeField] float maxInflation;
 
-    float cytoSpeed = 40f; // speed at which cytoburst travels
+    float cytoSpeed = 45f; // speed at which cytoburst travels
 
     [SerializeField]
     GameObject cytoBlobPrefab;
@@ -142,8 +142,8 @@ public class Player : MonoBehaviour
         {
             Vector2 cytoFireDirection = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)cytoMountPoint.transform.position).normalized;
 
-            GameObject cyto = Instantiate(cytoBlobPrefab);
-            cyto.transform.position = cytoMountPoint.transform.position;
+            GameObject cyto = Instantiate(cytoBlobPrefab, cytoMountPoint.transform.position, Quaternion.identity);
+
             Rigidbody2D cytoRb = cyto.GetComponent<Rigidbody2D>();
 
             cytoRb.AddForce(cytoFireDirection * cytoSpeed, ForceMode2D.Impulse);
