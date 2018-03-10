@@ -31318,6 +31318,34 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 72c978097c540454c8d18eee4f8295dd, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &667296809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 667296810}
+  m_Layer: 0
+  m_Name: cytoSpawn
+  m_TagString: arrow
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &667296810
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667296809}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 10.84, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1241325347}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &669933086
 GameObject:
   m_ObjectHideFlags: 0
@@ -58452,6 +58480,11 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!4 &1241325347 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4573458467897460, guid: 8b454e70c3984e642ae65af85e5e2601,
+    type: 2}
+  m_PrefabInternal: {fileID: 98051132}
 --- !u!1 &1243240335
 GameObject:
   m_ObjectHideFlags: 0

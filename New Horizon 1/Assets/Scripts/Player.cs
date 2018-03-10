@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] float totalAssaultTime = 4f;
     [Range(0f, 1f)] [SerializeField] float maxInflation;
 
-    float cytoSpeed = 30f; // speed at which cytoburst travels
+    float cytoSpeed = 40f; // speed at which cytoburst travels
 
     [SerializeField]
     GameObject cytoBlobPrefab;
@@ -185,15 +185,15 @@ public class Player : MonoBehaviour
     //    }
     //}
 
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        //if (collision.gameObject.tag == "Enemy")
-        //{
-        //    guyImStuckTo = collision.gameObject;
-        //    guyImStuckToPositionDifference = transform.position - guyImStuckTo.gameObject.transform.position;
-        //    stuckToEnemy = true;
-        //}
-    }
+    //void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Enemy")
+    //    {
+    //        guyImStuckTo = collision.gameObject;
+    //        guyImStuckToPositionDifference = transform.position - guyImStuckTo.gameObject.transform.position;
+    //        stuckToEnemy = true;
+    //    }
+    //}
 
     //void FireMissile()
     //{
