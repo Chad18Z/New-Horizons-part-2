@@ -8,6 +8,8 @@ public class cytoblobScr : MonoBehaviour {
     [SerializeField]
     GameObject cytoSplash;
 
+    Vector3 normalScale;
+
 	// Use this for initialization
 	void Start () {
 
@@ -26,6 +28,10 @@ public class cytoblobScr : MonoBehaviour {
             GameObject splash = Instantiate(cytoSplash);
             ContactPoint2D[] points = collision.contacts;
             splash.transform.position = points[0].point;
+
+            normalScale = transform.localScale; // because we transferring to a parent object, we must reset the local scale of this object.
+            splash.transform.parent = collision.transform; // stick to whatever you just collided with
+            splash.transform.localScale = normalScale;
             Destroy(gameObject); // for now, just destroy yourself when you collide with anything
         }
 
