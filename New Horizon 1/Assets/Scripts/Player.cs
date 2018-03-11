@@ -28,12 +28,17 @@ public class Player : MonoBehaviour
     GameObject cytoMountPoint; // spawnpoint for cytoblasts/blobs/beams/etc
 
   
-
     //handles player power-ups 
     bool moveFast = false;
     bool unlimCyto = false;
     bool scoutBurst = false;
     bool isactive;
+    bool gotSpeed = false;
+    bool gotCyto = false;
+    bool gotBurst = false;
+
+    //Timer components 
+    Timer powerupTimer;
 
 
     // Use this for initialization
@@ -42,6 +47,9 @@ public class Player : MonoBehaviour
         cytoMountPoint = GameObject.FindGameObjectWithTag("arrow");
         rb2d = GetComponent<Rigidbody2D>();
         normalScale = transform.localScale;
+
+        //timer components
+        powerupTimer = gameObject.AddComponent<Timer>();
 
     }
     /// <summary>
@@ -94,6 +102,56 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// gets the timer for speed power up 
+    /// </summary>
+    /// <value>true if speed activiated; otherwise, false</value>
+    public bool SpeedTime
+    {
+        get { return gotSpeed; }
+        set
+        {
+            gotSpeed = value;
+            if (MoveFast)
+                powerupTimer.Run();
+            else
+            Debug.Log("Speed power-up has expired");
+        }
+    }
+
+    /// <summary>
+    /// gets the timer for unlimited cytotoxin power up 
+    /// </summary>
+    /// <value>true if unlimCyto activiated; otherwise, false</value>
+    public bool CytoTime
+    {
+        get { return gotCyto; }
+        set
+        {
+            gotCyto = value;
+            if (UnlimCyto)
+                powerupTimer.Run();
+            else
+            Debug.Log("UnlimCyto power-up has expired");
+        }
+    }
+
+    /// <summary>
+    /// gets the timer for scout burst power up 
+    /// </summary>
+    /// <value>true if scoutBurst activiated; otherwise, false</value>
+    public bool ScoutTime
+    {
+        get { return gotBurst; }
+        set
+        {
+            gotBurst = value;
+            if (Scouts)
+                powerupTimer.Run();
+            else
+            Debug.Log("Scout Burst power-up has expired");
+        }
+    }
 
 
     // Update is called once per frame
