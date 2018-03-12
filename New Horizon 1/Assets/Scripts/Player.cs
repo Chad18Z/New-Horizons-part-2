@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     //Timer components 
     Timer powerupTimer;
 
+	private UICellInfo playerInfo;
 
     // Use this for initialization
     void Start()
@@ -49,9 +50,11 @@ public class Player : MonoBehaviour
         normalScale = transform.localScale;
 
         //timer components
-        powerupTimer = gameObject.AddComponent<Timer>();
+		powerupTimer = gameObject.AddComponent<Timer>();
 
-    }
+		// 
+		this.playerInfo = gameObject.AddComponent (typeof(UICellInfo)) as UICellInfo;
+	}
     /// <summary>
     /// gets whether the player is moving fast
     /// </summary>
@@ -264,5 +267,16 @@ public class Player : MonoBehaviour
     //    GameObject createdMissile = Instantiate(missile, transform.position, missileRotation);
     //    createdMissile.GetComponent<SeekerMissile>().target = guyImStuckTo;
     //}
+
+	// called if mouse is over any child object inheriting cell
+	void OnMouseOver() {
+		this.playerInfo.SetMouseOver (true);
+		this.playerInfo.SetPlayerInfo (this);
+	}
+
+	// mouse leaves cell object
+	void OnMouseExit() {
+		this.playerInfo.SetMouseOver (false);
+	}
 
 }

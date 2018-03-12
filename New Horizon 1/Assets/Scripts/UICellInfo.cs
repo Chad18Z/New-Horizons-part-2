@@ -10,7 +10,9 @@ using UnityEngine.UI;
  **/
 public class UICellInfo : MonoBehaviour {
 	private Cell cellObj;
-	private Vector3 cellPosition;
+	private Player playerObj;
+
+	private Vector3 boxPosition;
 
 	private string infoText;
 	private Rect infoRect;
@@ -22,19 +24,29 @@ public class UICellInfo : MonoBehaviour {
 		this.infoRect = new Rect (0, 0, 0, 0);
 	}
 
+	private void RenderBox<T>(T obj) {
+		StringBuilder sb = new StringBuilder();
+		if (obj.GetType().IsSubclassOf(typeof(Cell))) { // cell type
+			sb.AppendLine ("Name: " + this.cellObj.name);
+			sb.AppendLine ("Health: " + Convert.ToInt32 (this.cellObj.Health));
+		} else if (obj.GetType () == typeof(Player)) { // player type
+			sb.AppendLine ("Name: " + this.playerObj.name);
+			sb.AppendLine ("Health: "/* + Convert.ToInt32 (this.playerObj.Health)*/);
+		}
+		this.infoText = sb.ToString();
+		this.infoRect.Set (this.boxPosition.x, Screen.height - this.boxPosition.y, 120, 150);
+	}
+
 	public void SetCellInfo(Cell cObj) {
 		this.cellObj = cObj;
-		// gets the cell position on the screen from the camera's view
-		this.cellPosition = Camera.main.WorldToScreenPoint (cellObj.transform.position);
+		this.boxPosition = Camera.main.WorldToScreenPoint (cellObj.transform.position);
+		this.RenderBox (this.cellObj);
+	}
 
-        // filler info text shows the cell name. health -> cellObj.getHealth() or similar
-        StringBuilder sb = new StringBuilder(); // use StringBuilder to easier visualize the text
-        sb.AppendLine("Name: " + cellObj.name);
-        sb.AppendLine("Health: " + Convert.ToInt32(cellObj.Health));
-
-        this.infoText = sb.ToString();
-		// set the rect to the position of the cell
-		this.infoRect.Set (cellPosition.x, Screen.height - cellPosition.y, 120, 75);
+	public void SetPlayerInfo(Player pObj) {
+		this.playerObj = pObj;
+		this.boxPosition = Camera.main.WorldToScreenPoint (pObj.transform.position);
+		this.RenderBox (this.playerObj);
 	}
 
 	void OnGUI() {
