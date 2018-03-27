@@ -10,15 +10,18 @@ public class cytoblobScr : MonoBehaviour {
 
     GameObject coll;  // reference to the game object that the cytoblob collided with
 
+    Rigidbody2D rb; // the cytoblob's rigidbody
+
     Vector3 normalScale;
 
-    float speed = 1.0f; // how fast the cytoblob will move towards the center of the badguy
+    float speed = 20.0f; // how fast the cytoblob will move towards the center of the badguy
     CytoState state;
 
 	// Use this for initialization
 	void Start () {
 
         state = CytoState.toBadguy;
+        rb = gameObject.GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
@@ -60,7 +63,9 @@ public class cytoblobScr : MonoBehaviour {
                 splash.transform.parent = collision.transform; // stick to whatever you just collided with
                 splash.transform.localScale = normalScale;
                 coll = collision.gameObject; // get reference to object that this cytoblob collided with
-                
+                gameObject.GetComponent<CircleCollider2D>().isTrigger = true; // turn the collider off so that the blob can penetrate the enemy
+
+                rb.velocity = Vector3.zero; // stop the blob
                 SetLayer(); // lower sorting layer of this cytoblob so that it is rendered behind the badguy
                 state = CytoState.toCenter; // change the cytoblob's state to: Enroute to center of badguy
             }
@@ -79,7 +84,8 @@ public class cytoblobScr : MonoBehaviour {
     /// </summary>
     void ToCenter()
     {
-
+        float step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, coll.transform.position, step);
     }
 
     /// <summary>
@@ -87,9 +93,7 @@ public class cytoblobScr : MonoBehaviour {
     /// </summary>
     /// <param name="obj"></param>
     void SetLayer()
-    {
-        // for now, just destroy the object
-        Destroy(gameObject);
-        
+    {      
+        gameObject.GetComponentInChildren<ParticleSystemRenderer>().sortingOrder = 0;   // this makes the cytoblob render behind the bad guy    
     }
 }
