@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Need to make cytoblobs accumulate at the center of the badguy, how to do this?
+/// </summary>
 public class cytoblobScr : MonoBehaviour {
 
 
@@ -14,7 +17,7 @@ public class cytoblobScr : MonoBehaviour {
 
     Vector3 normalScale;
 
-    float speed = 20.0f; // how fast the cytoblob will move towards the center of the badguy
+    float speed = 15.0f; // how fast the cytoblob will move towards the center of the badguy
     CytoState state;
 
 	// Use this for initialization
@@ -35,6 +38,7 @@ public class cytoblobScr : MonoBehaviour {
                 ToCenter();
                 break;
             case CytoState.atCenter:
+                AtCenter();
                 break;
             default:
                 break;
@@ -47,7 +51,8 @@ public class cytoblobScr : MonoBehaviour {
         if (state == CytoState.toBadguy)
         {
             string collisionTag = collision.gameObject.tag;
-            if (collisionTag != "arrow" && collisionTag != "Player" && collisionTag != "cytoMount")
+            if (collisionTag == "friendly") { Destroy(gameObject); }
+            else if (collisionTag != "arrow" && collisionTag != "Player" && collisionTag != "cytoMount")
             {
                 GameObject splash = Instantiate(cytoSplash);
                 ContactPoint2D[] points = collision.contacts;
@@ -63,6 +68,7 @@ public class cytoblobScr : MonoBehaviour {
                 splash.transform.parent = collision.transform; // stick to whatever you just collided with
                 splash.transform.localScale = normalScale;
                 coll = collision.gameObject; // get reference to object that this cytoblob collided with
+
                 gameObject.GetComponent<CircleCollider2D>().isTrigger = true; // turn the collider off so that the blob can penetrate the enemy
 
                 rb.velocity = Vector3.zero; // stop the blob
@@ -70,7 +76,6 @@ public class cytoblobScr : MonoBehaviour {
                 state = CytoState.toCenter; // change the cytoblob's state to: Enroute to center of badguy
             }
         }
-
     }
 
     // when blast leaves screen
@@ -86,6 +91,12 @@ public class cytoblobScr : MonoBehaviour {
     {
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, coll.transform.position, step);
+
+        //we have reached the center!
+        if (transform.position == coll.transform.position)
+        {
+            state = CytoState.atCenter; // change state of cytoblob upon reaching the center of the badguy
+        }
     }
 
     /// <summary>
@@ -95,5 +106,13 @@ public class cytoblobScr : MonoBehaviour {
     void SetLayer()
     {      
         gameObject.GetComponentInChildren<ParticleSystemRenderer>().sortingOrder = 0;   // this makes the cytoblob render behind the bad guy    
+    }
+    /// <summary>
+    /// This methods controls the cytoblob's behavior upon making it to the center of the badguy
+    /// </summary>
+    void AtCenter()
+    {
+        Destroy(gameObject);
+        //gameObject.transform.position = coll.transform.position;
     }
 }

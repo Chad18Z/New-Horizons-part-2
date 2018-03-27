@@ -18,6 +18,7 @@ TagManager:
   - cytoMount
   - cytoSplash
   - cytoBlob
+  - friendly
   layers:
   - Default
   - TransparentFX
