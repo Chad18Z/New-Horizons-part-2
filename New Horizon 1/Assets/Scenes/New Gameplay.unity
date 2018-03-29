@@ -2789,7 +2789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b556ef2a851e4b9881aea0c422200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockTarget: {fileID: 836340296}
+  telescopeRange: 3
 --- !u!1001 &57403420
 Prefab:
   m_ObjectHideFlags: 0
@@ -38625,11 +38625,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!1 &836340296 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1699372652636654, guid: 8b454e70c3984e642ae65af85e5e2601,
-    type: 2}
-  m_PrefabInternal: {fileID: 98051132}
 --- !u!1 &838573904
 GameObject:
   m_ObjectHideFlags: 0
