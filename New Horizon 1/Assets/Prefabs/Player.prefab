@@ -184,7 +184,7 @@ MonoBehaviour:
   missile: {fileID: 0}
   fireCooldownTime: 0.3
   totalAssaultTime: 4
-  maxInflation: 0.254
+  maxInflation: 1.38
   cytoBlobPrefab: {fileID: 1222996960108802, guid: be095151b204b9747824b40232dc5239,
     type: 2}
 --- !u!114 &114420838324678032

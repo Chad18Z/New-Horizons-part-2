@@ -19,6 +19,7 @@ TagManager:
   - cytoSplash
   - cytoBlob
   - friendly
+  - enemyCytoLevel
   layers:
   - Default
   - TransparentFX
