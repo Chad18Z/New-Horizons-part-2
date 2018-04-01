@@ -52,7 +52,7 @@ public class UICellInfo : MonoBehaviour {
 	void OnGUI() {
 		if (this.mOver) {
 			// only render the box when the mouse is over the cell
-			//GUI.Box (this.infoRect, this.infoText, new GUIStyle("box") { fontSize = 12 });
+			GUI.Box (this.infoRect, this.infoText, new GUIStyle("box") { fontSize = 12 });
 		}
 	}
 

@@ -19,7 +19,7 @@ public class LookAt : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        Cursor.visible = false; // make the cursor invisible
+        //Cursor.visible = false; // make the cursor invisible
         cytoSpawn = GameObject.FindGameObjectWithTag("cytoMount"); // ref to cytospawnpoint
         lightObject = GameObject.FindGameObjectWithTag("enemyHighlight");
         enemyHighlight = lightObject.GetComponentInChildren<ParticleSystem>();
