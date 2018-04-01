@@ -11,21 +11,28 @@ public class LookAt : MonoBehaviour {
     GameObject cytoSpawn;
 
     //distance to raycast
-    float dist = 100f;
+    float dist = 1000f;
+
+    GameObject lightObject;
+    ParticleSystem enemyHighlight;
 
 	// Use this for initialization
 	void Start () {
 
+        Cursor.visible = false; // make the cursor invisible
         cytoSpawn = GameObject.FindGameObjectWithTag("cytoMount"); // ref to cytospawnpoint
+        lightObject = GameObject.FindGameObjectWithTag("enemyHighlight");
+        enemyHighlight = lightObject.GetComponentInChildren<ParticleSystem>();
+        enemyHighlight.Play();
+        enemyHighlight.enableEmission = false;
 	}
     public static Quaternion GetRotation
     {
         get { return rot; }
     }
-        
-	
+        	
 	//
-	void Update ()
+	void FixedUpdate ()
     {
 
         Vector3 diff = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -47,11 +54,12 @@ public class LookAt : MonoBehaviour {
     GameObject CheckFacingEnemy(Vector3 dir)
     {
         hit = Physics2D.Raycast(cytoSpawn.transform.position, -dir, dist);
-        if (hit.collider == null || !hit.collider.gameObject.CompareTag("Enemy")) { return null; }
-        else
+        if (hit.collider == null || !hit.collider.gameObject.CompareTag("Enemy"))
         {
-            return hit.collider.gameObject;
+            enemyHighlight.enableEmission = false;
+            return null;
         }
+        return hit.collider.gameObject;
     }
 
     /// <summary>
@@ -60,6 +68,9 @@ public class LookAt : MonoBehaviour {
     /// <param name="enemy"></param>
     void DisplayEnemyInfo(GameObject enemy)
     {
-
+        lightObject.transform.rotation = enemy.transform.rotation;
+        lightObject.transform.localScale = enemy.transform.localScale;
+        lightObject.transform.position = enemy.transform.position;
+        enemyHighlight.enableEmission = true;
     }
 }
