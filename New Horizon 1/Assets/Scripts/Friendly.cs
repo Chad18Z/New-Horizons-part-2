@@ -64,7 +64,7 @@ public class Friendly : Cell
             {
                 losingHealthTimer = 0f;
                 GameObject a = Instantiate(decayParticlePrefab, GetRandomPositionWithinCollider(), Quaternion.identity);
-                Debug.Log(a);
+                //Debug.Log(a);
             }
         }
         UpdateSprite();
