@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50001313957761678}
   - component: {fileID: 58081776238251680}
   - component: {fileID: 114550585038421640}
-  m_Layer: 15
+  m_Layer: 2
   m_Name: cytoBlob
   m_TagString: cytoBlob
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 198704729134609052}
   - component: {fileID: 199905493711250098}
   - component: {fileID: 114681692550450644}
-  m_Layer: 15
+  m_Layer: 2
   m_Name: cytoBlobParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 4810106138648806}
   - component: {fileID: 198267773141510700}
   - component: {fileID: 199666768472238050}
-  m_Layer: 15
+  m_Layer: 2
   m_Name: cytoTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
