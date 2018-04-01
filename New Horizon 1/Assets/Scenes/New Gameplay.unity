@@ -63262,6 +63262,11 @@ Prefab:
       propertyPath: randomSeed
       value: 1586951192
       objectReference: {fileID: 0}
+    - target: {fileID: 198503608691654976, guid: b208d67c111f42c468fe2bc4a7da758c,
+        type: 2}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 0.322
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b208d67c111f42c468fe2bc4a7da758c, type: 2}
   m_IsPrefabParent: 0
