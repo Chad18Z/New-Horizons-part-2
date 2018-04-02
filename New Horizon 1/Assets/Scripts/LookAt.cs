@@ -82,15 +82,19 @@ public class LookAt : MonoBehaviour {
     /// <param name="enemy"></param>
     void DisplayEnemyInfo(GameObject enemy)
     {
-        lightObject.transform.rotation = enemy.transform.rotation;
-        lightObject.transform.localScale = enemy.transform.localScale;
-        lightObject.transform.position = enemy.transform.position;
+        if (enemy != null)
+        {
+            lightObject.transform.rotation = enemy.transform.rotation;
+            lightObject.transform.localScale = enemy.transform.localScale;
+            lightObject.transform.position = enemy.transform.position;
 
-        Vector3 tempPosition = enemy.transform.position;
-        tempPosition.y += 5f;
-        enemyHealth.transform.position = tempPosition;
-        if (!enemyHealth.activeSelf) { enemyHealth.SetActive(true); }
-        healthBar.fillAmount = enemy.GetComponent<Enemy>().Health;
-        enemyHighlight.enableEmission = true;
+            Vector3 tempPosition = enemy.transform.position;
+            tempPosition.y += 5f;
+            enemyHealth.transform.position = tempPosition;
+            if (!enemyHealth.activeSelf) { enemyHealth.SetActive(true); }
+            healthBar.fillAmount = enemy.GetComponent<Enemy>().Health;
+            enemyHighlight.enableEmission = true;
+        }
+        
     }
 }
