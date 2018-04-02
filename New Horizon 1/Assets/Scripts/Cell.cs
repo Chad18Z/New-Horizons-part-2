@@ -6,7 +6,9 @@ public class Cell : MonoBehaviour
 {
     [SerializeField] protected float health;
     protected float maxHealth;
-    public float Health { get { return health; } }
+    public float Health { get { return health/maxHealth; } }
+
+    float damageFromCyto = 10f;
 
     [SerializeField] protected float massMultiplier = 25;
 
@@ -50,4 +52,14 @@ public class Cell : MonoBehaviour
 	void OnMouseExit() {
 		this.cellInfo.SetMouseOver (false);
 	}
+    /// <summary>
+    /// Check for collision with cytoblob
+    /// </summary>
+    protected void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.CompareTag("cytoBlob"))
+        {
+            health -= damageFromCyto;
+        }
+    }
 }

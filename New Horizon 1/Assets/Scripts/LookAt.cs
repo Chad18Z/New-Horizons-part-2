@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LookAt : MonoBehaviour {
 
@@ -18,6 +19,11 @@ public class LookAt : MonoBehaviour {
 
     GameObject enemyHealth;
 
+    [SerializeField]
+    public Image healthBar;
+
+    
+
 	// Use this for initialization
 	void Start () {
 
@@ -27,6 +33,7 @@ public class LookAt : MonoBehaviour {
 
         enemyHealth = GameObject.FindGameObjectWithTag("enemyCytoLevel");
         enemyHealth.SetActive(false);
+
 
         enemyHighlight = lightObject.GetComponentInChildren<ParticleSystem>();
         enemyHighlight.Play();
@@ -79,8 +86,11 @@ public class LookAt : MonoBehaviour {
         lightObject.transform.localScale = enemy.transform.localScale;
         lightObject.transform.position = enemy.transform.position;
 
-        enemyHealth.transform.position = enemy.transform.position;
-        enemyHealth.SetActive(true);
+        Vector3 tempPosition = enemy.transform.position;
+        tempPosition.y += 5f;
+        enemyHealth.transform.position = tempPosition;
+        if (!enemyHealth.activeSelf) { enemyHealth.SetActive(true); }
+        healthBar.fillAmount = enemy.GetComponent<Enemy>().Health;
         enemyHighlight.enableEmission = true;
     }
 }

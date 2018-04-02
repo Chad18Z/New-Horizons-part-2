@@ -8,6 +8,7 @@ public class Enemy : Cell
     [SerializeField] RuntimeAnimatorController enemyAnimator2;
     [SerializeField] RuntimeAnimatorController enemyAnimator3;
 
+
     // Use this for initialization
     protected override void Start()
     {
@@ -29,6 +30,7 @@ public class Enemy : Cell
 
         base.Start();
     }
+
 
     // Update is called once per frame
     protected override void Update()

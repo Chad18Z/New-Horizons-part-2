@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d7ae305efeef147b593e54f963a027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 100
   massMultiplier: 25
   enemyAnimator1: {fileID: 9100000, guid: 83a97f3d1e4d0a740a5e58b223469ccd, type: 2}
   enemyAnimator2: {fileID: 9100000, guid: d0b85070850d2a64ab1424caf8787960, type: 2}
