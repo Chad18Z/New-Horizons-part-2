@@ -30,11 +30,23 @@ public class FlockController : MonoBehaviour {
     [Range(0, 10)]
     public float maxVelocity = 2.0f;
 
+    // List of patrolling waypoints for flock, must be set in inspector
+    public GameObject[] Waypoints;
+
+    private FlockManager flockManager;
+    private Coroutine waitingCoroutine = null;
+
     //whether or not the flock is seeking a goal position
     bool seekGoal = true;
 
 	// Use this for initialization
 	void Start () {
+        flockManager = new FlockManager();
+        foreach (GameObject go in Waypoints)
+        {
+            flockManager.AddWaypoint(go.GetComponent<FlockControllerWaypoint>());
+        }
+
         flockMembers = new GameObject[numberOfMembers];
         for (int i = 0; i < numberOfMembers; i++)
         {
@@ -48,15 +60,40 @@ public class FlockController : MonoBehaviour {
     }
 
     /// <summary>
-    /// This function is for demo purposes only. It allows the user to move the flock around the screen
-    /// Right-Click to move the flock around the screen
+    /// Update flock waypoint
     /// </summary>
     void Update ()
     {
-        //if (Input.GetMouseButton(1))
-        //{
-        //    transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //}
+        // Check if approximately at waypoint, if so set next waypoint
+        if (Vector2.Distance(CenterOfFlock(), transform.position) < 1f && waitingCoroutine == null)
+        {
+            FlockControllerWaypoint w = flockManager.GetNextWaypoint();
+            waitingCoroutine = StartCoroutine(WaypointPause(w));
+        }
+
+        // TODO: check distance to player - if within certain distance, set pos to player
+    }
+
+    private IEnumerator WaypointPause(FlockControllerWaypoint waypoint)
+    {
+        float t = 0;
+        while (t <= waypoint.WaitTime)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = waypoint.Position;
+        waitingCoroutine = null;
+    }
+
+    private Vector2 CenterOfFlock()
+    {
+        Vector2 temp = new Vector2();
+        for (int i = 0; i < flockMembers.Length; i++)
+        {
+            temp += (Vector2)flockMembers[i].transform.position;
+        }
+        return temp / flockMembers.Length;
     }
 
     //returns whether or not the flock is seeking a goal position
