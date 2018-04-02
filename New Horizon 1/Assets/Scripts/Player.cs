@@ -33,9 +33,9 @@ public class Player : MonoBehaviour
     bool unlimCyto = false;
     bool scoutBurst = false;
     bool isactive;
-    bool gotSpeed = false;
-    bool gotCyto = false;
-    bool gotBurst = false;
+    float gotSpeed = 1f;
+    float gotCyto = 1f;
+    float gotBurst = 1f;
 
     float amountToInflate;
 
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
     /// gets the timer for speed power up 
     /// </summary>
     /// <value>true if speed activiated; otherwise, false</value>
-    public bool SpeedTime
+    public float SpeedTime
     {
         get { return gotSpeed; }
         set
@@ -128,7 +128,7 @@ public class Player : MonoBehaviour
     /// gets the timer for unlimited cytotoxin power up 
     /// </summary>
     /// <value>true if unlimCyto activiated; otherwise, false</value>
-    public bool CytoTime
+    public float CytoTime
     {
         get { return gotCyto; }
         set
@@ -145,7 +145,7 @@ public class Player : MonoBehaviour
     /// gets the timer for scout burst power up 
     /// </summary>
     /// <value>true if scoutBurst activiated; otherwise, false</value>
-    public bool ScoutTime
+    public float ScoutTime
     {
         get { return gotBurst; }
         set
