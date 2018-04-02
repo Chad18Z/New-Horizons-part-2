@@ -16,12 +16,18 @@ public class LookAt : MonoBehaviour {
     GameObject lightObject;
     ParticleSystem enemyHighlight;
 
+    GameObject enemyHealth;
+
 	// Use this for initialization
 	void Start () {
 
         //Cursor.visible = false; // make the cursor invisible
         cytoSpawn = GameObject.FindGameObjectWithTag("cytoMount"); // ref to cytospawnpoint
         lightObject = GameObject.FindGameObjectWithTag("enemyHighlight");
+
+        enemyHealth = GameObject.FindGameObjectWithTag("enemyCytoLevel");
+        enemyHealth.SetActive(false);
+
         enemyHighlight = lightObject.GetComponentInChildren<ParticleSystem>();
         enemyHighlight.Play();
         enemyHighlight.enableEmission = false;
@@ -56,6 +62,7 @@ public class LookAt : MonoBehaviour {
         hit = Physics2D.Raycast(cytoSpawn.transform.position, -dir, dist);
         if (hit.collider == null || !hit.collider.gameObject.CompareTag("Enemy"))
         {
+            enemyHealth.SetActive(false);
             enemyHighlight.enableEmission = false;
             return null;
         }
@@ -71,6 +78,9 @@ public class LookAt : MonoBehaviour {
         lightObject.transform.rotation = enemy.transform.rotation;
         lightObject.transform.localScale = enemy.transform.localScale;
         lightObject.transform.position = enemy.transform.position;
+
+        enemyHealth.transform.position = enemy.transform.position;
+        enemyHealth.SetActive(true);
         enemyHighlight.enableEmission = true;
     }
 }
