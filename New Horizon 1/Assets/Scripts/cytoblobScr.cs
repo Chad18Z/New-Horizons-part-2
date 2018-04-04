@@ -51,6 +51,17 @@ public class cytoblobScr : MonoBehaviour {
             }
     }
 
+    /// <summary>
+    /// destroy object whenever it loses velocity
+    /// </summary>
+    void FixedUpdate()
+    {
+        if (rb.velocity.magnitude < 10)
+        {
+            Destroy(gameObject);
+        }
+        
+    }
     // when blast leaves screen
     void OnBecameInvisible()
     {

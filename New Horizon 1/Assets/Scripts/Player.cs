@@ -58,18 +58,16 @@ public class Player : MonoBehaviour
 		this.playerInfo = gameObject.AddComponent (typeof(UICellInfo)) as UICellInfo;
 	}
     /// <summary>
-    /// gets whether the player is moving fast
+    /// sets/gets whether the player is moving fast
     /// </summary>
     /// <value>true if moving fast; otherwise, false</value>
     public bool MoveFast
     {
         get {
-            moveFast = isactive;
-
-            return isactive;
+            return moveFast;
         }
         set {
-            isactive = value;
+            moveFast = value;
         }
     }
 
@@ -81,12 +79,11 @@ public class Player : MonoBehaviour
     {
         get
         {
-            unlimCyto = isactive;
-            return isactive;
+            return unlimCyto;
         }
         set
         {
-            isactive = value;
+            unlimCyto = value;
         }
 
     }
@@ -98,12 +95,11 @@ public class Player : MonoBehaviour
     public bool Scouts
     {
         get {
-            scoutBurst = isactive;
-            return isactive;
+            return scoutBurst;
         }
         set
         {
-            isactive = value; 
+            scoutBurst = value; 
         }
     }
 
@@ -117,10 +113,10 @@ public class Player : MonoBehaviour
         set
         {
             gotSpeed = value;
-            if (MoveFast)
-                powerupTimer.Run();
-            else
-            Debug.Log("Speed power-up has expired");
+            //if (MoveFast)
+            //    powerupTimer.Run();
+            //else
+            //Debug.Log("Speed power-up has expired");
         }
     }
 
@@ -134,10 +130,10 @@ public class Player : MonoBehaviour
         set
         {
             gotCyto = value;
-            if (UnlimCyto)
-                powerupTimer.Run();
-            else
-            Debug.Log("UnlimCyto power-up has expired");
+            //if (UnlimCyto)
+            //    powerupTimer.Run();
+            //else
+            //Debug.Log("UnlimCyto power-up has expired");
         }
     }
 
@@ -151,10 +147,10 @@ public class Player : MonoBehaviour
         set
         {
             gotBurst = value;
-            if (Scouts)
-                powerupTimer.Run();
-            else
-            Debug.Log("Scout Burst power-up has expired");
+            //if (Scouts)
+            //    powerupTimer.Run();
+            //else
+            //Debug.Log("Scout Burst power-up has expired");
         }
     }
 
