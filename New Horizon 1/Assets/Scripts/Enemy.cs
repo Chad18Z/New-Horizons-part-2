@@ -9,7 +9,6 @@ public class Enemy : Cell
     [SerializeField] RuntimeAnimatorController enemyAnimator2;
     [SerializeField] RuntimeAnimatorController enemyAnimator3;
 
-    GameObject damage;
 
     float damageMultiplier = .5f; // multiplied times the magnitude of the velocity of collision with cytoblob
     float tempHealth;
@@ -17,7 +16,6 @@ public class Enemy : Cell
     // Use this for initialization
     protected override void Start()
     {
-        damage = GameObject.FindGameObjectWithTag("damage");
         int randomNum = Random.Range(1, 4);
         switch (randomNum)
         {
@@ -55,11 +53,6 @@ public class Enemy : Cell
             tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x;           
             health -= tempHealth;
 
-            //GameObject currentDamage = Instantiate(damage);
-            //currentDamage.GetComponentInChildren<Text>().text = string.Format("{0:f0}",tempHealth);
-            //ParticleSystem part = GameObject.FindGameObjectWithTag("damageParticle").GetComponent<ParticleSystem>();
-            //ParticleSystem damageParticle = Instantiate(part);
-            //damageParticle.Emit(1);
         }
     }
 
