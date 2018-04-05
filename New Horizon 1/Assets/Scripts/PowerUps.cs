@@ -34,24 +34,24 @@ public class PowerUps : MonoBehaviour {
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         
-       
+       //detect which sprite player is colliding into and change bools and floats in player
         if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite0)
         {
             Destroy(gameObject);
             player.MoveFast = true;
-           
+            player.SpeedTime = 5f;           
         }
         if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite1)
         {
             Destroy(gameObject);
             player.UnlimCyto = true;
-       
+            player.CytoTime = 5f;       
         }
         if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite2)
         {
             Destroy(gameObject);
             player.Scouts = true;
-
+            player.ScoutTime = 5f;
         }
     }
 
