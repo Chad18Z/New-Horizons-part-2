@@ -8,7 +8,7 @@ public class Enemy : Cell
     [SerializeField] RuntimeAnimatorController enemyAnimator2;
     [SerializeField] RuntimeAnimatorController enemyAnimator3;
 
-    float damageFromCyto = 10f;
+    float damageMultiplier = .5f; // multiplied times the magnitude of the velocity of collision with cytoblob
 
     // Use this for initialization
     protected override void Start()
@@ -41,13 +41,13 @@ public class Enemy : Cell
 
     }
     /// <summary>
-    /// Check for collision with cytoblob
+    /// Check for collision with cytoblob. This formula might need some refinement
     /// </summary>
     protected void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.CompareTag("cytoBlob"))
         {
-            health -= damageFromCyto;
+            health -= (coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x;
         }
     }
 

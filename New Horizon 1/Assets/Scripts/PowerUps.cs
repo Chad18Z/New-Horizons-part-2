@@ -13,9 +13,12 @@ public class PowerUps : MonoBehaviour {
     [SerializeField]
     Sprite pillSprite2;
 
+    Player player;
+
 	// Use this for initialization
 	void Start () {
-		
+
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 	}
 	
 	// Update is called once per frame
@@ -30,24 +33,24 @@ public class PowerUps : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        Player variableChanger = GetComponent<Player>();
+        
        
         if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite0)
         {
             Destroy(gameObject);
-            variableChanger.MoveFast = true;
+            player.MoveFast = true;
            
         }
         if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite1)
         {
             Destroy(gameObject);
-            variableChanger.UnlimCyto = true;
+            player.UnlimCyto = true;
        
         }
         if (collision.gameObject.tag == "Player" && spriteRenderer == pillSprite2)
         {
             Destroy(gameObject);
-            variableChanger.Scouts = true;
+            player.Scouts = true;
 
         }
     }
