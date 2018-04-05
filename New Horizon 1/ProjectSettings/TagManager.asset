@@ -21,6 +21,8 @@ TagManager:
   - friendly
   - enemyCytoLevel
   - enemyHighlight
+  - damage
+  - damageParticle
   layers:
   - Default
   - TransparentFX
