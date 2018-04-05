@@ -4,26 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    float chargeStartTime;
     Rigidbody2D rb2d;
     Vector3 normalScale;
+    float chargeStartTime;
     float chargeTimeCurrent;
-    GameObject guyImStuckTo;
-    Vector3 guyImStuckToPositionDifference;
-    bool stuckToEnemy;
-    float timeAssaultStarted = 0f;
 
     [SerializeField] float thrustMultiplier = 1f;
-    [SerializeField] float maxChargeTime = 1f;
-    [SerializeField] GameObject missile;
-    [SerializeField] float fireCooldownTime = .5f;
-    [SerializeField] float totalAssaultTime = 4f;
-    [Range(0f, 2f)] [SerializeField] float maxInflation;
+    [SerializeField] float maxChargeTime = 1.5f;
+    [SerializeField] int maxBlobsPerShot = 10;
+    [SerializeField] float shotSpread = 3f;
 
     float cytoSpeed = 35f; // speed at which cytoburst travels
 
-    [SerializeField]
-    GameObject cytoBlobPrefab;
+    [SerializeField] GameObject cytoBlobPrefab;
 
     GameObject cytoMountPoint; // spawnpoint for cytoblasts/blobs/beams/etc
 
@@ -36,37 +29,27 @@ public class Player : MonoBehaviour
     float gotSpeed = 1f;
     float gotCyto = 1f;
     float gotBurst = 1f;
-
-    float amountToInflate;
+    
 
     //Timer components 
     Timer powerupTimer;
 
 	private UICellInfo playerInfo;
 
-    // Use this for initialization
-    void Start()
-    {
-        cytoMountPoint = GameObject.FindGameObjectWithTag("arrow");
-        rb2d = GetComponent<Rigidbody2D>();
-        normalScale = transform.localScale;
-
-        //timer components
-		powerupTimer = gameObject.AddComponent<Timer>();
-
-		// 
-		this.playerInfo = gameObject.AddComponent (typeof(UICellInfo)) as UICellInfo;
-	}
+    // PROPERTIES
+    #region
     /// <summary>
     /// sets/gets whether the player is moving fast
     /// </summary>
     /// <value>true if moving fast; otherwise, false</value>
     public bool MoveFast
     {
-        get {
+        get
+        {
             return moveFast;
         }
-        set {
+        set
+        {
             moveFast = value;
         }
     }
@@ -94,12 +77,13 @@ public class Player : MonoBehaviour
     /// <value>true if scout burst activiated; otherwise, false</value>
     public bool Scouts
     {
-        get {
+        get
+        {
             return scoutBurst;
         }
         set
         {
-            scoutBurst = value; 
+            scoutBurst = value;
         }
     }
 
@@ -153,11 +137,40 @@ public class Player : MonoBehaviour
             //Debug.Log("Scout Burst power-up has expired");
         }
     }
+    #endregion
+    
+    // Use this for initialization
+    void Start()
+    {
+        cytoMountPoint = GameObject.FindGameObjectWithTag("arrow");
+        rb2d = GetComponent<Rigidbody2D>();
+        normalScale = transform.localScale;
+
+        //timer components
+		powerupTimer = gameObject.AddComponent<Timer>();
+
+		// 
+		this.playerInfo = gameObject.AddComponent (typeof(UICellInfo)) as UICellInfo;
+	}
+
 
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetMouseButtonDown(0)) { Fire(); }
+        if (Input.GetMouseButtonDown(0))
+        {
+            chargeStartTime = Time.time;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            float finalChargeTime = Time.time - chargeStartTime;
+            finalChargeTime = Mathf.Clamp(finalChargeTime, 0, maxChargeTime);
+            int shotsToFire = (int)((finalChargeTime / maxChargeTime) * maxBlobsPerShot);
+            if (shotsToFire == 0) shotsToFire = 1;
+            Fire(shotsToFire);
+        }
+
 
         //// When the player releases the mouse button...
         if (Input.GetMouseButton(1))
@@ -187,11 +200,39 @@ public class Player : MonoBehaviour
     /// <summary>
     /// This method fires a cytoblob
     /// </summary>
-    void Fire()
+    void Fire(int shotsToFire)
     {
-        Vector2 cytoFireDirection = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)cytoMountPoint.transform.position).normalized;
-        GameObject cyto = Instantiate(cytoBlobPrefab, cytoMountPoint.transform.position, Quaternion.identity);
-        Rigidbody2D cytoRb = cyto.GetComponent<Rigidbody2D>();
-        cytoRb.AddForce(cytoFireDirection * cytoSpeed, ForceMode2D.Impulse);
+        float shotOrder = (shotsToFire / 2f - shotsToFire) + 0.5f;
+
+        for (int i = 0; i < shotsToFire; i++)
+        {
+            shotOrder += 1f;
+            float degreeRotation = shotOrder * shotSpread;
+
+            //float speedMultiplier = shotsToFire / maxBlobsPerShot;
+            //speedMultiplier = Mathf.Clamp(speedMultiplier, 0.5f, 1f);
+            //float speedToFire = cytoSpeed * speedMultiplier;
+
+            Vector2 randomVector = Random.insideUnitCircle.normalized * 0.1f;
+            Vector2 cytoFireDirection = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)cytoMountPoint.transform.position).normalized;
+            cytoFireDirection = RotateVector2(cytoFireDirection, degreeRotation);
+            cytoFireDirection += randomVector;
+            GameObject cyto = Instantiate(cytoBlobPrefab, cytoMountPoint.transform.position, Quaternion.identity);
+            Rigidbody2D cytoRb = cyto.GetComponent<Rigidbody2D>();
+            cytoRb.AddForce(cytoFireDirection * cytoSpeed, ForceMode2D.Impulse);
+        }
+    }
+
+    Vector2 RotateVector2(Vector2 inputVector, float degrees)
+    {
+        Vector2 outputVector = inputVector;
+        float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
+        float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
+
+        float tx = inputVector.x;
+        float ty = inputVector.y;
+        outputVector.x = (cos * tx) - (sin * ty);
+        outputVector.y = (sin * tx) + (cos * ty);
+        return outputVector;
     }
 }

@@ -13,6 +13,7 @@ public class CameraLock : MonoBehaviour {
     float distanceToUpperCorner;
     float startingZ;
     Vector3 screenCenter;
+    bool isTelescoping;
 
     void Start()
     {
@@ -33,9 +34,9 @@ public class CameraLock : MonoBehaviour {
     void FixedUpdate()
     {
         Vector3 targetPosition;
-
+        
         // If the middle mousebutton is down...
-        if (Input.GetMouseButton(2))
+        if (isTelescoping)
         {
             // ...set the camera's target position to be somewhere based off of the mouse distance from the screen's center
             Vector3 mousePositionDiffFromCenterScreen = Input.mousePosition - screenCenter;
@@ -67,6 +68,14 @@ public class CameraLock : MonoBehaviour {
         {
             // Set the x and y coordinates of this object to be the targets x and y coordinate
             transform.position = new Vector3(targetPosition.x, targetPosition.y, startingZ);
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(2))
+        {
+            isTelescoping = !isTelescoping;
         }
     }
 }
