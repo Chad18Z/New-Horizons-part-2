@@ -9,6 +9,8 @@ public class Enemy : Cell
     [SerializeField] RuntimeAnimatorController enemyAnimator2;
     [SerializeField] RuntimeAnimatorController enemyAnimator3;
 
+    [SerializeField]
+    GameObject damage;
 
     float damageMultiplier = .5f; // multiplied times the magnitude of the velocity of collision with cytoblob
     float tempHealth;
@@ -52,6 +54,10 @@ public class Enemy : Cell
         {
             tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x;           
             health -= tempHealth;
+
+            GameObject.FindGameObjectWithTag("damage").GetComponent<Text>().text =  tempHealth.ToString();
+            GameObject part = Instantiate(damage);
+            damage.transform.position = coll.transform.position;
 
         }
     }

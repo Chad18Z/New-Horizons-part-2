@@ -112,6 +112,7 @@ MonoBehaviour:
   enemyAnimator1: {fileID: 9100000, guid: 83a97f3d1e4d0a740a5e58b223469ccd, type: 2}
   enemyAnimator2: {fileID: 9100000, guid: d0b85070850d2a64ab1424caf8787960, type: 2}
   enemyAnimator3: {fileID: 9100000, guid: 580a7e99a887b4d419ce1ebb54b04e56, type: 2}
+  damage: {fileID: 1937277702785640, guid: 6fcc83b07ade8e842bfaec14b916587c, type: 2}
 --- !u!212 &212941766155275058
 SpriteRenderer:
   m_ObjectHideFlags: 1
