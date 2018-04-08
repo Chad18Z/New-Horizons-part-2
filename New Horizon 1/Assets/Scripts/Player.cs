@@ -8,19 +8,22 @@ public class Player : MonoBehaviour
     Vector3 normalScale;
     float chargeStartTime;
     float chargeTimeCurrent;
+    float cytoSpeed = 35f; // speed at which cytoburst travels
+    float reloadTime = 0.2f;
+    float lastFireTime;
+    float amountToInflate;
+    int shotsToFire;
+    bool fireReady;
+    bool fireInvoked;
+    GameObject cytoMountPoint; // spawnpoint for cytoblasts/blobs/beams/etc
 
     [SerializeField] float thrustMultiplier = 1f;
     [SerializeField] float maxChargeTime = 1.5f;
     [SerializeField] int maxBlobsPerShot = 10;
     [SerializeField] float shotSpread = 3f;
-
-    float cytoSpeed = 35f; // speed at which cytoburst travels
-
+    [Range(0f, 1f)] [SerializeField] float maxInflation;
     [SerializeField] GameObject cytoBlobPrefab;
-
-    GameObject cytoMountPoint; // spawnpoint for cytoblasts/blobs/beams/etc
-
-  
+    
     //handles player power-ups 
     bool moveFast = false;
     bool unlimCyto = false;
@@ -145,6 +148,7 @@ public class Player : MonoBehaviour
         cytoMountPoint = GameObject.FindGameObjectWithTag("arrow");
         rb2d = GetComponent<Rigidbody2D>();
         normalScale = transform.localScale;
+        lastFireTime = Time.time;
 
         //timer components
 		powerupTimer = gameObject.AddComponent<Timer>();
@@ -157,17 +161,52 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If you've had enough time to reload, flag that you're ready to fire
+        if (!fireReady)
+        {
+            if (Time.time - lastFireTime >= reloadTime)
+            {
+                fireReady = true;
+            }
+        }
+
+        // Set the start time when the mouse is initially pressed down
         if (Input.GetMouseButtonDown(0))
         {
             chargeStartTime = Time.time;
         }
 
+        // While the mouse is being held down...
+        if (Input.GetMouseButton(0))
+        {
+            // Set the charge amount to be how long in seconds the mouse was held down
+            chargeTimeCurrent = Time.time - chargeStartTime;
+            chargeTimeCurrent = Mathf.Clamp(chargeTimeCurrent, 0f, maxChargeTime);
+
+            // Calculate how much to inflate based off the max amount allowed and the current charge time
+            amountToInflate = 1 + (chargeTimeCurrent / maxChargeTime) * maxInflation;
+
+            // Inflate that much
+            transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
+        }
+
+        // When the fire button is released...
         if (Input.GetMouseButtonUp(0))
         {
+            // ...do some boring math to figure out how many shots to fire
             float finalChargeTime = Time.time - chargeStartTime;
             finalChargeTime = Mathf.Clamp(finalChargeTime, 0, maxChargeTime);
-            int shotsToFire = (int)((finalChargeTime / maxChargeTime) * maxBlobsPerShot);
+            shotsToFire = (int)((finalChargeTime / maxChargeTime) * maxBlobsPerShot);
             if (shotsToFire == 0) shotsToFire = 1;
+
+            // Flag to fire ASAP and go back to normal size
+            fireInvoked = true;
+            transform.localScale = normalScale;
+        }
+
+        // If it's flagged that you CAN fire and you SHOULD fire, fire
+        if (fireReady && fireInvoked)
+        {
             Fire(shotsToFire);
         }
 
@@ -187,7 +226,8 @@ public class Player : MonoBehaviour
     }
 
 	// called if mouse is over any child object inheriting cell
-	void OnMouseOver() {
+	void OnMouseOver()
+    {
 		this.playerInfo.SetMouseOver (true);
 		this.playerInfo.SetPlayerInfo (this);
 	}
@@ -202,11 +242,13 @@ public class Player : MonoBehaviour
     /// </summary>
     void Fire(int shotsToFire)
     {
+        // Set the first bullet to have it's angle/velocity
         float shotOrder = (shotsToFire / 2f - shotsToFire) + 0.5f;
 
+        // For every bullet to be fired...
         for (int i = 0; i < shotsToFire; i++)
         {
-            shotOrder += 1f;
+            // Do some boring math to figure out how to angle this shot
             float degreeRotation = shotOrder * shotSpread;
 
             //float speedMultiplier = shotsToFire / maxBlobsPerShot;
@@ -220,6 +262,8 @@ public class Player : MonoBehaviour
             GameObject cyto = Instantiate(cytoBlobPrefab, cytoMountPoint.transform.position, Quaternion.identity);
             Rigidbody2D cytoRb = cyto.GetComponent<Rigidbody2D>();
             cytoRb.AddForce(cytoFireDirection * cytoSpeed, ForceMode2D.Impulse);
+
+            shotOrder += 1f;
         }
     }
 
@@ -233,6 +277,11 @@ public class Player : MonoBehaviour
         float ty = inputVector.y;
         outputVector.x = (cos * tx) - (sin * ty);
         outputVector.y = (sin * tx) + (cos * ty);
+
+        lastFireTime = Time.time;
+        fireReady = false;
+        fireInvoked = false;
+
         return outputVector;
     }
 }
