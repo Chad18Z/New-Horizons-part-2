@@ -1,108 +1,106 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
+using Object = UnityEngine.Object;
+using UnityEngine.SceneManagement;
 
-public class SoundManager : MonoBehaviour
+#region Enum
+/// <summary>
+/// An enumeration that holds every sound effect in the game.
+/// </summary>
+public enum SoundFile
 {
-    // audio source declaration
-    public AudioSource sfxSource;
-    public AudioSource musicSource;
-    
-    // T-Cell sound declaration
-    public AudioClip[] tCellShoot = new AudioClip[6];
-    public AudioClip[] tCellSteps = new AudioClip[1];
-    public AudioClip[] cytotoxinSplash = new AudioClip[1];
+    // Put the name of the file (make sure it's inside Resources) without the extension, ex. Fire.wav -> Fire
+}
+# endregion
 
-    // Cancer pig sound declaration
-    public AudioClip[] cancerPigHit = new AudioClip[1];
-    public AudioClip[] cancerPigAmbient = new AudioClip[1];
+public class SoundManager : SingletonBehavior<SoundManager>
+{
+    const string AUDIO_FILE_LOCATION = "Audio";
 
-    // Menu sound declaration
-    public AudioClip[] menuSounds = new AudioClip[1];
+    float volume = 1f;
 
-    // Background track declaration
-    public AudioClip[] backgroundTrack = new AudioClip[1];
+    /// <summary>
+    /// A collection of all of the sound effects in the game.
+    /// </summary>
+    private Dictionary<SoundFile, AudioClip> SoundEffects
+    { get; set; }
 
-    // Get some pitch change in repetitive sound effects
-    public float lowPitchRange = 0.95f;
-    public float highPitchRange = 1.05f;
+    /// <summary>
+    /// Source for the sound effects
+    /// </summary>
+    private static AudioSource SoundEffectSource
+    { get; set; }
 
-    // Singleton
-    public static SoundManager SM = null;
+    /// <summary>
+    /// Source for the BGM
+    /// </summary>
+    private static AudioSource BGMSource
+    { get; set; }
 
-    void Awake()
+    protected override void Init()
     {
-        // Audio source initialization
-        //audioS = GetComponent<AudioSource>();
+        SoundEffects = new Dictionary<SoundFile, AudioClip>();
 
-        // Singleton check
-        if (SM == null)
-            SM = this;
-        else if (SM != this)
-            Destroy(gameObject);
+        //Create a temporary dictionary that loads all of the Audio files from a specific location.
+        //Key = name of file, Value = file itself.
+        Dictionary<string, AudioClip> clips = Resources.LoadAll<AudioClip>(AUDIO_FILE_LOCATION).ToDictionary(t => t.name);
 
-        DontDestroyOnLoad(gameObject);
+        //Iterates through the loaded sound files and adds them to the Enum to AudioClip dictionary.
+        foreach (KeyValuePair<string, AudioClip> c in clips)
+        {
+            SoundEffects.Add((SoundFile)Enum.Parse(typeof(SoundFile), c.Key, true), c.Value);
+        }
+
+        //Creates a single sound effect source. Can play every sound in the game through this unless you want to have different effects
+        //such as different pitch/volume for different sources.
+        if (SoundEffectSource == null)
+        {
+            Debug.Log("Creating SoundEffectSource");
+            SoundEffectSource = new GameObject("SoundEffectSource", typeof(AudioSource)).GetComponent<AudioSource>();
+            SoundEffectSource.volume = 1.3f;
+            DontDestroyOnLoad(SoundEffectSource.gameObject);
+        }
+
+        //Creates a single background music source.
+        if (BGMSource == null)
+        {
+            Debug.Log("Creating BGMSource");
+            BGMSource = new GameObject("BGMSource", typeof(AudioSource)).GetComponent<AudioSource>();
+            BGMSource.volume = .4f;
+            BGMSource.loop = true;
+            DontDestroyOnLoad(BGMSource.gameObject);
+        }
     }
 
-    // Methods for calling the sounds
-    #region Sound Methods
-
-    public void PlaySingle(AudioClip clip)
+    /// <summary>
+    /// Updates the audio manager
+    /// </summary>
+    public void Update()
     {
-        sfxSource.clip = clip;
-        sfxSource.Play();
+        
     }
 
-    public void RandomizeSFX(params AudioClip[] clips)
+    /// <summary>
+    /// Plays a single sound effect
+    /// </summary>
+    /// <param name="sound">The sound effect we want to play</param>
+    public void DoPlayOneShot(SoundFile[] sounds, Vector3? location = null, float volumeScale = 1)
     {
-        int randomIndex = Random.Range(0, clips.Length);
-        float randomPitch = Random.Range(lowPitchRange, highPitchRange);
-
-        sfxSource.pitch = randomPitch;
-        sfxSource.clip = clips[randomIndex];
-        sfxSource.Play();
+        if (location == null)
+            location = Vector3.zero;
+        AudioSource.PlayClipAtPoint(SoundEffects[sounds[UnityEngine.Random.Range(0, sounds.Length)]], (Vector3)location, volumeScale * volume);
     }
 
-    // T-Cell firing noises
-    //public void TCellShoot()
-    //{
-    //    audioS.PlayOneShot(tCellShoot[Random.Range(0, tCellShoot.Length)]);
-    //}
-
-    //// OPTIONAL T-Cell walking sounds
-    //public void TCellSteps()
-    //{
-
-    //}
-
-    //// Bullet despawn (hit) noises
-    //public void CytotoxinSplash()
-    //{
-    //    audioS.PlayOneShot(cytotoxinSplash[Random.Range(0, cytotoxinSplash.Length)]);
-    //}
-
-    //// Cancer Pigs hitting the aveola
-    //public void CancerPigHit()
-    //{
-
-    //}
-
-    //// Ambient sounds for Cancer Pig movement
-    //public void CancerPigAmbient()
-    //{
-
-    //}
-
-    //// Menu beep sounds for navigation feedback
-    //public void MenuSounds(int soundNumber)
-    //{
-
-    //}
-
-    //// Background music method
-    //public void BackgroundTrack()
-    //{
-    //    audioS.PlayOneShot(backgroundTrack[0]);
-    //}
-    #endregion
+    /// <summary>
+    /// Changes the BGM to something else
+    /// </summary>
+    /// <param name="sound">The bgm sound we want to play</param>
+    public void ChangeBGM(SoundFile sound)
+    {
+        BGMSource.clip = SoundEffects[sound];
+        BGMSource.Play();
+    }
 }
