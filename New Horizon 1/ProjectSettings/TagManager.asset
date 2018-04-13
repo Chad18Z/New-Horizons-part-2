@@ -23,6 +23,7 @@ TagManager:
   - enemyHighlight
   - damage
   - damageParticle
+  - tutorialUI
   layers:
   - Default
   - TransparentFX
