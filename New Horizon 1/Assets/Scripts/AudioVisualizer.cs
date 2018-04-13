@@ -15,8 +15,8 @@ public class AudioVisualizer : MonoBehaviour {
 
     float maxVisualScale = .1f;
     float visualModifier = 250f;
-    float smoothSpeed = .20f;
-    float keepPercentage = .1f;
+    float smoothSpeed = .25f;
+    float keepPercentage = .09f;
 
     Transform[] visualList = new Transform[18];
     
@@ -24,14 +24,14 @@ public class AudioVisualizer : MonoBehaviour {
     float[] visualScale = new float[18];
 
     float xScale;
-    const int SAMPLE_SIZE = 512;
+    const int SAMPLE_SIZE = 256;
 
 	// Use this for initialization
 	void Start () {
 
         source = GetComponent<AudioSource>();
         samples = new float[SAMPLE_SIZE];
-        spectrum = new float[512];
+        spectrum = new float[256];
         sampleRate = AudioSettings.outputSampleRate;
 
         SpawnVisual();
@@ -72,7 +72,7 @@ public class AudioVisualizer : MonoBehaviour {
             {
                 visualScale[index] = maxVisualScale;
             }
-            visualList[index].localScale = new Vector3(xScale, 10f * visualScale[index], 0f);
+            visualList[index].localScale = new Vector3(xScale, 2.5f * visualScale[index], 0f);
             index++;
         }
     }
