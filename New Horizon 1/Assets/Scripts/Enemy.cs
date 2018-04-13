@@ -12,15 +12,12 @@ public class Enemy : Cell
     [SerializeField]
     GameObject damage;
 
-    Text damageText;
-
     float damageMultiplier = .5f; // multiplied times the magnitude of the velocity of collision with cytoblob
     float tempHealth;
 
     // Use this for initialization
     protected override void Start()
     {
-        damageText = GameObject.FindGameObjectWithTag("damage").GetComponent<Text>();
         int randomNum = Random.Range(1, 4);
         switch (randomNum)
         {
@@ -55,11 +52,12 @@ public class Enemy : Cell
     {
         if (coll.gameObject.CompareTag("cytoBlob"))
         {
-            tempHealth = (int)((coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x);           
-            health -= tempHealth;          
+            tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x;           
+            health -= tempHealth;
+            int tHealth = (int)tempHealth;
+            GameObject.FindGameObjectWithTag("damage").GetComponent<Text>().text = tHealth.ToString();
             GameObject part = Instantiate(damage);
             damage.transform.position = coll.transform.position;
-            damageText.text = tempHealth.ToString();
 
         }
     }
