@@ -16,7 +16,7 @@ public class AudioVisualizer : MonoBehaviour {
     float maxVisualScale = .1f;
     float visualModifier = 250f;
     float smoothSpeed = .25f;
-    float keepPercentage = .09f;
+    float keepPercentage = .1f;
 
     Transform[] visualList = new Transform[18];
     
@@ -62,7 +62,7 @@ public class AudioVisualizer : MonoBehaviour {
                 spectrumIndex++;
                 j++;
             }
-            float scaleY = (sum / averageSize) * 1f;
+            float scaleY = (sum / averageSize) * 2f;
             visualScale[index] -= Time.deltaTime * smoothSpeed;
             if (visualScale[index] < scaleY)
             {
@@ -72,7 +72,7 @@ public class AudioVisualizer : MonoBehaviour {
             {
                 visualScale[index] = maxVisualScale;
             }
-            visualList[index].localScale = new Vector3(xScale, 2.5f * visualScale[index], 0f);
+            visualList[index].localScale = new Vector3(xScale, 2f * visualScale[index], 0f);
             index++;
         }
     }
