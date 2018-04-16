@@ -42,6 +42,11 @@ public class AudioVisualizer : MonoBehaviour {
 
         GetSoundData();
         UpdateVisualization();
+
+        if (!source.isPlaying)
+        {
+            gameObject.SetActive(false);
+        }
 	}
     /// <summary>
     /// scales each image according to collected sound data
