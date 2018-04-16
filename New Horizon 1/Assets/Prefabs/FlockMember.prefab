@@ -24,9 +24,9 @@ GameObject:
   - component: {fileID: 50454342443350120}
   - component: {fileID: 58599666839982700}
   - component: {fileID: 114155503536179818}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: FlockMember
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,7 +78,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.016376019}
   serializedVersion: 2
-  m_Radius: 1.2856383
+  m_Radius: 1.28
 --- !u!95 &95072513207670020
 Animator:
   serializedVersion: 3
@@ -107,6 +107,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb365bbcffe18f48a327edecb664595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
+  massMultiplier: 25
+  damageTextObject: {fileID: 1434231362093250, guid: 6fcc83b07ade8e842bfaec14b916587c,
+    type: 2}
 --- !u!212 &212922969899307814
 SpriteRenderer:
   m_ObjectHideFlags: 1

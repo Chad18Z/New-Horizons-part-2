@@ -92,7 +92,7 @@ public class LookAt : MonoBehaviour {
             tempPosition.y += 5f;
             enemyHealth.transform.position = tempPosition;
             if (!enemyHealth.activeSelf) { enemyHealth.SetActive(true); }
-            healthBar.fillAmount = enemy.GetComponent<Enemy>().Health;
+            healthBar.fillAmount = enemy.GetComponent<Cell>().Health;
             enemyHighlight.enableEmission = true;
         }
         

@@ -34,13 +34,19 @@ public class FlockController : MonoBehaviour {
     public GameObject[] Waypoints;
 
     private FlockManager flockManager;
+    private FlockControllerWaypoint currentWaypoint;
     private Coroutine waitingCoroutine = null;
+
+    private GameObject playerObject;
+    private float playerSightRange = 10f;
 
     //whether or not the flock is seeking a goal position
     bool seekGoal = true;
 
 	// Use this for initialization
 	void Start () {
+        playerObject = GameObject.FindGameObjectWithTag("Player");
+
         flockManager = new FlockManager();
         foreach (GameObject go in Waypoints)
         {
@@ -57,6 +63,8 @@ public class FlockController : MonoBehaviour {
                 Quaternion.identity) as GameObject;
             flockMembers[i].GetComponent<FlockMember>().SetManager = this.gameObject;
         }
+
+        currentWaypoint = flockManager.GetNextWaypoint();
     }
 
     /// <summary>
@@ -64,25 +72,42 @@ public class FlockController : MonoBehaviour {
     /// </summary>
     void Update ()
     {
-        // Check if approximately at waypoint, if so set next waypoint
-        if (Vector2.Distance(CenterOfFlock(), transform.position) < 1f && waitingCoroutine == null)
+        // check distance to player - if within certain distance, set pos to player
+        if (Vector2.Distance(CenterOfFlock(), playerObject.transform.position) < playerSightRange)
         {
-            FlockControllerWaypoint w = flockManager.GetNextWaypoint();
-            waitingCoroutine = StartCoroutine(WaypointPause(w));
+            maxVelocity = 30f;
+            transform.position = playerObject.transform.position;
+            if (waitingCoroutine != null)
+            {
+                StopCoroutine(waitingCoroutine);
+                waitingCoroutine = null;
+            }
         }
 
-        // TODO: check distance to player - if within certain distance, set pos to player
+        // otherwise check if approximately at waypoint, if so set next waypoint
+        else if (Vector2.Distance(CenterOfFlock(), transform.position) < 1f && waitingCoroutine == null)
+        {
+            currentWaypoint = flockManager.GetNextWaypoint();
+            waitingCoroutine = StartCoroutine(WaypointPause());
+        }
+
+        // if player just got out of sight, then start patrolling again
+        else
+        {
+            maxVelocity = 6f;
+            transform.position = currentWaypoint.Position;
+        }
     }
 
-    private IEnumerator WaypointPause(FlockControllerWaypoint waypoint)
+    private IEnumerator WaypointPause()
     {
         float t = 0;
-        while (t <= waypoint.WaitTime)
+        while (t <= currentWaypoint.WaitTime)
         {
             t += Time.deltaTime;
             yield return null;
         }
-        transform.position = waypoint.Position;
+        transform.position = currentWaypoint.Position;
         waitingCoroutine = null;
     }
 
@@ -91,7 +116,8 @@ public class FlockController : MonoBehaviour {
         Vector2 temp = new Vector2();
         for (int i = 0; i < flockMembers.Length; i++)
         {
-            temp += (Vector2)flockMembers[i].transform.position;
+            if (flockMembers[i] != null)
+                temp += (Vector2)flockMembers[i].transform.position;
         }
         return temp / flockMembers.Length;
     }

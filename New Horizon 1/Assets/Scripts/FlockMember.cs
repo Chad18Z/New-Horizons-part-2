@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class FlockMember : MonoBehaviour {
+public class FlockMember : Cell {
 
     // this will hold the Flock Controller
     GameObject manager;
@@ -13,9 +14,18 @@ public class FlockMember : MonoBehaviour {
     Rigidbody2D rb;
     float neighborDistance;
 
-	// Use this for initialization
-	void Start ()
+    [SerializeField]
+    GameObject damageTextObject;
+
+    float damageMultiplier = .4f; // multiplied times the magnitude of the velocity of collision with cytoblob
+
+    // Use this for initialization
+    protected override void Start ()
     {
+        maxHealth = health;
+
+        cellInfo = gameObject.AddComponent(typeof(UICellInfo)) as UICellInfo;
+
         velocity = new Vector2(Random.Range(0.01f, 0.1f), Random.Range(0.01f, 0.1f));
         location = new Vector2(this.gameObject.transform.position.x, 
             this.gameObject.transform.position.y);
@@ -24,8 +34,14 @@ public class FlockMember : MonoBehaviour {
         neighborDistance = manager.GetComponent<FlockController>().distanceToNeighbor;
 	}
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            RemoveFromFlockMembers();
+        }
+
         Flock();
         goalPos = manager.transform.position; // this will change later. This will become the location where the flock is attacking.
     }
@@ -91,7 +107,7 @@ public class FlockMember : MonoBehaviour {
         int counter = 0;
         foreach (GameObject other in manager.GetComponent<FlockController>().flockMembers)
         {
-            if (other == this.gameObject) continue; // don't try to align with ourself!
+            if (other == this.gameObject || other == null) continue; // don't try to align with ourself!
             float distance = Vector2.Distance(location, other.GetComponent<FlockMember>().GetLocation);
             if (distance < neighborDistance)
             {
@@ -117,7 +133,7 @@ public class FlockMember : MonoBehaviour {
         int counter = 0;
         foreach (GameObject other in manager.GetComponent<FlockController>().flockMembers)
         {
-            if (other == this.gameObject) continue;
+            if (other == this.gameObject || other == null) continue;
 
             float distance = Vector2.Distance(location, other.GetComponent<FlockMember>().GetLocation);
             if (distance < neighborDistance)
@@ -157,5 +173,35 @@ public class FlockMember : MonoBehaviour {
         }
         // apply the force vector to the member
         ApplyForce(currentForce);
-    }	
+    }
+
+    /// <summary>
+    /// Check for collision with cytoblob. This formula might need some refinement
+    /// </summary>
+    protected void OnCollisionEnter2D(Collision2D coll)
+    {
+        Debug.Log(coll.gameObject.name);
+        if (coll.gameObject.CompareTag("cytoBlob"))
+        {
+            float tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x;
+            health -= tempHealth;
+            int tHealth = (int)tempHealth;
+            GameObject.FindGameObjectWithTag("damage").GetComponent<Text>().text = tHealth.ToString();
+            GameObject part = Instantiate(damageTextObject);
+            damageTextObject.transform.position = coll.transform.position;
+        }
+    }
+
+    private void RemoveFromFlockMembers()
+    {
+        GameObject[] members = manager.GetComponent<FlockController>().flockMembers;
+        for (int i = 0; i < members.Length; i++)
+        {
+            if (gameObject == members[i])
+            {
+                members[i] = null;
+                break;
+            }
+        }
+    }
 }

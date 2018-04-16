@@ -14,7 +14,7 @@ public class Cell : MonoBehaviour
 
     protected Rigidbody2D rigidBody;
 
-	private UICellInfo cellInfo;
+	protected UICellInfo cellInfo;
 
     // Use this for initialization
     protected virtual void Start()
