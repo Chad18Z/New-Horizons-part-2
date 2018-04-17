@@ -54,10 +54,10 @@ public class Enemy : Cell
             float tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x;           
             health -= tempHealth;
             int tHealth = (int)tempHealth;
-            GameObject.FindGameObjectWithTag("damage").GetComponent<Text>().text = tHealth.ToString();
+            damageTextObject.GetComponentInChildren<Text>().text = tHealth.ToString();
             GameObject part = Instantiate(damageTextObject);
-            damageTextObject.transform.position = coll.transform.position;
-
+            part.transform.position = coll.transform.position;
+         
         }
     }
 

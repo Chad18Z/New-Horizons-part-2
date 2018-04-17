@@ -3,8 +3,14 @@ guid: 54d7ae305efeef147b593e54f963a027
 timeCreated: 1517778231
 licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - enemyAnimator1: {instanceID: 0}
+  - enemyAnimator2: {instanceID: 0}
+  - enemyAnimator3: {instanceID: 0}
+  - damageTextObject: {fileID: 1921201062016310, guid: f7401a7e3e1ddc547acf274b7640c547,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
