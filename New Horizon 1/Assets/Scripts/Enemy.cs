@@ -50,6 +50,7 @@ public class Enemy : Cell
         {
             GameObject explosion = Instantiate(explosionParticle);
             explosion.transform.position = gameObject.transform.position;
+            explosion.transform.localScale = gameObject.transform.localScale;
             Destroy(gameObject);
         }
 
