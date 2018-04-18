@@ -17,7 +17,7 @@ public class Enemy : Cell
 
 
 
-    float damageMultiplier = .5f; // multiplied times the magnitude of the velocity of collision with cytoblob
+    float damageMultiplier = 1f; // multiplied times the magnitude of the velocity of collision with cytoblob
 
     // Use this for initialization
     protected override void Start()
@@ -50,7 +50,7 @@ public class Enemy : Cell
         {
             GameObject explosion = Instantiate(explosionParticle);
             explosion.transform.position = gameObject.transform.position;
-            explosion.transform.localScale = gameObject.transform.localScale;
+            //explosion.transform.localScale = gameObject.transform.localScale;
             Destroy(gameObject);
         }
 
@@ -62,7 +62,7 @@ public class Enemy : Cell
     {
         if (coll.gameObject.CompareTag("cytoBlob"))
         {
-            float tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x;           
+            float tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier); // gameObject.transform.localScale.x;           
             health -= tempHealth;
             int tHealth = (int)tempHealth;
             damageTextObject.GetComponentInChildren<Text>().text = tHealth.ToString();
