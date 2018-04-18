@@ -108,6 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  explosionParticle: {fileID: 1275250020424186, guid: 60490726475a5c449a85c8b5af112e6a,
+    type: 2}
   massMultiplier: 25
   minWanderTime: 3
   maxWanderTime: 5

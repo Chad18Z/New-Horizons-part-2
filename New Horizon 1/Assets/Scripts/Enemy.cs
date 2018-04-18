@@ -12,6 +12,11 @@ public class Enemy : Cell
     [SerializeField]
     GameObject damageTextObject;
 
+    [SerializeField]
+    GameObject explosionParticle;
+
+
+
     float damageMultiplier = .5f; // multiplied times the magnitude of the velocity of collision with cytoblob
 
     // Use this for initialization
@@ -41,7 +46,12 @@ public class Enemy : Cell
     protected override void Update()
     {
         base.Update();
-
+        if (health <= 0)
+        {
+            GameObject explosion = Instantiate(explosionParticle);
+            explosion.transform.position = gameObject.transform.position;
+            Destroy(gameObject);
+        }
 
     }
     /// <summary>

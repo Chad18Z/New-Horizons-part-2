@@ -8,7 +8,6 @@ public class Cell : MonoBehaviour
     protected float maxHealth;
     public float Health { get { return health/maxHealth; } }
 
- 
 
     [SerializeField] protected float massMultiplier = 25;
 
