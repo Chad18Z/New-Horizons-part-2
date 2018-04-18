@@ -5944,7 +5944,8 @@ Prefab:
       propertyPath: maxInflation
       value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114888924207767154, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &98440099

@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     Vector3 normalScale;
     float chargeStartTime;
     float chargeTimeCurrent;
-    float cytoSpeed = 35f; // speed at which cytoburst travels
+    float cytoSpeed = 40f; // speed at which cytoburst travels
     float reloadTime = 0.2f;
     float lastFireTime;
     float amountToInflate;
