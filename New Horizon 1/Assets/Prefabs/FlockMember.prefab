@@ -109,7 +109,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   massMultiplier: 25
-  damageTextObject: {fileID: 1434231362093250, guid: 6fcc83b07ade8e842bfaec14b916587c,
+  explosionParticle: {fileID: 1275250020424186, guid: 60490726475a5c449a85c8b5af112e6a,
+    type: 2}
+  damageTextObject: {fileID: 1921201062016310, guid: f7401a7e3e1ddc547acf274b7640c547,
     type: 2}
 --- !u!212 &212922969899307814
 SpriteRenderer:

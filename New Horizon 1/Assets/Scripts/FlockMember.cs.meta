@@ -5,7 +5,11 @@ licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - explosionParticle: {fileID: 1275250020424186, guid: 60490726475a5c449a85c8b5af112e6a,
+      type: 2}
+  - damageTextObject: {fileID: 1921201062016310, guid: f7401a7e3e1ddc547acf274b7640c547,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

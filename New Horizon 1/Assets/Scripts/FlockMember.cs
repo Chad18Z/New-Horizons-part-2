@@ -15,9 +15,12 @@ public class FlockMember : Cell {
     float neighborDistance;
 
     [SerializeField]
+    GameObject explosionParticle;
+
+    [SerializeField]
     GameObject damageTextObject;
 
-    float damageMultiplier = .4f; // multiplied times the magnitude of the velocity of collision with cytoblob
+    float damageMultiplier = 1f; // multiplied times the magnitude of the velocity of collision with cytoblob
 
     // Use this for initialization
     protected override void Start ()
@@ -38,6 +41,8 @@ public class FlockMember : Cell {
     {
         if (health <= 0)
         {
+            GameObject explosion = Instantiate(explosionParticle);
+            explosion.transform.position = gameObject.transform.position;
             Destroy(gameObject);
             RemoveFromFlockMembers();
         }
@@ -183,12 +188,12 @@ public class FlockMember : Cell {
         Debug.Log(coll.gameObject.name);
         if (coll.gameObject.CompareTag("cytoBlob"))
         {
-            float tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier) / gameObject.transform.localScale.x;
+            float tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier); // gameObject.transform.localScale.x;           
             health -= tempHealth;
             int tHealth = (int)tempHealth;
-            damageTextObject.GetComponent<Text>().text = tHealth.ToString();
+            damageTextObject.GetComponentInChildren<Text>().text = tHealth.ToString();
             GameObject part = Instantiate(damageTextObject);
-            damageTextObject.transform.position = coll.transform.position;
+            part.transform.position = coll.transform.position;
         }
     }
 
