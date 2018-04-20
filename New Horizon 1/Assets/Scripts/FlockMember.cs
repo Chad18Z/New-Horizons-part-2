@@ -185,7 +185,7 @@ public class FlockMember : Cell {
     /// </summary>
     protected void OnCollisionEnter2D(Collision2D coll)
     {
-        Debug.Log(coll.gameObject.name);
+        //Debug.Log(coll.gameObject.name);
         if (coll.gameObject.CompareTag("cytoBlob"))
         {
             float tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier); // gameObject.transform.localScale.x;           
