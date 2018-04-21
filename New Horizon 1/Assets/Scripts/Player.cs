@@ -32,7 +32,13 @@ public class Player : MonoBehaviour
     float gotSpeed = 1f;
     float gotCyto = 1f;
     float gotBurst = 1f;
-    
+
+    // bubble jet support
+    ParticleSystem bubbles;
+    float idleStartSpeed = 3f;
+    float idleRateOverTime = 7f;
+    float maxSpeed = 15f;
+    float maxRateOverTime = 200;
 
     //Timer components 
     Timer powerupTimer;
@@ -155,6 +161,10 @@ public class Player : MonoBehaviour
 
 		// 
 		this.playerInfo = gameObject.AddComponent (typeof(UICellInfo)) as UICellInfo;
+
+        // bubble jet
+        bubbles = GameObject.FindGameObjectWithTag("bubbles").GetComponent<ParticleSystem>();
+
 	}
 
 
@@ -211,9 +221,29 @@ public class Player : MonoBehaviour
         }
 
 
-        //// When the player releases the mouse button...
+        
         if (Input.GetMouseButton(1))
         {
+            // Produce bubbles first
+            var emmision = bubbles.emission;
+            var main = bubbles.main;
+
+            float rate = emmision.rateOverTime.constant;
+            float speed = main.startSpeed.constant;
+
+            // increase 
+            rate += 10f;
+            speed += 5f;
+
+            // clamp
+            if (rate > maxRateOverTime) rate = maxRateOverTime;
+            if (speed > maxSpeed) speed = maxSpeed;
+
+            // update values in the particle system
+            emmision.rateOverTime = rate;
+            main.startSpeed = speed;
+            
+
             Vector3 directionToGo;
 
             // Get the difference between the mouse position and the player, times -1
@@ -222,6 +252,28 @@ public class Player : MonoBehaviour
 
             // Shoot the player in that direction, with the magnitude of the thrust multiplier times charge amount
             rb2d.AddForce(directionToGo.normalized * thrustMultiplier * Time.deltaTime, ForceMode2D.Impulse);
+        }
+        else if (!Input.GetMouseButton(1))
+        {
+            // Produce bubbles first
+            var emmision = bubbles.emission;
+            var main = bubbles.main;
+
+            float rate = emmision.rateOverTime.constant;
+            float speed = main.startSpeed.constant;
+
+            // increase 
+            rate -= 20f;
+            speed -= 10f;
+
+            // clamp
+            if (rate < idleRateOverTime) rate = idleRateOverTime;
+            if (speed < idleStartSpeed) speed = idleStartSpeed;
+
+            // update values in the particle system
+            emmision.rateOverTime = rate;
+            main.startSpeed = speed;
+
         }
     }
 
