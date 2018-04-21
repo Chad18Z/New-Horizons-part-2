@@ -108,13 +108,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  explosionParticle: {fileID: 1275250020424186, guid: 60490726475a5c449a85c8b5af112e6a,
-    type: 2}
   massMultiplier: 25
   enemyAnimator1: {fileID: 9100000, guid: 83a97f3d1e4d0a740a5e58b223469ccd, type: 2}
   enemyAnimator2: {fileID: 9100000, guid: d0b85070850d2a64ab1424caf8787960, type: 2}
   enemyAnimator3: {fileID: 9100000, guid: 580a7e99a887b4d419ce1ebb54b04e56, type: 2}
+  deadEnemySprite1: {fileID: 21300000, guid: 74b1bff8c5af9174bb656e926724f58b, type: 3}
+  deadEnemySprite2: {fileID: 21300000, guid: 2b2f6e0079aaf5b4a8e0259547ede448, type: 3}
+  deadEnemySprite3: {fileID: 21300000, guid: 14806f3dd84828e46a95a6b1a47d66f0, type: 3}
+  deadEnemy: {fileID: 1813920012874314, guid: 06e9d13a721f5d54384bd42dfa13f808, type: 2}
   damageTextObject: {fileID: 1921201062016310, guid: f7401a7e3e1ddc547acf274b7640c547,
+    type: 2}
+  explosionParticle: {fileID: 1275250020424186, guid: 60490726475a5c449a85c8b5af112e6a,
     type: 2}
 --- !u!212 &212941766155275058
 SpriteRenderer:

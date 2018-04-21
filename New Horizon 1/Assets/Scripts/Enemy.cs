@@ -8,12 +8,19 @@ public class Enemy : Cell
     [SerializeField] RuntimeAnimatorController enemyAnimator1;
     [SerializeField] RuntimeAnimatorController enemyAnimator2;
     [SerializeField] RuntimeAnimatorController enemyAnimator3;
+    [SerializeField] Sprite deadEnemySprite1;
+    [SerializeField] Sprite deadEnemySprite2;
+    [SerializeField] Sprite deadEnemySprite3;
+    [SerializeField] GameObject deadEnemy;
 
-    [SerializeField]
-    GameObject damageTextObject;
+    Sprite selectedDeadSprite;
+    Vector2 lastColliderImpactForce;
 
-    [SerializeField]
-    GameObject explosionParticle;
+    [SerializeField] GameObject damageTextObject;
+
+    [SerializeField] GameObject explosionParticle;
+
+
 
 
 
@@ -27,12 +34,15 @@ public class Enemy : Cell
         {
             case 1:
                 GetComponent<Animator>().runtimeAnimatorController = enemyAnimator1;
+                selectedDeadSprite = deadEnemySprite1;
                 break;
             case 2:
                 GetComponent<Animator>().runtimeAnimatorController = enemyAnimator2;
+                selectedDeadSprite = deadEnemySprite2;
                 break;
             case 3:
                 GetComponent<Animator>().runtimeAnimatorController = enemyAnimator3;
+                selectedDeadSprite = deadEnemySprite3;
                 break;
             default:
                 break;
@@ -46,14 +56,22 @@ public class Enemy : Cell
     protected override void Update()
     {
         base.Update();
+
         if (health <= 0)
         {
             GameObject explosion = Instantiate(explosionParticle);
             explosion.transform.position = gameObject.transform.position;
             //explosion.transform.localScale = gameObject.transform.localScale;
+
+            GameObject newDeadEnemy = Instantiate(deadEnemy, transform.position, Quaternion.identity);
+            newDeadEnemy.GetComponent<SpriteRenderer>().sprite = selectedDeadSprite;
+            newDeadEnemy.transform.localScale = transform.localScale * 0.25f;
+            if (newDeadEnemy.transform.localScale.x < 0.3f) newDeadEnemy.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
+            newDeadEnemy.GetComponent<Rigidbody2D>().AddForce(lastColliderImpactForce * 0.0002f, ForceMode2D.Impulse);
+
+
             Destroy(gameObject);
         }
-
     }
     /// <summary>
     /// Check for collision with cytoblob. This formula might need some refinement
@@ -66,9 +84,11 @@ public class Enemy : Cell
             health -= tempHealth;
             int tHealth = (int)tempHealth;
             damageTextObject.GetComponentInChildren<Text>().text = tHealth.ToString();
-            GameObject part = Instantiate(damageTextObject);
-            part.transform.position = coll.transform.position;
-         
+
+            //GameObject part = Instantiate(damageTextObject);
+            //part.transform.position = coll.transform.position;
+
+            lastColliderImpactForce = coll.relativeVelocity;
         }
     }
 
