@@ -263,8 +263,8 @@ public class Player : MonoBehaviour
             float speed = main.startSpeed.constant;
 
             // increase 
-            rate -= 20f;
-            speed -= 10f;
+            rate -= 11f;
+            speed -= 6f;
 
             // clamp
             if (rate < idleRateOverTime) rate = idleRateOverTime;
