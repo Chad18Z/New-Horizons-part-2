@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     float idleStartSpeed = 3f;
     float idleRateOverTime = 7f;
     float maxSpeed = 15f;
-    float maxRateOverTime = 200;
+    float maxRateOverTime = 125;
 
     //Timer components 
     Timer powerupTimer;
