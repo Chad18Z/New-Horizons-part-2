@@ -320,7 +320,7 @@ public class Player : MonoBehaviour
             //float speedToFire = cytoSpeed * speedMultiplier;
 
             Vector2 randomVector = Random.insideUnitCircle.normalized * 0.1f;
-            Vector2 cytoFireDirection = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)cytoMountPoint.transform.position).normalized;
+            Vector2 cytoFireDirection = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position).normalized;
             cytoFireDirection = RotateVector2(cytoFireDirection, degreeRotation);
             cytoFireDirection += randomVector;
             GameObject cyto = Instantiate(cytoBlobPrefab, cytoMountPoint.transform.position, Quaternion.identity);
