@@ -13,6 +13,21 @@ using UnityEngine.SceneManagement;
 public enum SoundFile
 {
     // Put the name of the file (make sure it's inside Resources) without the extension, ex. Fire.wav -> Fire
+    buttonPress,
+    cancerAbsorbingDamage,
+    cancerAttacking,
+    cancerExploding,
+    chargedShotSound,
+    incomingRadio,
+    outgoingRadio,
+    pause,
+    powerUpOffSound,
+    powerUpOnSound,
+    s1la,
+    s1lc,
+    s1ld,
+    singleShotSound,
+    unpause
 }
 # endregion
 

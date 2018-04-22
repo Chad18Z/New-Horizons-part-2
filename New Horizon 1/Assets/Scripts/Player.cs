@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    SoundFile[] singleShot;
+    SoundFile[] chargeShot;
+
     Rigidbody2D rb2d;
     Vector3 normalScale;
     float chargeStartTime;
@@ -151,6 +154,14 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        singleShot = new SoundFile[1];
+        singleShot[0] = SoundFile.singleShotSound;
+
+        chargeShot = new SoundFile[1];
+        chargeShot[0] = SoundFile.chargedShotSound;
+
+
+
         cytoMountPoint = GameObject.FindGameObjectWithTag("arrow");
         rb2d = GetComponent<Rigidbody2D>();
         normalScale = transform.localScale;
@@ -183,6 +194,7 @@ public class Player : MonoBehaviour
         // Set the start time when the mouse is initially pressed down
         if (Input.GetMouseButtonDown(0))
         {
+            SoundManager.Instance.DoPlayOneShot(chargeShot, Camera.main.transform.position, .3f);
             chargeStartTime = Time.time;
         }
 
@@ -314,9 +326,10 @@ public class Player : MonoBehaviour
             GameObject cyto = Instantiate(cytoBlobPrefab, cytoMountPoint.transform.position, Quaternion.identity);
             Rigidbody2D cytoRb = cyto.GetComponent<Rigidbody2D>();
             cytoRb.AddForce(cytoFireDirection * cytoSpeed, ForceMode2D.Impulse);
-
+            
             shotOrder += 1f;
         }
+        SoundManager.Instance.DoPlayOneShot(singleShot, Camera.main.transform.position, .2f);
     }
 
     Vector2 RotateVector2(Vector2 inputVector, float degrees)

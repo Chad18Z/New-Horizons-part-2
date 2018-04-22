@@ -20,7 +20,7 @@ public class Enemy : Cell
 
     [SerializeField] GameObject explosionParticle;
 
-
+    SoundFile[] sounds;
 
 
 
@@ -29,6 +29,9 @@ public class Enemy : Cell
     // Use this for initialization
     protected override void Start()
     {
+        sounds = new SoundFile[1];
+        sounds[0] = SoundFile.cancerExploding; 
+
         int randomNum = Random.Range(1, 4);
         switch (randomNum)
         {
@@ -58,10 +61,12 @@ public class Enemy : Cell
         base.Update();
 
         if (health <= 0)
-        {
+        {          
             GameObject explosion = Instantiate(explosionParticle);
             explosion.transform.position = gameObject.transform.position;
-            //explosion.transform.localScale = gameObject.transform.localScale;
+
+            // player explosion sound
+            SoundManager.Instance.DoPlayOneShot(sounds, Camera.main.transform.position, .8f);
 
             GameObject newDeadEnemy = Instantiate(deadEnemy, transform.position, Quaternion.identity);
             newDeadEnemy.GetComponent<SpriteRenderer>().sprite = selectedDeadSprite;
