@@ -9,6 +9,7 @@ public class GameManager : AManager
 {
     protected override void Start()
     {
+
         EventManager.Instance.StartListening("NextStep", NextStep);
     }
 
