@@ -194,7 +194,7 @@ public class Player : MonoBehaviour
         // Set the start time when the mouse is initially pressed down
         if (Input.GetMouseButtonDown(0))
         {
-            SoundManager.Instance.DoPlayOneShot(chargeShot, Camera.main.transform.position, .3f);
+            SoundManager.Instance.DoPlayOneShot(chargeShot, Camera.main.transform.position, .1f);
             chargeStartTime = Time.time;
         }
 
