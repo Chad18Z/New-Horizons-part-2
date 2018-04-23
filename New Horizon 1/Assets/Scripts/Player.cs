@@ -175,7 +175,6 @@ public class Player : MonoBehaviour
 
         // bubble jet
         bubbles = GameObject.FindGameObjectWithTag("bubbles").GetComponent<ParticleSystem>();
-
 	}
 
 
@@ -349,4 +348,8 @@ public class Player : MonoBehaviour
 
         return outputVector;
     }
+
+	public Player getPlayer() {
+		return this;
+	}
 }
