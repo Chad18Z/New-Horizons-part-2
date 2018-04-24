@@ -258,11 +258,11 @@ public class Player : MonoBehaviour
             Vector3 directionToGo;
 
             // Get the difference between the mouse position and the player, times -1
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            directionToGo = mousePosition - transform.position;
+            Vector2 mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            directionToGo = (mousePosition - (Vector2)transform.position).normalized;
 
             // Shoot the player in that direction, with the magnitude of the thrust multiplier times charge amount
-            rb2d.AddForce(directionToGo.normalized * thrustMultiplier * Time.deltaTime, ForceMode2D.Impulse);
+            rb2d.AddForce(directionToGo * thrustMultiplier * Time.deltaTime, ForceMode2D.Impulse);
         }
         else if (!Input.GetMouseButton(1))
         {
@@ -324,7 +324,7 @@ public class Player : MonoBehaviour
             cytoFireDirection += randomVector;
             GameObject cyto = Instantiate(cytoBlobPrefab, cytoMountPoint.transform.position, Quaternion.identity);
             Rigidbody2D cytoRb = cyto.GetComponent<Rigidbody2D>();
-            cytoRb.AddForce(cytoFireDirection * cytoSpeed, ForceMode2D.Impulse);
+            cytoRb.AddForce((cytoFireDirection * (cytoSpeed + rb2d.velocity.magnitude)), ForceMode2D.Impulse);
             
             shotOrder += 1f;
         }
