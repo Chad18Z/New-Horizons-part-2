@@ -25032,7 +25032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc1f9cbc2d97774c8b544348a1fbf11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perspectiveShift: 0.448
+  perspectiveShift: 0.65
 --- !u!1 &477569656
 GameObject:
   m_ObjectHideFlags: 0
