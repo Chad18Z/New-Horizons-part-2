@@ -50,15 +50,17 @@ public class UICellInfo : MonoBehaviour {
 				this.UpdateBoxPosition ();
 				this.tempPosition.x -= this.infoRect.width + (10 * this.cellObj.GetComponent<CircleCollider2D> ().radius * this.cellObj.transform.localScale.x);
 			}
-			if (this.playerObj.transform.position.y < this.cellObj.transform.position.y) {
+			else if (this.playerObj.transform.position.y < this.cellObj.transform.position.y) {
 				this.tempPosition.y += this.infoRect.height + (10 * this.cellObj.GetComponent<CircleCollider2D> ().radius * this.cellObj.transform.localScale.y);
 			}
 
-			if (this.isOutsideScreen (this.tempPosition)) {
-				this.CheckScreenBounds (this.tempPosition);
-			}
+            if (this.isOutsideScreen(this.tempPosition))
+            {
+                this.CheckScreenBounds(this.tempPosition);
+            }
 
-		} else if (obj.GetType () == typeof(Player)) { // player type
+        }
+        else if (obj.GetType () == typeof(Player)) { // player type
 			sb.AppendLine ("Name: " + this.playerObj.name);
 			sb.AppendLine ("Health: "/* + Convert.ToInt32 (this.playerObj.Health)*/);
 
