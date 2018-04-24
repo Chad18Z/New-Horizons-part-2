@@ -61,12 +61,9 @@ public class Enemy : Cell
         base.Update();
 
         if (health <= 0)
-        {          
+        {
             GameObject explosion = Instantiate(explosionParticle);
             explosion.transform.position = gameObject.transform.position;
-
-            // player explosion sound
-            SoundManager.Instance.DoPlayOneShot(sounds, Camera.main.transform.position, .8f);
 
             GameObject newDeadEnemy = Instantiate(deadEnemy, transform.position, Quaternion.identity);
             newDeadEnemy.GetComponent<SpriteRenderer>().sprite = selectedDeadSprite;
@@ -74,6 +71,8 @@ public class Enemy : Cell
             if (newDeadEnemy.transform.localScale.x < 0.3f) newDeadEnemy.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
             newDeadEnemy.GetComponent<Rigidbody2D>().AddForce(lastColliderImpactForce * 0.0002f, ForceMode2D.Impulse);
 
+            // play explosion sound
+            SoundManager.Instance.DoPlayOneShot(sounds, Camera.main.transform.position, .4f);
 
             Destroy(gameObject);
         }

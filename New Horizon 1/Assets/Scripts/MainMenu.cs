@@ -5,32 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
-	public void HandleAlertButtonOnCLick()
-    {
-        Object.Instantiate(Resources.Load("TextBG"));
-        Object.Instantiate(Resources.Load("MissionCanvas"));
-        
+	public void PlayBtn_Handler() {
+		SceneManager.LoadScene("New Gameplay");
     }
 
-    public void HandleStartButtonOnClick()
-    {
-        SceneManager.LoadScene("New Gameplay");
+    public void TutorialBtn_Handler() {
+		// load tutorial scene
+        SceneManager.LoadScene("Tutorial");
     }
 
-    public void HandleHelpButtonOnClick()
-    {
-        Object.Instantiate(Resources.Load("HelpBG"));
+    public void OptionsBtn_Handler() {
+        // Object.Instantiate(Resources.Load("HelpBG"));
     }
+
+	public void QuitBtn_Handler() {
+		#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+		#else
+			Application.Quit();
+		#endif
+	}
 
     //go back to menu
     public static void GoToMenu()
     {
-        SceneManager.LoadScene("MainBody");
-    }
-
-    //go back to menu
-    public void Retry()
-    {
-        SceneManager.LoadScene("New Gameplay");
+        SceneManager.LoadScene("MainMenu");
     }
 }
