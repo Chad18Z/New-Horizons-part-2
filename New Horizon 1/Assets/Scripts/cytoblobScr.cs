@@ -16,14 +16,16 @@ public class cytoblobScr : MonoBehaviour {
     Rigidbody2D rb; // the cytoblob's rigidbody
 
     Vector3 normalScale;
-
+    float minimumLifetime = 1f;
+    float startLifeTime;
     float speed = 15.0f; // how fast the cytoblob will move towards the center of the badguy
-
+    
 
 	// Use this for initialization
 	void Start () {
 
         rb = gameObject.GetComponent<Rigidbody2D>();
+        startLifeTime = Time.time;
 	}
 	
 
@@ -56,7 +58,7 @@ public class cytoblobScr : MonoBehaviour {
     /// </summary>
     void FixedUpdate()
     {
-        if (rb.velocity.magnitude < 10)
+        if (rb.velocity.magnitude < 10 && Time.time - startLifeTime > minimumLifetime)
         {
             Destroy(gameObject);
         }

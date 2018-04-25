@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb365bbcffe18f48a327edecb664595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 20
   massMultiplier: 25
   explosionParticle: {fileID: 1536033733350136, guid: 93719d4fb31fcf0449fed9496ad9e986,
     type: 2}

@@ -324,7 +324,8 @@ public class Player : MonoBehaviour
             cytoFireDirection += randomVector;
             GameObject cyto = Instantiate(cytoBlobPrefab, cytoMountPoint.transform.position, Quaternion.identity);
             Rigidbody2D cytoRb = cyto.GetComponent<Rigidbody2D>();
-            cytoRb.AddForce((cytoFireDirection * (cytoSpeed + rb2d.velocity.magnitude)), ForceMode2D.Impulse);
+            cytoRb.AddForce(cytoFireDirection * cytoSpeed, ForceMode2D.Impulse);
+            cytoRb.velocity = cytoRb.velocity + rb2d.velocity;
             
             shotOrder += 1f;
         }

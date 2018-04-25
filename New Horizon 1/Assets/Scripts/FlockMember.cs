@@ -191,9 +191,9 @@ public class FlockMember : Cell {
             float tempHealth = (coll.relativeVelocity.magnitude * damageMultiplier); // gameObject.transform.localScale.x;           
             health -= tempHealth;
             int tHealth = (int)tempHealth;
-            damageTextObject.GetComponentInChildren<Text>().text = tHealth.ToString();
-            GameObject part = Instantiate(damageTextObject);
-            part.transform.position = coll.transform.position;
+            //damageTextObject.GetComponentInChildren<Text>().text = tHealth.ToString();
+            //GameObject part = Instantiate(damageTextObject);
+            //part.transform.position = coll.transform.position;
         }
     }
 
