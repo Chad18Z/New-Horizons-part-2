@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // If set to false, player can rotate but not move or fire
+    public bool PlayerCanInteract = true;
+
     SoundFile[] singleShot;
     SoundFile[] chargeShot;
 
@@ -181,6 +184,51 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // i.e. not in a cutscene etc...
+        if (PlayerCanInteract)
+        {
+            // Set the start time when the mouse is initially pressed down
+            if (Input.GetMouseButtonDown(0))
+            {
+                SoundManager.Instance.DoPlayOneShot(chargeShot, Camera.main.transform.position, .1f);
+                chargeStartTime = Time.time;
+            }
+
+            // While the mouse is being held down...
+            if (Input.GetMouseButton(0))
+            {
+                // Set the charge amount to be how long in seconds the mouse was held down
+                chargeTimeCurrent = Time.time - chargeStartTime;
+                chargeTimeCurrent = Mathf.Clamp(chargeTimeCurrent, 0f, maxChargeTime);
+
+                // Calculate how much to inflate based off the max amount allowed and the current charge time
+                amountToInflate = 1 + (chargeTimeCurrent / maxChargeTime) * maxInflation;
+
+                // Inflate that much
+                transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
+            }
+
+            // When the fire button is released...
+            if (Input.GetMouseButtonUp(0))
+            {
+                // ...do some boring math to figure out how many shots to fire
+                float finalChargeTime = Time.time - chargeStartTime;
+                finalChargeTime = Mathf.Clamp(finalChargeTime, 0, maxChargeTime);
+                shotsToFire = (int)((finalChargeTime / maxChargeTime) * maxBlobsPerShot);
+                if (shotsToFire == 0) shotsToFire = 1;
+
+                // Flag to fire ASAP and go back to normal size
+                fireInvoked = true;
+                transform.localScale = normalScale;
+            }
+
+            // If it's flagged that you CAN fire and you SHOULD fire, fire
+            if (fireReady && fireInvoked)
+            {
+                Fire(shotsToFire);
+            }
+        }
+
         // If you've had enough time to reload, flag that you're ready to fire
         if (!fireReady)
         {
@@ -189,51 +237,8 @@ public class Player : MonoBehaviour
                 fireReady = true;
             }
         }
-
-        // Set the start time when the mouse is initially pressed down
-        if (Input.GetMouseButtonDown(0))
-        {
-            SoundManager.Instance.DoPlayOneShot(chargeShot, Camera.main.transform.position, .1f);
-            chargeStartTime = Time.time;
-        }
-
-        // While the mouse is being held down...
-        if (Input.GetMouseButton(0))
-        {
-            // Set the charge amount to be how long in seconds the mouse was held down
-            chargeTimeCurrent = Time.time - chargeStartTime;
-            chargeTimeCurrent = Mathf.Clamp(chargeTimeCurrent, 0f, maxChargeTime);
-
-            // Calculate how much to inflate based off the max amount allowed and the current charge time
-            amountToInflate = 1 + (chargeTimeCurrent / maxChargeTime) * maxInflation;
-
-            // Inflate that much
-            transform.localScale = new Vector3(normalScale.x * amountToInflate, normalScale.y * amountToInflate, normalScale.z);
-        }
-
-        // When the fire button is released...
-        if (Input.GetMouseButtonUp(0))
-        {
-            // ...do some boring math to figure out how many shots to fire
-            float finalChargeTime = Time.time - chargeStartTime;
-            finalChargeTime = Mathf.Clamp(finalChargeTime, 0, maxChargeTime);
-            shotsToFire = (int)((finalChargeTime / maxChargeTime) * maxBlobsPerShot);
-            if (shotsToFire == 0) shotsToFire = 1;
-
-            // Flag to fire ASAP and go back to normal size
-            fireInvoked = true;
-            transform.localScale = normalScale;
-        }
-
-        // If it's flagged that you CAN fire and you SHOULD fire, fire
-        if (fireReady && fireInvoked)
-        {
-            Fire(shotsToFire);
-        }
-
-
         
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && PlayerCanInteract)
         {
             // Produce bubbles first
             var emmision = bubbles.emission;
@@ -264,7 +269,7 @@ public class Player : MonoBehaviour
             // Shoot the player in that direction, with the magnitude of the thrust multiplier times charge amount
             rb2d.AddForce(directionToGo * thrustMultiplier * Time.deltaTime, ForceMode2D.Impulse);
         }
-        else if (!Input.GetMouseButton(1))
+        else
         {
             // Produce bubbles first
             var emmision = bubbles.emission;

@@ -39,6 +39,7 @@ public class FlockController : MonoBehaviour {
 
     private GameObject playerObject;
     private float playerSightRange = 10f;
+    private bool fleeing = false;
 
     //whether or not the flock is seeking a goal position
     bool seekGoal = true;
@@ -72,30 +73,50 @@ public class FlockController : MonoBehaviour {
     /// </summary>
     void Update ()
     {
-        // check distance to player - if within certain distance, set pos to player
-        if (Vector2.Distance(CenterOfFlock(), playerObject.transform.position) < playerSightRange)
-        {
-            maxVelocity = 30f;
-            transform.position = playerObject.transform.position;
-            if (waitingCoroutine != null)
-            {
-                StopCoroutine(waitingCoroutine);
-                waitingCoroutine = null;
-            }
-        }
-
-        // otherwise check if approximately at waypoint, if so set next waypoint
-        else if (Vector2.Distance(CenterOfFlock(), transform.position) < 1f && waitingCoroutine == null)
-        {
-            currentWaypoint = flockManager.GetNextWaypoint();
-            waitingCoroutine = StartCoroutine(WaypointPause());
-        }
-
-        // if player just got out of sight, then start patrolling again
-        else
+        if (fleeing)
         {
             maxVelocity = 6f;
-            transform.position = currentWaypoint.Position;
+            transform.position = (Vector2)playerObject.transform.position + 
+                (CenterOfFlock() - (Vector2)playerObject.transform.position).normalized * 200;
+        }
+
+        else
+        {
+            // check if we should flee
+            int deadCount = 0;
+            foreach (GameObject member in flockMembers)
+            {
+                if (member == null)
+                    deadCount++;
+            }
+            if (deadCount > flockMembers.Length / 2)
+                fleeing = true;
+
+            // check distance to player - if within certain distance, set pos to player
+            if (Vector2.Distance(CenterOfFlock(), playerObject.transform.position) < playerSightRange)
+            {
+                maxVelocity = 30f;
+                transform.position = playerObject.transform.position;
+                if (waitingCoroutine != null)
+                {
+                    StopCoroutine(waitingCoroutine);
+                    waitingCoroutine = null;
+                }
+            }
+
+            // otherwise check if approximately at waypoint, if so set next waypoint
+            else if (Vector2.Distance(CenterOfFlock(), transform.position) < 1f && waitingCoroutine == null)
+            {
+                currentWaypoint = flockManager.GetNextWaypoint();
+                waitingCoroutine = StartCoroutine(WaypointPause());
+            }
+
+            // if player just got out of sight, then start patrolling again
+            else
+            {
+                maxVelocity = 6f;
+                transform.position = currentWaypoint.Position;
+            }
         }
     }
 

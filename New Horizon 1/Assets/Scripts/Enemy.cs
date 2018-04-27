@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Enemy : Cell
 {
+    [SerializeField] float fleeForce = 1f;
     [SerializeField] RuntimeAnimatorController enemyAnimator1;
     [SerializeField] RuntimeAnimatorController enemyAnimator2;
     [SerializeField] RuntimeAnimatorController enemyAnimator3;
@@ -14,6 +15,8 @@ public class Enemy : Cell
     [SerializeField] GameObject deadEnemy;
 
     Sprite selectedDeadSprite;
+    GameObject player;
+    Rigidbody2D rigidBody2D;
     Vector2 lastColliderImpactForce;
 
     [SerializeField] GameObject damageTextObject;
@@ -22,7 +25,7 @@ public class Enemy : Cell
 
     SoundFile[] sounds;
 
-
+    Coroutine fleeCoroutine = null;
 
     float damageMultiplier = 1f; // multiplied times the magnitude of the velocity of collision with cytoblob
 
@@ -51,6 +54,9 @@ public class Enemy : Cell
                 break;
         }
 
+        player = GameObject.Find("Player");
+        rigidBody2D = GetComponent<Rigidbody2D>();
+
         base.Start();
     }
 
@@ -59,6 +65,11 @@ public class Enemy : Cell
     protected override void Update()
     {
         base.Update();
+
+        if (health / maxHealth < 0.5f)
+        {
+            Flee();
+        }
 
         if (health <= 0)
         {
@@ -96,4 +107,33 @@ public class Enemy : Cell
         }
     }
 
+    /// <summary>
+    /// Called when health is less than 50% of max
+    /// </summary>
+    private void Flee()
+    {
+        if (fleeCoroutine == null)
+        {
+            Vector2 dir = (Vector2)transform.position - (Vector2)player.transform.position + Random.insideUnitCircle;
+            fleeCoroutine = StartCoroutine(FleeImpulse(Random.Range(0.7f, 2.8f), dir));
+        }
+    }
+
+    /// <summary>
+    /// Times the enemy flee "impulses"
+    /// </summary>
+    /// <param name="delay"></param>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    private IEnumerator FleeImpulse(float delay, Vector2 direction)
+    {
+        float t = 0f;
+        rigidBody2D.AddForce(direction.normalized * fleeForce, ForceMode2D.Impulse);
+        while (t < delay)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+        fleeCoroutine = null;
+    }
 }
