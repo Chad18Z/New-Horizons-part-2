@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 /// <summary>
@@ -11,12 +12,17 @@ public class GameManager : AManager
     GameObject tutorialUI;
     Player player;
     bool timer = false;
+    GameObject playerMessages;
 
 
     protected override void Start()
     {
         // get reference to player
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        // get a reference to the text UI
+        playerMessages = GameObject.FindGameObjectWithTag("messagesToPlayer");
+        playerMessages.SetActive(false);
 
         // get reference to the Sqdn Cdr UI and set it inactive
         tutorialUI = GameObject.FindGameObjectWithTag("tutorialUI");
@@ -104,15 +110,20 @@ public class GameManager : AManager
         // The first thing we need to do is make the camera black
         FadeManager.Instance.Fade(false, 2f);
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2.5f);
 
         // Deliver first line from the Squadron Commander
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lb");
         tutorialUI.SetActive(true);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(5f);
 
+        playerMessages.GetComponentInChildren<Text>().text = "Press right-mouse button";
+        playerMessages.SetActive(true);
         player.PlayerCanInteract = true;
+
+        //playerMessages.GetComponent<textFader>().FadeOut();
+
     }
      
 }
