@@ -14,11 +14,23 @@ public class GameManager : AManager
     bool timer = false;
     GameObject playerMessages;
 
+    [SerializeField]
+    GameObject dummyTCell;
+
+    GameObject[] dummies = new GameObject[4];
+
+    // array which holds the initial spawn points for first wave of dummy TCells
+    GameObject[] firstSpawners;
 
     protected override void Start()
     {
+        Debug.Log(dummyTCell);
+
         // get reference to player
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        // first wave of dummy TCells
+        firstSpawners = GameObject.FindGameObjectsWithTag("tCellSpawner1");
 
         // get a reference to the text UI
         playerMessages = GameObject.FindGameObjectWithTag("messagesToPlayer");
@@ -49,6 +61,8 @@ public class GameManager : AManager
             case 1:
                 //Debug.Log("On step 1");
                 break;
+            case 2:
+                break;
         }
     }
 
@@ -63,8 +77,9 @@ public class GameManager : AManager
                 //Debug.Log("Cleanup step 0");
                 break;
             case 1:
-                //Debug.Log("Cleanup step 1");
-                
+                //Debug.Log("Cleanup step 1");                
+                break;
+            case 2:
                 break;
         }
 
@@ -80,6 +95,10 @@ public class GameManager : AManager
                 //Debug.Log("Start step 1");
                 playerMessages.SetActive(false);
                 break;
+            case 2:
+                ToSecondRoom();
+                break;
+
         }
     }
 
@@ -95,6 +114,16 @@ public class GameManager : AManager
         // begin timed sequence of events for the room
         StartCoroutine(FirstRoomSequence());
 
+    }
+    void ToSecondRoom()
+    {
+        // first thing, spawn the T-Cell fire team
+        for (int i = 0; i < firstSpawners.Length; i++)
+        {
+            GameObject dummy = Instantiate(dummyTCell);
+            dummy.transform.position = firstSpawners[i].transform.position;
+            dummy.GetComponent<dummyBubbles>().SetDestination = Vector3.up;
+        }
     }
     IEnumerator FirstRoomSequence()
     {
@@ -121,6 +150,7 @@ public class GameManager : AManager
         playerMessages.GetComponentInChildren<Text>().text = "Press right-mouse button";
         playerMessages.SetActive(true);
         player.PlayerCanInteract = true;
+        player.PlayerCanShoot = false;
     }
      
 }

@@ -27,6 +27,9 @@ TagManager:
   - bubbles
   - fadeManager
   - messagesToPlayer
+  - dummyBubbles
+  - tCellSpawner1
+  - dummyTCell
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     SoundFile[] singleShot;
     SoundFile[] chargeShot;
 
+    public bool PlayerCanShoot = true;
     Rigidbody2D rb2d;
     Vector3 normalScale;
     float chargeStartTime;
@@ -188,14 +189,14 @@ public class Player : MonoBehaviour
         if (PlayerCanInteract)
         {
             // Set the start time when the mouse is initially pressed down
-            if (Input.GetMouseButtonDown(0))
+            if (PlayerCanShoot && Input.GetMouseButtonDown(0))
             {
                 SoundManager.Instance.DoPlayOneShot(chargeShot, Camera.main.transform.position, .1f);
                 chargeStartTime = Time.time;
             }
 
             // While the mouse is being held down...
-            if (Input.GetMouseButton(0))
+            if (PlayerCanShoot && Input.GetMouseButton(0))
             {
                 // Set the charge amount to be how long in seconds the mouse was held down
                 chargeTimeCurrent = Time.time - chargeStartTime;
@@ -209,7 +210,7 @@ public class Player : MonoBehaviour
             }
 
             // When the fire button is released...
-            if (Input.GetMouseButtonUp(0))
+            if (PlayerCanShoot && Input.GetMouseButtonUp(0))
             {
                 // ...do some boring math to figure out how many shots to fire
                 float finalChargeTime = Time.time - chargeStartTime;
