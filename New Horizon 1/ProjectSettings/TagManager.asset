@@ -25,6 +25,7 @@ TagManager:
   - damageParticle
   - tutorialUI
   - bubbles
+  - fadeManager
   layers:
   - Default
   - TransparentFX
