@@ -43,8 +43,9 @@ public class dummyBubbles : MonoBehaviour {
         get { return destination; }
     }
 
-    public void ApplyNewRates()
+    public void ApplyNewRates(float rt)
     {
+
 
     }
 }

@@ -13,6 +13,7 @@ public class GameManager : AManager
     Player player;
     bool timer = false;
     GameObject playerMessages;
+    float fastBubbleRate = 100f;
 
     [SerializeField]
     GameObject dummyTCell;
@@ -120,9 +121,9 @@ public class GameManager : AManager
         // first thing, spawn the T-Cell fire team
         for (int i = 0; i < firstSpawners.Length; i++)
         {
-            GameObject dummy = Instantiate(dummyTCell);
-            dummy.transform.position = firstSpawners[i].transform.position;
-            dummy.GetComponent<dummyBubbles>().SetDestination = Vector3.up;
+            dummies[i] = Instantiate(dummyTCell);
+            dummies[i].transform.position = firstSpawners[i].transform.position;
+            dummies[i].GetComponent<dummyBubbles>().SetDestination = Vector3.up;
         }
     }
     IEnumerator FirstRoomSequence()
