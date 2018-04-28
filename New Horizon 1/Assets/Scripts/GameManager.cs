@@ -9,7 +9,7 @@ public class GameManager : AManager
 {
     protected override void Start()
     {
-
+        InitialRoom();
         EventManager.Instance.StartListening("NextStep", NextStep);
     }
 
@@ -60,5 +60,13 @@ public class GameManager : AManager
                 Debug.Log("Start step 1");
                 break;
         }
+    }
+
+    /// <summary>
+    /// This will drive the events in the first room of the tutorial
+    /// </summary>
+    void InitialRoom()
+    {
+
     }
 }
