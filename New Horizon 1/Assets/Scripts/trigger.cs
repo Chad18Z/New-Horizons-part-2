@@ -12,7 +12,7 @@ public class trigger : MonoBehaviour {
     {
         if (coll.gameObject.tag == "Player")
         {
-            Debug.Log("Player just crossed");
+            EventManager.Instance.TriggerEvent("NextStep", null);
             Destroy(gameObject);
         }
     }

@@ -34,11 +34,11 @@ public class GameManager : AManager
 
     protected override void Update()
     {
-        // For etsting purposes, this event can be called from anywhere
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EventManager.Instance.TriggerEvent("NextStep", null);
-        }
+        //// For etsting purposes, this event can be called from anywhere
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    EventManager.Instance.TriggerEvent("NextStep", null);
+        //}
 
         // Update logic to run in this phase of the tutorial
         switch (currStep)
@@ -64,6 +64,7 @@ public class GameManager : AManager
                 break;
             case 1:
                 //Debug.Log("Cleanup step 1");
+                
                 break;
         }
 
@@ -77,6 +78,7 @@ public class GameManager : AManager
                 break;
             case 1:
                 //Debug.Log("Start step 1");
+                playerMessages.SetActive(false);
                 break;
         }
     }
@@ -92,8 +94,6 @@ public class GameManager : AManager
 
         // begin timed sequence of events for the room
         StartCoroutine(FirstRoomSequence());
-
-
 
     }
     IEnumerator FirstRoomSequence()
@@ -121,9 +121,6 @@ public class GameManager : AManager
         playerMessages.GetComponentInChildren<Text>().text = "Press right-mouse button";
         playerMessages.SetActive(true);
         player.PlayerCanInteract = true;
-
-        //playerMessages.GetComponent<textFader>().FadeOut();
-
     }
      
 }
