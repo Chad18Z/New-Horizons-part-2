@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Enemy : Cell
 {
-    [SerializeField] float fleeForce = 1f;
+    float fleeForce = 250f;
     [SerializeField] RuntimeAnimatorController enemyAnimator1;
     [SerializeField] RuntimeAnimatorController enemyAnimator2;
     [SerializeField] RuntimeAnimatorController enemyAnimator3;
