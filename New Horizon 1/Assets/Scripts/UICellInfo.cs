@@ -25,6 +25,7 @@ public class UICellInfo : MonoBehaviour
     private bool mOver;
 
     private int safetyFrames = 0;
+    private bool antiFlickerSwitch = true;
 
     void Start()
     {
@@ -44,22 +45,49 @@ public class UICellInfo : MonoBehaviour
         StringBuilder sb = new StringBuilder();
         if (obj.GetType().IsSubclassOf(typeof(Cell)))
         { // cell type
-            sb.AppendLine("Name: " + this.cellObj.name);
-            sb.AppendLine("Health: " + (int)(this.cellObj.Health * 100));
+            if (obj.GetType() == typeof(Player))
+            {
+                sb.AppendLine("Name: " + this.playerObj.name);
+                sb.AppendLine("Health: Infinity!"/* + Convert.ToInt32 (this.playerObj.Health)*/);
+            }
+            else
+            {
+                sb.AppendLine("Name: " + this.cellObj.name);
+                sb.AppendLine("Health: " + (int)(this.cellObj.Health * 100));
+                
+            }
 
             pEnabled = false;
             eEnabled = true;
 
+            if (obj.GetType() == typeof(Friendly) || obj.GetType() == typeof(Player))
+            {
+                pEnabled = true;
+                eEnabled = false;
+            }
+
             UpdatePlayerObject();
 
-            if (this.playerObj.transform.position.x > this.cellObj.transform.position.x)
+            if (this.playerObj.transform.position.x >= this.cellObj.transform.position.x)
             {
                 this.UpdateBoxPosition();
-                this.tempPosition.x -= this.infoRect.width + (10 * this.cellObj.GetComponent<CircleCollider2D>().radius * this.cellObj.transform.localScale.x);
+                this.tempPosition.x -= this.infoRect.width + (2 * this.cellObj.GetComponent<CircleCollider2D>().radius);
             }
-            else if (this.playerObj.transform.position.y < this.cellObj.transform.position.y)
+            else
             {
-                this.tempPosition.y += this.infoRect.height + (10 * this.cellObj.GetComponent<CircleCollider2D>().radius * this.cellObj.transform.localScale.y);
+                this.UpdateBoxPosition();
+                this.tempPosition.x += this.infoRect.width + (2 * this.cellObj.GetComponent<CircleCollider2D>().radius);
+            }
+
+            if (this.playerObj.transform.position.y <= this.cellObj.transform.position.y)
+            {
+                this.UpdateBoxPosition();
+                this.tempPosition.y += this.infoRect.height + (2 * this.cellObj.GetComponent<CircleCollider2D>().radius);
+            }
+            else
+            {
+                this.UpdateBoxPosition();
+                this.tempPosition.y -= this.infoRect.height + (2 * this.cellObj.GetComponent<CircleCollider2D>().radius);
             }
 
             if (this.isOutsideScreen(this.tempPosition))
