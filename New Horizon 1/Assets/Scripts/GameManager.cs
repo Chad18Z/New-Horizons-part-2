@@ -2,14 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 /// <summary>
 /// Manager for the main game level
 /// </summary>
 public class GameManager : AManager
 {
+    GameObject tutorialUI;
+    Player player;
 
     protected override void Start()
     {
+        // get reference to player
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        // get reference to the Sqdn Cdr UI and set it inactive
+        tutorialUI = GameObject.FindGameObjectWithTag("tutorialUI");
+        tutorialUI.SetActive(false); 
+
         EventManager.Instance.StartListening("NextStep", NextStep);
         InitialRoom();
     }
@@ -69,10 +79,15 @@ public class GameManager : AManager
     void InitialRoom()
     {
 
+        // set player controls in inactive
+        player.PlayerCanInteract = false;
+
         // The first thing we need to do is make the camera black
         FadeManager.Instance.Fade(false, 2f);
 
         // Deliver first line from the Squadron Commander
+        tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1la");
+        tutorialUI.SetActive(true);
 
         // 
     }

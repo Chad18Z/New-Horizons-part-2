@@ -47,7 +47,7 @@ public class AudioVisualizer : MonoBehaviour {
         {
             gameObject.SetActive(false);
         }
-	}
+    }
     /// <summary>
     /// scales each image according to collected sound data
     /// </summary>
