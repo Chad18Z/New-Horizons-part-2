@@ -10,6 +10,8 @@ public class GameManager : AManager
 {
     GameObject tutorialUI;
     Player player;
+    bool timer = false;
+
 
     protected override void Start()
     {
@@ -73,22 +75,44 @@ public class GameManager : AManager
         }
     }
 
+
     /// <summary>
     /// This will drive the events in the first room of the tutorial
     /// </summary>
     void InitialRoom()
-    {
-
+    {       
         // set player controls in inactive
         player.PlayerCanInteract = false;
 
-        // The first thing we need to do is make the camera black
-        FadeManager.Instance.Fade(false, 2f);
+        // begin timed sequence of events for the room
+        StartCoroutine(FirstRoomSequence());
+
+
+
+    }
+    IEnumerator FirstRoomSequence()
+    {
+        // wait two seconds with black sceen
+        yield return new WaitForSeconds(1);
 
         // Deliver first line from the Squadron Commander
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1la");
         tutorialUI.SetActive(true);
 
-        // 
+        yield return new WaitForSeconds(3);
+
+        // The first thing we need to do is make the camera black
+        FadeManager.Instance.Fade(false, 2f);
+
+        yield return new WaitForSeconds(3);
+
+        // Deliver first line from the Squadron Commander
+        tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lb");
+        tutorialUI.SetActive(true);
+
+        yield return new WaitForSeconds(1);
+
+        player.PlayerCanInteract = true;
     }
+     
 }

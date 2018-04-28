@@ -24,8 +24,13 @@ public enum SoundFile
     powerUpOffSound,
     powerUpOnSound,
     s1la,
+    s1lb,
     s1lc,
     s1ld,
+    s1le,
+    s1lf,
+    s1lg,
+    s1lh,
     singleShotSound,
     unpause
 }
