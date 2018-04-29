@@ -154,7 +154,7 @@ public class GameManager : AManager
         yield return new WaitForSeconds(.25f);
 
         GameObject cyto3 = Instantiate(cytoBlob, GameObject.FindGameObjectWithTag("shooterCell").transform.position, Quaternion.identity);
-        Rigidbody2D cytoRb3 = cyto2.GetComponent<Rigidbody2D>();
+        Rigidbody2D cytoRb3 = cyto3.GetComponent<Rigidbody2D>();
         cytoRb3.AddForce(cytoFireDirection * 50, ForceMode2D.Impulse);
 
 
