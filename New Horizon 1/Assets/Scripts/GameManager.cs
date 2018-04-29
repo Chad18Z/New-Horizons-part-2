@@ -22,6 +22,7 @@ public class GameManager : AManager
 
     // array which holds the initial spawn points for first wave of dummy TCells
     GameObject[] firstSpawners;
+    GameObject[] secondSpawners;
 
     protected override void Start()
     {
@@ -32,6 +33,9 @@ public class GameManager : AManager
 
         // first wave of dummy TCells
         firstSpawners = GameObject.FindGameObjectsWithTag("tCellSpawner1");
+
+        // second wave of dummy TCells
+        secondSpawners = GameObject.FindGameObjectsWithTag("tCellSpawner2");
 
         // get a reference to the text UI
         playerMessages = GameObject.FindGameObjectWithTag("messagesToPlayer");
@@ -144,18 +148,47 @@ public class GameManager : AManager
         yield return new WaitForSeconds(2);
         ClearDummyArray();
 
+        GameObject tempCellCluster = GameObject.FindGameObjectWithTag("secondRoom");
+        Vector3 tempPosition = tempCellCluster.transform.position;
+
+        tempPosition.y = player.transform.position.y;
+        tempCellCluster.transform.position = tempPosition;
+
+        // enter the three other TCells
+        // first thing, spawn the T-Cell fire team
+        for (int i = 0; i < secondSpawners.Length; i++)
+        {
+            dummies[i] = Instantiate(dummyTCell);
+            dummies[i].transform.position = secondSpawners[i].transform.position;
+            dummies[i].transform.Rotate(0, 0, -90);
+            dummies[i].GetComponent<dummyBubbles>().SetDestination = Vector3.right;
+            dummies[i].GetComponent<dummyBubbles>().secondRoom = true;
+        }
+
         player.PlayerCanInteract = false;
+
+        yield return new WaitForSeconds(3);
 
         // Deliver first line from the Squadron Commander
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lc");
         tutorialUI.SetActive(true);
         yield return new WaitForSeconds(15);
 
-        //tutorialUI.SetActive(false);
 
         // Deliver first line from the Squadron Commander
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1ld");
         tutorialUI.SetActive(true);
+
+        yield return new WaitForSeconds(9);
+
+        dummies[0].GetComponent<dummyBubbles>().SetDestination = Vector3.right;
+        dummies[1].transform.Rotate(0, 0, 90);
+        dummies[1].GetComponent<dummyBubbles>().SetDestination = Vector3.up;
+
+        dummies[2].transform.Rotate(0, 0, -90);
+        dummies[2].GetComponent<dummyBubbles>().SetDestination = Vector3.down;
+
+        player.PlayerCanInteract = true;
 
     }
     IEnumerator FirstRoomSequence()

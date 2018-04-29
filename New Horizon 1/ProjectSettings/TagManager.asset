@@ -31,6 +31,8 @@ TagManager:
   - tCellSpawner1
   - dummyTCell
   - dummyWP
+  - tCellSpawner2
+  - secondRoom
   layers:
   - Default
   - TransparentFX

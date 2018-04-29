@@ -16,10 +16,14 @@ public class dummyBubbles : MonoBehaviour {
     float maxSpeed = 15f;
     float maxRateOverTime = 115f;
 
+    GameObject player;
 
+    public bool secondRoom;
     // Use this for initialization
     void Start () {
 
+        bubbles = GameObject.FindGameObjectWithTag("dummyBubbles").GetComponent<ParticleSystem>();
+        player = GameObject.FindGameObjectWithTag("Player");
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 	
@@ -28,8 +32,17 @@ public class dummyBubbles : MonoBehaviour {
 
         if (destinationSet)
         {
-            rb.AddForce(destination * 50f, ForceMode2D.Impulse);
+            float forceToApply = 50f;
+            if (secondRoom) forceToApply = 75f;
+            rb.AddForce((Vector2)destination * forceToApply, ForceMode2D.Impulse);
             destinationSet = false;
+        }
+
+        if (secondRoom && Vector3.Distance(gameObject.transform.position, player.transform.position) < 60)
+        {
+            rb.velocity = new Vector2(0, 0);
+            //ApplyNewRates();
+            secondRoom = false;
         }
     }
 
@@ -43,9 +56,12 @@ public class dummyBubbles : MonoBehaviour {
         get { return destination; }
     }
 
-    public void ApplyNewRates(float rt)
+    public void ApplyNewRates()
     {
-
-
+        // Produce bubbles first
+        var emmision = bubbles.emission;
+        float rate = emmision.rateOverTime.constant;
+        // update values in the particle system
+        emmision.rateOverTime = 7f;
     }
 }
