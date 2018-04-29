@@ -35,6 +35,7 @@ TagManager:
   - secondRoom
   - trigger
   - triangle
+  - cellToShoot
   layers:
   - Default
   - TransparentFX
