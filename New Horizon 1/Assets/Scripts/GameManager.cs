@@ -78,6 +78,10 @@ public class GameManager : AManager
                 break;
             case 4:
                 break;
+            case 5:
+                break;
+            case 6:
+                break;
         }
     }
 
@@ -99,6 +103,10 @@ public class GameManager : AManager
             case 3:
                 break;
             case 4:
+                break;
+            case 5:
+                break;
+            case 6:
                 break;
         }
 
@@ -123,14 +131,35 @@ public class GameManager : AManager
             case 4:
                 ThirdRoom();
                 break;
+            case 5:
+                FourthRoom();
+                break;
+            case 6:
+                playerMessages.SetActive(false);
+                break;
 
         }
+    }
+
+    void FourthRoom()
+    {
+        StartCoroutine(FourthRoomSequence());
     }
 
     void ThirdRoom()
     {
         ClearDummyArray();
         StartCoroutine(ThirdRoomSequence());
+    }
+
+    IEnumerator FourthRoomSequence()
+    {
+        yield return new WaitForSeconds(1);
+
+        playerMessages.GetComponentInChildren<Text>().text = "Press left mouse button to fire";
+        playerMessages.SetActive(true);
+        player.PlayerCanShoot = true;
+
     }
 
     IEnumerator ThirdRoomSequence()
@@ -157,7 +186,9 @@ public class GameManager : AManager
         Rigidbody2D cytoRb3 = cyto3.GetComponent<Rigidbody2D>();
         cytoRb3.AddForce(cytoFireDirection * 50, ForceMode2D.Impulse);
 
+        yield return new WaitForSeconds(2f);
 
+        player.PlayerCanInteract = true;
     }
     void SecondRoom()
     {
