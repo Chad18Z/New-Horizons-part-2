@@ -140,9 +140,23 @@ public class GameManager : AManager
 
     }
     IEnumerator SecondRoomSequence()
-    {
+    {      
+        yield return new WaitForSeconds(2);
+        ClearDummyArray();
 
-        yield return new WaitForSeconds(1);
+        player.PlayerCanInteract = false;
+
+        // Deliver first line from the Squadron Commander
+        tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lc");
+        tutorialUI.SetActive(true);
+        yield return new WaitForSeconds(15);
+
+        //tutorialUI.SetActive(false);
+
+        // Deliver first line from the Squadron Commander
+        tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1ld");
+        tutorialUI.SetActive(true);
+
     }
     IEnumerator FirstRoomSequence()
     {

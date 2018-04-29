@@ -30,6 +30,7 @@ TagManager:
   - dummyBubbles
   - tCellSpawner1
   - dummyTCell
+  - dummyWP
   layers:
   - Default
   - TransparentFX
