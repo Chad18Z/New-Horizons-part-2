@@ -64,6 +64,8 @@ public class GameManager : AManager
                 break;
             case 2:
                 break;
+            case 3:
+                break;
         }
     }
 
@@ -82,6 +84,8 @@ public class GameManager : AManager
                 break;
             case 2:
                 break;
+            case 3:
+                break;
         }
 
         currStep++;
@@ -99,8 +103,16 @@ public class GameManager : AManager
             case 2:
                 ToSecondRoom();
                 break;
+            case 3:
+                SecondRoom();
+                break;
 
         }
+    }
+
+    void SecondRoom()
+    {
+        StartCoroutine(SecondRoomSequence());
     }
 
 
@@ -125,6 +137,12 @@ public class GameManager : AManager
             dummies[i].transform.position = firstSpawners[i].transform.position;
             dummies[i].GetComponent<dummyBubbles>().SetDestination = Vector3.up;
         }
+
+    }
+    IEnumerator SecondRoomSequence()
+    {
+
+        yield return new WaitForSeconds(1);
     }
     IEnumerator FirstRoomSequence()
     {
@@ -152,6 +170,14 @@ public class GameManager : AManager
         playerMessages.SetActive(true);
         player.PlayerCanInteract = true;
         player.PlayerCanShoot = false;
+    }
+
+    void ClearDummyArray()
+    {
+        for (int i = 0; i < dummies.Length; i++)
+        {
+            Destroy(dummies[i]);
+        }           
     }
      
 }
