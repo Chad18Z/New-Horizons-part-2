@@ -123,10 +123,15 @@ public class GameManager : AManager
 
     void ThirdRoom()
     {
-        player.PlayerCanInteract = false;
-        Debug.Log("Third room");
+
+        StartCoroutine(ThirdRoomSequence());
     }
 
+    IEnumerator ThirdRoomSequence()
+    {
+        player.PlayerCanInteract = false;
+        yield return new WaitForSeconds(1);
+    }
     void SecondRoom()
     {
         StartCoroutine(SecondRoomSequence());
