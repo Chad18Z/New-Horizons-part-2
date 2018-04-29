@@ -24,9 +24,15 @@ public class GameManager : AManager
     GameObject[] firstSpawners;
     GameObject[] secondSpawners;
 
+    SoundFile[] sound = new SoundFile[1];
+
+    [SerializeField]
+    GameObject cytoBlob;
+    
+
     protected override void Start()
     {
-        Debug.Log(dummyTCell);
+        sound[0] = SoundFile.incomingRadio;
 
         // get reference to player
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -123,7 +129,7 @@ public class GameManager : AManager
 
     void ThirdRoom()
     {
-
+        ClearDummyArray();
         StartCoroutine(ThirdRoomSequence());
     }
 
@@ -187,6 +193,10 @@ public class GameManager : AManager
 
         yield return new WaitForSeconds(3);
 
+        PlayIncomingRadio();
+
+        yield return new WaitForSeconds(.5f);
+
         // Deliver first line from the Squadron Commander
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lc");
         tutorialUI.SetActive(true);
@@ -211,8 +221,10 @@ public class GameManager : AManager
     }
     IEnumerator FirstRoomSequence()
     {
+        PlayIncomingRadio();
+
         // wait two seconds with black sceen
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(.5f);
 
         // Deliver first line from the Squadron Commander
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1la");
@@ -243,6 +255,11 @@ public class GameManager : AManager
         {
             Destroy(dummies[i]);
         }           
+    }
+
+    void PlayIncomingRadio()
+    {      
+        SoundManager.Instance.DoPlayOneShot(sound, Camera.main.transform.position, .1f);
     }
      
 }
