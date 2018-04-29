@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     float chargeTimeCurrent;
     float cytoSpeed = 40f; // speed at which cytoburst travels
     float reloadTime = 0.2f;
+    float recoilForce = 1.3f;
     float lastFireTime;
     float amountToInflate;
     int shotsToFire;
@@ -314,6 +315,7 @@ public class Player : MonoBehaviour
         // Set the first bullet to have it's angle/velocity
         float shotOrder = (shotsToFire / 2f - shotsToFire) + 0.5f;
 
+
         // For every bullet to be fired...
         for (int i = 0; i < shotsToFire; i++)
         {
@@ -335,6 +337,11 @@ public class Player : MonoBehaviour
             
             shotOrder += 1f;
         }
+
+        // Handle recoil
+        Vector2 recoilDirection = -((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position).normalized;
+        rb2d.AddForce(recoilDirection * recoilForce * shotsToFire, ForceMode2D.Impulse);
+
         SoundManager.Instance.DoPlayOneShot(singleShot, Camera.main.transform.position, .2f);
     }
 
