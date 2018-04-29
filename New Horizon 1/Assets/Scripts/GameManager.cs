@@ -264,7 +264,7 @@ public class GameManager : AManager
 
         yield return new WaitForSeconds(5f);
 
-        playerMessages.GetComponentInChildren<Text>().text = "Press right-mouse button";
+        playerMessages.GetComponentInChildren<Text>().text = "Hold right mouse button to move";
         playerMessages.SetActive(true);
         player.PlayerCanInteract = true;
         player.PlayerCanShoot = false;
