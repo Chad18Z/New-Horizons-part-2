@@ -10,8 +10,10 @@ public class trigger : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
+        Debug.Log(coll.tag);
         if (coll.gameObject.tag == "Player")
         {
+            //GameObject.FindGameObjectWithTag("Player").GetComponent<questPointer>().PopTrigger();
             EventManager.Instance.TriggerEvent("NextStep", null);
             Destroy(gameObject);
         }

@@ -70,6 +70,8 @@ public class GameManager : AManager
                 break;
             case 3:
                 break;
+            case 4:
+                break;
         }
     }
 
@@ -89,6 +91,8 @@ public class GameManager : AManager
             case 2:
                 break;
             case 3:
+                break;
+            case 4:
                 break;
         }
 
@@ -110,8 +114,17 @@ public class GameManager : AManager
             case 3:
                 SecondRoom();
                 break;
+            case 4:
+                ThirdRoom();
+                break;
 
         }
+    }
+
+    void ThirdRoom()
+    {
+        player.PlayerCanInteract = false;
+        Debug.Log("Third room");
     }
 
     void SecondRoom()
