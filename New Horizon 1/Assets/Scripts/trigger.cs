@@ -13,7 +13,6 @@ public class trigger : MonoBehaviour {
         Debug.Log(coll.tag);
         if (coll.gameObject.tag == "Player")
         {
-            //GameObject.FindGameObjectWithTag("Player").GetComponent<questPointer>().PopTrigger();
             EventManager.Instance.TriggerEvent("NextStep", null);
             Destroy(gameObject);
         }
