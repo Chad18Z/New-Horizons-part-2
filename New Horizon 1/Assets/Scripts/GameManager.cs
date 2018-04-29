@@ -137,6 +137,27 @@ public class GameManager : AManager
     {
         player.PlayerCanInteract = false;
         yield return new WaitForSeconds(1);
+
+        Vector2 cytoFireDirection = Vector2.left;
+     
+    
+        GameObject cyto1 = Instantiate(cytoBlob, GameObject.FindGameObjectWithTag("shooterCell").transform.position, Quaternion.identity);
+        Rigidbody2D cytoRb1 = cyto1.GetComponent<Rigidbody2D>();
+        cytoRb1.AddForce(cytoFireDirection * 50, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(.25f);
+
+        GameObject cyto2 = Instantiate(cytoBlob, GameObject.FindGameObjectWithTag("shooterCell").transform.position, Quaternion.identity);
+        Rigidbody2D cytoRb2 = cyto2.GetComponent<Rigidbody2D>();
+        cytoRb2.AddForce(cytoFireDirection * 50, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(.25f);
+
+        GameObject cyto3 = Instantiate(cytoBlob, GameObject.FindGameObjectWithTag("shooterCell").transform.position, Quaternion.identity);
+        Rigidbody2D cytoRb3 = cyto2.GetComponent<Rigidbody2D>();
+        cytoRb3.AddForce(cytoFireDirection * 50, ForceMode2D.Impulse);
+
+
     }
     void SecondRoom()
     {

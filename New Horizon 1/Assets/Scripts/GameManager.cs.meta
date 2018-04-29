@@ -8,6 +8,7 @@ MonoImporter:
   defaultReferences:
   - dummyTCell: {fileID: 1993698455906018, guid: f4850a3e7b809834292b3064cdd2c45a,
       type: 2}
+  - cytoBlob: {fileID: 1222996960108802, guid: be095151b204b9747824b40232dc5239, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
