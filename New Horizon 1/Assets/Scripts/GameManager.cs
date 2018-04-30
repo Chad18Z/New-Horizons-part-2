@@ -75,7 +75,13 @@ public class GameManager : AManager
             // enemies in room 5 have been killed by the player
             StartCoroutine(RoomFiveCleared());
         }
+        else if (enemyCount == (originalEnemyCount - 6))
+        {
+            StartCoroutine(RoomSixCleared());
+        }
     }
+
+
 
     protected override void Update()
     {
@@ -173,6 +179,13 @@ public class GameManager : AManager
         ClearDummyArray();
         StartCoroutine(ThirdRoomSequence());
     }
+    IEnumerator RoomSixCleared()
+    {
+        tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lf");
+        tutorialUI.SetActive(true);
+        yield return new WaitForSeconds(11);
+    }
+
     IEnumerator RoomFiveCleared()
     {
         player.PlayerCanInteract = false;
