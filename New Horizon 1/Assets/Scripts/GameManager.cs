@@ -79,9 +79,27 @@ public class GameManager : AManager
         {
             StartCoroutine(RoomSeven());
         }
+        else if (enemyCount == (originalEnemyCount - 13))
+        {
+            StartCoroutine(Complete());
+        }
     }
 
+    IEnumerator Complete()
+    {
 
+        player.PlayerCanInteract = false;
+
+        tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lh");
+        tutorialUI.SetActive(true);
+        yield return new WaitForSeconds(5);
+
+        FadeManager.Instance.Fade(true, 2f);
+        yield return new WaitForSeconds(5);
+
+        MainMenu.GoToMenu();
+
+    }
 
     protected override void Update()
     {
@@ -206,6 +224,8 @@ public class GameManager : AManager
     }
     IEnumerator RoomSixCleared()
     {
+        player.PlayerCanInteract = false;
+
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lf");
         tutorialUI.SetActive(true);
         yield return new WaitForSeconds(3);
@@ -213,9 +233,12 @@ public class GameManager : AManager
 
         playerMessages.GetComponentInChildren<Text>().text = "Destroy the cluster!";
         playerMessages.SetActive(true);
+        player.PlayerCanInteract = true;
 
         yield return new WaitForSeconds(2);
         playerMessages.SetActive(false);
+
+        
     }
 
     IEnumerator RoomSeven()
@@ -225,6 +248,8 @@ public class GameManager : AManager
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lg");
         tutorialUI.SetActive(true);
         yield return new WaitForSeconds(1);
+
+        player.PlayerCanInteract = true;
     }
 
     IEnumerator RoomFiveCleared()
