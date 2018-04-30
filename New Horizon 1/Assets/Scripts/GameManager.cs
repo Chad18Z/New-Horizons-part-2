@@ -10,6 +10,10 @@ using UnityEngine.UI;
 public class GameManager : AManager
 {
     int enemyCount;
+    int originalEnemyCount;
+
+    [SerializeField]
+    GameObject powerup;
 
     GameObject tutorialUI;
     Player player;
@@ -36,6 +40,7 @@ public class GameManager : AManager
     {
         // number of enemies in the entire scene
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        originalEnemyCount = enemyCount;
       
         sound[0] = SoundFile.incomingRadio;
 
@@ -63,7 +68,15 @@ public class GameManager : AManager
     public void DecrementEnemyCount()
     {
         enemyCount--;
+
+        // Check enemycount for event triggers
+        if (enemyCount <= (originalEnemyCount - 3))
+        {
+            // enemies in room 5 have been killed by the player
+            StartCoroutine(RoomFiveCleared());
+        }
     }
+
     protected override void Update()
     {
         //// For etsting purposes, this event can be called from anywhere
@@ -160,6 +173,24 @@ public class GameManager : AManager
         ClearDummyArray();
         StartCoroutine(ThirdRoomSequence());
     }
+    IEnumerator RoomFiveCleared()
+    {
+        player.PlayerCanInteract = false;
+        yield return new WaitForSeconds(1);
+
+        tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1le");
+        tutorialUI.SetActive(true);
+        yield return new WaitForSeconds(5);
+
+        Vector2 powerUpSpawn = (Vector2)player.transform.position;
+        //powerUpSpawn.x -= 3f;
+
+        GameObject tempPowerUp = Instantiate(powerup);
+        tempPowerUp.transform.position = powerUpSpawn;
+
+        player.PlayerCanInteract = true;
+
+    }
 
     IEnumerator FourthRoomSequence()
     {
@@ -210,6 +241,7 @@ public class GameManager : AManager
     /// </summary>
     void InitialRoom()
     {       
+
         // set player controls in inactive
         player.PlayerCanInteract = false;
 

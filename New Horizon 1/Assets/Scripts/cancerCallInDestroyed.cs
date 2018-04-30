@@ -6,7 +6,6 @@ public class cancerCallInDestroyed : MonoBehaviour {
 
     void OnDestroy()
     {
-        
-        Debug.Log("Killed me!");
+        Camera.main.GetComponent<GameManager>().DecrementEnemyCount();
     }
 }
