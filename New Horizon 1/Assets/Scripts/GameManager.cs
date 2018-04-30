@@ -70,7 +70,7 @@ public class GameManager : AManager
         enemyCount--;
 
         // Check enemycount for event triggers
-        if (enemyCount <= (originalEnemyCount - 3))
+        if (enemyCount == (originalEnemyCount - 3))
         {
             // enemies in room 5 have been killed by the player
             StartCoroutine(RoomFiveCleared());
@@ -178,12 +178,14 @@ public class GameManager : AManager
         player.PlayerCanInteract = false;
         yield return new WaitForSeconds(1);
 
+        PlayIncomingRadio();
+
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1le");
         tutorialUI.SetActive(true);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(11);
 
         Vector2 powerUpSpawn = (Vector2)player.transform.position;
-        //powerUpSpawn.x -= 3f;
+        powerUpSpawn.x -= 5f;
 
         GameObject tempPowerUp = Instantiate(powerup);
         tempPowerUp.transform.position = powerUpSpawn;

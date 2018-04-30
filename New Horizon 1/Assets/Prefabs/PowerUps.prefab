@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50494115441487146}
   - component: {fileID: 114453215877155094}
   - component: {fileID: 61740734254675740}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: PowerUps
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385065257723362}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.19273345, y: -2.4907072, z: 0}
+  m_LocalPosition: {x: -16.405224, y: 36.12535, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

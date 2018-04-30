@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     Vector3 normalScale;
     float chargeStartTime;
     float chargeTimeCurrent;
-    float cytoSpeed = 40f; // speed at which cytoburst travels
+    float cytoSpeed = 50f; // speed at which cytoburst travels
     float reloadTime = 0.2f;
     float recoilForce = 1.3f;
     float lastFireTime;
@@ -240,6 +240,7 @@ public class Player : MonoBehaviour
             }
         }
         
+   
         if (Input.GetMouseButton(1) && PlayerCanInteract)
         {
             // Produce bubbles first
@@ -295,8 +296,17 @@ public class Player : MonoBehaviour
         }
     }
 
-	// called if mouse is over any child object inheriting cell
-	void OnMouseOver()
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.collider.tag == "PowerUp")
+        {
+            Debug.Log("Collided with powerup");
+            thrustMultiplier *= 2;
+            Destroy(coll.gameObject);
+        }       
+    }
+    // called if mouse is over any child object inheriting cell
+    void OnMouseOver()
     {
 		this.playerInfo.SetMouseOver (true);
 		this.playerInfo.SetPlayerInfo (this);
