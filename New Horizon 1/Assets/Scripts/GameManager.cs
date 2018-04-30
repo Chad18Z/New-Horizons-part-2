@@ -77,7 +77,7 @@ public class GameManager : AManager
         }
         else if (enemyCount == (originalEnemyCount - 6))
         {
-            StartCoroutine(RoomSixCleared());
+            StartCoroutine(RoomSeven());
         }
     }
 
@@ -110,6 +110,8 @@ public class GameManager : AManager
                 break;
             case 6:
                 break;
+            case 7:
+                break;
         }
     }
 
@@ -135,6 +137,8 @@ public class GameManager : AManager
             case 5:
                 break;
             case 6:
+                break;
+            case 7:
                 break;
         }
 
@@ -163,12 +167,23 @@ public class GameManager : AManager
                 FourthRoom();
                 break;
             case 6:
-                playerMessages.SetActive(false);
+                Cluster();
+                break;
+            case 7:
+                FinalRoom();
                 break;
 
         }
     }
 
+    void FinalRoom()
+    {
+        StartCoroutine(FinalSequence());
+    }
+    void Cluster()
+    {
+        StartCoroutine(RoomSixCleared());
+    }
     void FourthRoom()
     {
         StartCoroutine(FourthRoomSequence());
@@ -179,15 +194,43 @@ public class GameManager : AManager
         ClearDummyArray();
         StartCoroutine(ThirdRoomSequence());
     }
+
+    IEnumerator FinalSequence()
+    {
+        playerMessages.GetComponentInChildren<Text>().text = "Protect the friendly cells!";
+        playerMessages.SetActive(true);
+        yield return new WaitForSeconds(2);
+
+        playerMessages.SetActive(false);
+        player.PlayerCanInteract = true;
+    }
     IEnumerator RoomSixCleared()
     {
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lf");
         tutorialUI.SetActive(true);
-        yield return new WaitForSeconds(11);
+        yield return new WaitForSeconds(3);
+
+
+        playerMessages.GetComponentInChildren<Text>().text = "Destroy the cluster!";
+        playerMessages.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+        playerMessages.SetActive(false);
+    }
+
+    IEnumerator RoomSeven()
+    {
+        player.PlayerCanInteract = false;
+
+        tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lg");
+        tutorialUI.SetActive(true);
+        yield return new WaitForSeconds(1);
     }
 
     IEnumerator RoomFiveCleared()
     {
+        playerMessages.SetActive(false);
+
         player.PlayerCanInteract = false;
         yield return new WaitForSeconds(1);
 
@@ -201,7 +244,7 @@ public class GameManager : AManager
         playerMessages.SetActive(true);
 
         Vector2 powerUpSpawn = (Vector2)player.transform.position;
-        powerUpSpawn.x -= 7f;
+        powerUpSpawn.y += 7f;
 
         GameObject tempPowerUp = Instantiate(powerup);
         tempPowerUp.transform.position = powerUpSpawn;
