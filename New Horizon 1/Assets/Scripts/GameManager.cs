@@ -9,6 +9,8 @@ using UnityEngine.UI;
 /// </summary>
 public class GameManager : AManager
 {
+    int enemyCount;
+
     GameObject tutorialUI;
     Player player;
     bool timer = false;
@@ -32,6 +34,9 @@ public class GameManager : AManager
 
     protected override void Start()
     {
+        // number of enemies in the entire scene
+        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+      
         sound[0] = SoundFile.incomingRadio;
 
         // get reference to player
@@ -55,6 +60,10 @@ public class GameManager : AManager
         InitialRoom();
     }
 
+    public void DecrementEnemyCount()
+    {
+        enemyCount--;
+    }
     protected override void Update()
     {
         //// For etsting purposes, this event can be called from anywhere

@@ -6,6 +6,7 @@ public class cancerCallInDestroyed : MonoBehaviour {
 
     void OnDestroy()
     {
+        
         Debug.Log("Killed me!");
     }
 }
