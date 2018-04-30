@@ -184,8 +184,11 @@ public class GameManager : AManager
         tutorialUI.SetActive(true);
         yield return new WaitForSeconds(11);
 
+        playerMessages.GetComponentInChildren<Text>().text = "Move to the powerup";
+        playerMessages.SetActive(true);
+
         Vector2 powerUpSpawn = (Vector2)player.transform.position;
-        powerUpSpawn.x -= 5f;
+        powerUpSpawn.x -= 7f;
 
         GameObject tempPowerUp = Instantiate(powerup);
         tempPowerUp.transform.position = powerUpSpawn;
@@ -235,6 +238,11 @@ public class GameManager : AManager
     void SecondRoom()
     {
         StartCoroutine(SecondRoomSequence());
+    }
+
+    public void TurnOffMessage()
+    {
+        playerMessages.SetActive(false);
     }
 
 
