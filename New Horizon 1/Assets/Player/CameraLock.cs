@@ -50,7 +50,8 @@ public class CameraLock : MonoBehaviour {
         // Otherwise, make camera's target position just be the player
         else
         {
-            targetPosition = lockTarget.transform.position;
+            if (lockTarget != null) targetPosition = lockTarget.transform.position;
+            else targetPosition = Vector3.zero;
         }
 
         // Get the difference from where the camera is and where it wants to be
