@@ -92,7 +92,7 @@ public class GameManager : AManager
 
         tutorialUI.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/s1lh");
         tutorialUI.SetActive(true);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
 
         FadeManager.Instance.Fade(true, 2f);
         yield return new WaitForSeconds(5);
