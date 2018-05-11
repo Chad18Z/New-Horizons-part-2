@@ -6021,6 +6021,11 @@ Prefab:
       propertyPath: m_LinearDrag
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 50824882346919302, guid: 8b454e70c3984e642ae65af85e5e2601,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114888924207767154, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 8b454e70c3984e642ae65af85e5e2601, type: 2}
